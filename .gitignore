@@ -1,0 +1,15 @@
+*~
+*.aux
+*.bbl
+*.blg
+*.log
+*.nav
+*.synctex.gz
+*.synctex.gz\(busy\)
+*.out
+*.snm
+*.toc
+*.vrb
+.DS_Store
+tmp
+figures

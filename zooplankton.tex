@@ -1,0 +1,880 @@
+\documentclass[12pt]{article}
+%%---------------------------------------------------------------------
+% packages
+% geometry
+\usepackage{geometry}
+% font
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}  %%如果没有它，会有一些 tex 特殊字符无法正常使用，比如连字符。
+\usepackage{xunicode,xltxtra}
+\usepackage[BoldFont,SlantFont,CJKnumber,CJKchecksingle]{xeCJK}  % \CJKnumber{12345}: 一万二千三百四十五
+\usepackage{CJKfntef}  %%实现对汉字加点、下划线等。
+\usepackage{pifont}  % \ding{}
+% math
+\usepackage{amsmath,amsfonts,amssymb}
+% color
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{EYE}{RGB}{199,237,204}
+\definecolor{FLY}{RGB}{128,0,128}
+\definecolor{ZHY}{RGB}{139,0,255}
+% graphics
+\usepackage[americaninductors,europeanresistors]{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shadows,shapes,calc,mindmap,trees,backgrounds}  % placements=positioning
+\usepackage{graphicx}  % \includegraphics[]{}
+\usepackage{subfigure}  %%图形或表格并排排列
+% table
+\usepackage{colortbl,dcolumn}  %% 彩色表格
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+% code
+\usepackage{fancyvrb}
+\usepackage{listings}
+% title
+\usepackage{titlesec}
+% head/foot
+\usepackage{fancyhdr}
+% ref
+\usepackage{hyperref}
+% pagecolor
+\usepackage[pagecolor={EYE}]{pagecolor}
+% tightly-packed lists
+\usepackage{mdwlist}
+
+\usepackage{styles/iplouccfg}
+\usepackage{styles/zhfontcfg}
+\usepackage{styles/iplouclistings}
+
+%%---------------------------------------------------------------------
+% settings
+% geometry
+\geometry{left=2cm,right=1cm,top=2cm,bottom=2cm}  %设置 上、左、下、右 页边距
+\linespread{1.5} %行间距
+% font
+\setCJKmainfont{Adobe Kaiti Std}
+%\setmainfont[BoldFont=Adobe Garamond Pro Bold]{Apple Garamond}  % 英文字体
+%\setmainfont[BoldFont=Adobe Garamond Pro Bold,SmallCapsFont=Apple Garamond,SmallCapsFeatures={Scale=0.7}]{Apple Garamond}  %%苹果字体没有SmallCaps
+\setCJKmonofont{Adobe Fangsong Std}
+% graphics
+\graphicspath{{figures/}}
+\tikzset{
+    % Define standard arrow tip
+    >=stealth',
+    % Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,},
+    % Define style for FlyZhyBall
+    FlyZhyBall/.style={
+      circle,
+      minimum size=6mm,
+      inner sep=0.5pt,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for FlyZhyRectangle
+    FlyZhyRectangle/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for zhyfly
+    zhyfly/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!25!blue,
+      text=white,},
+    % Define style for new rectangle
+    nrectangle/.style={
+      rectangle,
+      draw=#1!50,
+      fill=#1!20,
+      minimum size=5mm,
+      inner sep=0.1pt,}
+}
+\ctikzset{
+  bipoles/length=.8cm
+}
+% code
+\lstnewenvironment{VHDLcode}[1][]{%
+  \lstset{
+    basicstyle=\footnotesize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLmiddle}[1][]{%
+  \lstset{
+    basicstyle=\scriptsize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLsmall}[1][]{%
+  \lstset{
+    basicstyle=\tiny\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+% pdf
+\hypersetup{pdfpagemode=FullScreen,%
+            pdfauthor={Haiyong Zheng},%
+            pdftitle={Title},%
+            CJKbookmarks=true,%
+            bookmarksnumbered=true,%
+            bookmarksopen=false,%
+            plainpages=false,%
+            colorlinks=true,%
+            citecolor=green,%
+            filecolor=magenta,%
+            linkcolor=cyan,%red(default)
+            urlcolor=cyan}
+% section
+%http://tex.stackexchange.com/questions/34288/how-to-place-a-shaded-box-around-a-section-label-and-name
+\newcommand\titlebar{%
+\tikz[baseline,trim left=3.1cm,trim right=3cm] {
+    \fill [cyan!25] (2.5cm,-1ex) rectangle (\textwidth+3.1cm,2.5ex);
+    \node [
+        fill=cyan!60!white,
+        anchor= base east,
+        rounded rectangle,
+        minimum height=3.5ex] at (3cm,0) {
+        \textbf{\thesection.}
+    };
+}%
+}
+\titleformat{\section}{\Large\bf\color{blue}}{\titlebar}{0.1cm}{}
+% head/foot
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+%\lhead{\color{black!50!green}2014年秋季学期}
+\chead{\color{black!50!green}Zooplankton Identification}
+%\rhead{\color{black!50!green}通信电子电路}
+\lfoot{\color{blue!50!green}朱亚菲}
+\cfoot{\color{blue!50!green}\href{http://vision.ouc.edu.cn/~zhenghaiyong}{CVBIOUC}}
+\rfoot{\color{blue!50!green}$\cdot$\ \thepage\ $\cdot$}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+%%---------------------------------------------------------------------
+\begin{document}
+%%---------------------------------------------------------------------
+%%---------------------------------------------------------------------
+% \titlepage
+\title{\vspace{-2em}浮游动物识别\vspace{-0.7em}}
+\author{朱亚菲}
+\date{\vspace{-0.7em}2015年6月\vspace{-0.7em}}
+%%---------------------------------------------------------------------
+\maketitle\thispagestyle{fancy}
+%%---------------------------------------------------------------------
+\maketitle
+\tableofcontents 
+
+由法国国家科学研究院Villefranche海洋实验室的Gorsky等人发明~\cite{gorsky2003qualitative}、Hydroptic公司生产的ZooScan浮游动物图像扫描分析系统是一种实验室成像系统(即针对的是已经采集并固定保存的浮游生物样品)，主要用于对液体中的浮游动物样品进行计数、大小测量、种类鉴定以及生物量测定。ZooScan系统采用非破坏性技术对液体浮游动物样本进行分析，样品可重复使用。
+
+ZooScan系统是由ZooScan、ZooProcess和Plankton Identifier(PkID)等共同组成的，ZooScan是硬件部分，主要进行浮游动物样品扫描，形成数字图像。ZooProcess和PkID是软件部分，分别以标准化的程序处理原始图像、对不同个体的形态参数进行自动测量和对图像中的浮游动物进行自动分类和计数。
+
+\section{ZooScan扫描仪}
+
+ZooScan扫描仪完成的任务：
+\begin{itemize}
+\item 扫描空白背景
+\item 扫描样品，获得原始图片和元数据信息
+\end{itemize}
+
+\subsection{操作步骤}
+\subsubsection{创建项目}
+\begin{itemize}
+\item 打开``Image J''，在软件界面中，选择项目选项表最后的 ``CREATE NEW PROJECT''，创建一个新的项目。如图~\ref{fig:create}。
+    \begin{figure}[!ht]
+    \centering
+    \includegraphics[width=3in]{create}
+    \caption{创建项目}
+    \label{fig:create}
+    \end{figure}
+\item 选择扫描选项。选择2400dpi分辨率和``Large''的扫描框（15$cm$ $\times$ 24$cm$）。如图~\ref{fig:frame}。
+    \begin{figure}[!ht]
+    \centering
+    \includegraphics[width=3.5in]{frame}
+    \caption{选择分辨率和扫描框大小}
+    \label{fig:frame}
+    \end{figure}
+\item 输入样品的元数据（metadata）。在后面处理过程中，可以通过ZooProcess中的\textbf{``EDIT and MODIFY metadata''}工具来修改元数据。如图~\ref{fig:metadata}。
+    \begin{figure}[!ht]
+    \centering
+    \includegraphics[width=3.0in]{metadata}
+    \caption{输入扫描信息}
+    \label{fig:metadata}
+    \end{figure}
+\end{itemize}
+
+
+\subsubsection{扫描背景}
+背景图像是一张空白图像，用于图像分析过程中。在与样品相同环境下 (自来水或是过滤海水)，先扫描背景再扫描样品。最好是在每个扫描任务开始时，都扫描一次背景图像。
+\begin{itemize}
+\item 用清水清洁和冲洗ZooScan托盘和表面玻璃，时不时地检查并清除在玻璃和扫描框上的污点。
+\item 倒一些清水（保持在室温）没过托盘，它可以防止扫描框刮擦托盘。
+\item 放置扫描框（15$cm$ $\times$ 24$cm$），这取决于之前ZooProcess中的``创建项目''中的选项。
+\item 在预扫描和实际扫描之间，等待30秒。
+\end{itemize}
+
+\subsubsection{准备样品}
+\begin{itemize}
+\item 存储几升清水，保持在室温，用来为ZooScan注水。
+\item 用筛子（网格间隙为100$\mu m$ ）过滤掉防腐剂和海水中物质。样品通过间隙为1$mm$和200$\mu m$的两种网格，将浮游生物分成不同体型的两部分。
+%%\item 用木棒将粘连的浮游生物分离开，且避免浮游生物贴靠扫描框边缘。
+\item 浮游生物被分为不同体型的两部分：一个为体型大的样品，另一个为体型小的样品。分别将分开后的样品，添加标签$d1$和$d2$，用于扫描后的数据处理过程中。如图~\ref{fig:volume}。
+  \begin{figure}[!ht]
+  \centering
+   \includegraphics[width=3.6in]{volume}
+    \caption{准备样品}
+    \label{fig:volume}
+   \end{figure}
+\item 使上述两个分开后的样品中，保持只有1000 $ - $ 1500个浮游生物。
+\end{itemize}
+
+\subsubsection{扫描样品}
+\begin{itemize}
+\item 在扫描托盘中加入量水，放置扫描框（15$cm$ $\times$ 24$cm$），调整扫描框放置的位置（位置在扫描托盘中有标注）。
+\item 倒入样品，加入清水，直到没过扫描框的台阶。
+\item 将个体较大的浮游生物放在扫描框的中心，用木棒分离粘连浮游生物，避免浮游生物贴靠扫描框边缘。对于漂浮在水面的浮游生物，轻轻用木棒将浮游生物压入水中。如果存在无法没入水中的浮游动物，且数量不多，则将它们移出 （{\color{blue} 这一步是生成好的数据质量的关键步骤}）。如图~\ref{fig:sticks}。
+  \begin{figure}[!ht]
+  \centering
+   \includegraphics[width=2.0in]{sticks}
+    \caption{用木棒分离粘连浮游生物}
+    \label{fig:sticks}
+   \end{figure}
+\item 检查托盘是否有气泡，顶盖玻璃的表面是否冷凝。
+\item 加载ZooProcess，选择项目，点击扫描样品,选择两部分样品中的一个样品（$d1$和$d2$），写入相关元数据。
+\end{itemize}
+
+\subsubsection{回收样品}
+\begin{itemize}
+\item 清洁托盘，避免下次实验污染了样品。
+\item 移走并冲洗透明的扫描框，回收所有的标本。
+\item 清洁干燥扫描托盘。
+\end{itemize}
+
+
+\subsection{注意事项}
+\begin{itemize}
+\item 清水可以是自来水或过滤海水，保持在室温是为了避免在ZooScan的托盘中产生气泡或者顶盖玻璃上出现冷凝。因为自来水管中的自来水和房间的温度存在一定温差。
+\item ZooScan提供1200dpi和2400dpi两种分辨率扫描。分辨率限制在2400dpi，是由于ZooScan设计的光路需要空气入水和由水进入玻璃两次穿过界面，使成像分辨率收到限制。
+\item ZooScan的扫描框有两个尺寸：11$cm$ $\times$ 24$cm$ 和 15$cm$ $\times$ 24$cm$。推荐使用15$cm$ $\times$ 24$cm$的扫描框，具体使用哪个扫描框由ZooProcess中的选项决定。
+\item 扫描空白背景不仅可以去除灯光产生的异质性的斑点等，而且可以检验系统的稳定性。
+%%\item 防止大个且数量较少的浮游生物被低估
+\item 在准备样品阶段，通常情况下，将样品分为两个或以上的小样品进行扫描。
+\item 在准备样品阶段，如何将浮游生物样品分成不同的小样品，取决于原样品中浮游生物的种类多少与体型大小。
+\item 扫描的浮游生物必须保持不动的状态，使用固定剂或将其麻醉。
+\item 扫描框上有5mm的小台阶，注入的水必须漫过这台阶的高度，避免在扫描后的图像边缘出现弯液面现象。如图~\ref{fig:step}。
+  \begin{figure}[!ht]
+  \centering
+   \includegraphics[width=2.8in]{step.png}
+    \caption{框的台阶高度}
+    \label{fig:step}
+   \end{figure}
+\item 在较大的框内（15$cm$ $\times$ 24$cm$），最多可以容纳1000 $ - $ 1500个浮游生物。
+\item 在ZooProcess中也可以对扫描图像中的粘连浮游生物进行分离，但是最好是在样品扫描之前用木棒进行分离。如图~\ref{fig:separate}。
+  \begin{figure}[!ht]
+  \centering
+   \includegraphics[width=3.5in]{separate}
+    \caption{ZooProcess的浮游生物分离}
+    \label{fig:separate}
+   \end{figure}
+\end{itemize}
+
+\section{ZooProcess}
+ZooProcess介绍详见\url{http://wbtxd2004.github.io/zooscan/2015/06/13/Zooprocess-Study.html}。
+
+%\subsection{Free software ZooProcess Using ImageJ}
+%
+%ImageJ\footnote{\url{http://rsb.info.nih.gov/ij/index.html}}是一个基于java的公共的图像处理软件，它是由National Institutes of Health开发的。除了基本的图像操作，比如缩放，旋转，扭曲，平滑处理外，ImageJ还能进行图片的区域和像素统计，间距，角度计算，能创建柱状图和剖面图，进行傅里叶变换。
+%
+%ZooProcess中用到的一些变量如下：
+%
+%\begin{description}
+%\item[Angle] Angle between the primary axis and a line parallel to the $x$-axis of the image 
+%\item[BX] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的X坐标 
+%\item[BY] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的Y坐标 
+%\item[Height] 能够包围物体，且平行于图像两条边的最小外界矩形的高
+%\item[Width] 能够包围物体，且平行于图像两条边的最小外界矩形的宽
+%\item[X] X position of the center of gravity of the object 
+%\item[XM] X position of the center of gravity of the object's grey level
+%\item[XMg5] X position of the center of gravity of the object, using a gamma value of 51
+%\item[XStart] 图像最左上角像素点的X坐标
+%\item[Y] Y position of the center of gravity of the object 
+%\item[YM] Y position of the center of gravity of the object's grey level
+%\item[YMg5] Y position of the center of gravity of the object, using a gamma value of 51
+%\item[YStart] 图像最左上角像素点的Y坐标
+%
+%\item[Area] Surface area of the object in square pixels 
+%\item[Mean] Average grey value within the object; sum of the grey values of all pixels in the object
+%divided by the number of pixels
+%\item[StdDev] Standard deviation of the grey value used to generate the mean grey value 
+%\item[Mode] Modal grey value within the object
+%\item[Min] 物体内部所有像素点的最小灰度值 (0 = black)
+%\item[Max] 物体内部所有像素点的最大灰度值 (255 = white)
+%\item[Slope] 标准化灰度累计直方图的斜率
+%\item[Histcum1] grey level value at 25\% of the normalized cumulative histogram of grey levels
+%\item[Histcum2] grey level value at 50\% of the normalized cumulative histogram of grey levels
+%\item[Histcum3] grey level value at 75\% of the normalized cumulative histogram of grey levels
+%\item[Perim] The length of the outside boundary of the object
+%\item[Major] Primary axis of the best fitting ellipse for the object
+%\item[Minor] Secondary axis of the best fitting ellipse for the object
+%\item[Circ] Circularity $1⁄4$ (4 * Pi * Area) / Perim2; a value of 1 indicates a perfect circle, a value approaching 0 indicates an increasingly elongated polygon
+%\item[Feret] Maximum feret diameter, i.e. the longest distance between any two points along the object boundary
+%\item[IntDen] Integrated density. The sum of the grey values of the pixels in the object (i.e. $1⁄4$ Area*Mean) \item[Median] Median grey value within the object
+%\item[Skew] Skewness of the histogram of grey level values
+%\item[Kurt] 灰度直方图的峰值 
+%\item[\%area] Percentage of object's surface area that is comprised of holes, defined as the background grey level
+%\item[Area\_exc] Surface area of the object excluding holes, in square pixels ($1⁄4$Area*(12(\%area/100)) \item[Mean\_exc] Average grey value excluding holes within
+%the object ($1⁄4$ IntDen /Area\_exc)
+%\item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)
+%\item[Skelarea] Surface area of skeleton in pixels. In a binary image, the skeleton is obtained by repeatedly removing pixels from the edges of objects until they are reduced to the width of a single pixel
+%\end{description}
+%
+%5、扫描“背景”图片
+%
+%背景图片是一幅空白图片，在后续图像处理过程中会用到。背景扫描应该安排在样本扫描之前，并且在同样的条件或环境下进行。建议在每次的扫描环节开始之前都要先进行背景图片的扫描。
+%
+%基本步骤如下：
+%
+%\begin{itemize}
+%\item 打开ZooSCAN，如果有必要的话用清水冲洗扫描托盘和盖玻片。
+%\item 时不时检查盖玻片，看是否有痕迹，以便擦去。
+%\item 
+%\end{itemize}
+
+\section{Plankton Identifier(PkID)}
+
+\subsection{主窗口}
+
+打开PkID应用程序，显示的界面上共有5个按钮：“Learning”、“Evaluation”、“Prediction”、“Validation”和“Compilation”（图~\ref{fig: Main window}）。这5个部分可以相互独立地运行，但是会有运行的先后顺序。比如“Evaluation”和“Prediction”会用到“Learning”生成的文件，“Validation”用到“Prediction”生成的文件，“Compilation”用到“Validation”所生成的文件。因此，当你第一次使用PkID时你应该首先运行“Learning”。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{mainWindow.png}
+\caption{主窗口}
+\label{fig: Main window}
+\end{figure} 
+
+其他菜单：
+
+\textit{\textbf{Program > Settings}} 定义Tanagra.exe所在的路径以及存放缩略图、PID文件和结果的默认文件夹路径。
+
+Tanagra Path：如果你安装了两个以上的Tanagra版本，你可以选择想要使用的版本。点击\textbf{Browse}，浏览硬盘文件夹，找到Tanagra.exe，点击\textbf{OK}。
+
+\textit{注：如果你的Tanagra没有安装在 $\backslash$Program Files$\backslash$Tanagra 路径下，或者你就根本没有安装Tanagra，这时当你运行PkID时就会自动弹出这个窗口（图~\ref{fig: Settings window}）。}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{settingsWindow.png}
+\caption{设置窗口}
+\label{fig: Settings window}
+\end{figure} 
+
+Default folder：默认文件夹是你第一次使用PkID执行一些步骤产生的文件所存放的地方。
+
+\textit{\textbf{Program > Exit}} 关闭PkID。
+
+\subsection{Learning}
+
+这一步会生成一个学习文件以用作后续的自动识别。它对应于经专家鉴定的具有代表性的一些物体的子样本并且可以作为将来分析的参考。
+
+1、文件夹选择窗口
+
+当点击\textbf{Learning}按钮时，会出现如图~\ref{fig: SelectLearningSetFolderWindow}所示的文件夹选择窗口。 
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{SelectLearningSetFolderWindow.eps}
+\caption{训练集文件夹选择窗口}
+\label{fig: SelectLearningSetFolderWindow}
+\end{figure} 
+
+选择一个空的文件夹以用来创建新的训练数据集，你也可以通过点击右上角的按钮（图~\ref{fig: SelectLearningSetFolderWindow}: {\color{red}\textbf{1}}）来创建一个新的文件夹然后给它命名（图~\ref{fig: SelectLearningSetFolderWindow}: {\color{red}\textbf{2}}），最后点击\textbf{OK}按钮（图~\ref{fig: SelectLearningSetFolderWindow}: {\color{red}\textbf{3}}）。
+
+你也可以选择一个已有的训练数据集（其中包含已分类好的子文件夹以及包含物体元数据的一些PID格式的文件，每个子文件夹代表一个种类，其中存放属于该类的jpg格式的缩略图），如图~\ref{fig: SelectLearningSetFolderWindow}: {\color{red}\textbf{4}}。
+
+{\color{blue}\textit{注：如果此处选择的文件夹结构不符，或者包含了无效的数据，那么将会无法打开，并且在窗口的最下方会出现一行红色的警告信息以说明原因。}}
+
+2、学习窗口
+
+当选择了一个可以用来对缩略图进行分类的有效文件夹之后，点击\textbf{OK}，会出现一个新的窗口（图~\ref{fig: LearningWindow}）。其中左边部分（“Sample Set”）是要通过浏览硬盘文件夹来选择未被分类的样本。右边部分（“Learning Ser”）是要将左边未被分类的样本拖到右边以完成分类（创建子文件夹）。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{LearningWindow.eps}
+\caption{Learning窗口}
+\label{fig: LearningWindow}
+\end{figure} 
+
+\textit{Sample Set}
+
+在窗口左边栏“Sample Set”处，浏览硬盘文件夹以打开一个包含未分类的缩略图和相应PID文件的文件夹。只有有有效名字（<Sample Name>\_<Item Number>.jpg）的缩略图才会在左边栏中显示出来。如果名字是有效的但是PID文件中并没有包含该幅图像的一些数据，这时就会这个缩略图上方会出现一个问号并且当把鼠标放在问号上时会有相应的原因解释，这幅图也是无法使用的。
+
+\textit{注：如果此处选择的文件夹结构不符，或者包含了无效的数据，那么将会无法打开，并且在窗口的最下方会出现一行红色的警告信息以说明原因。}
+
+\textit{类别（子文件夹）创建}
+
+在窗口右边栏“Learning Set”处，为了把缩略图归到对应的类别，需要在步骤1所选择的文件夹中创建一些子文件夹，每个文件夹代表一类。点击右上角的按钮（图~\ref{fig: LearningWindow}: {\color{red}\textbf{1}}）创建新的文件夹，这时会出现一个新的窗口，可以给新创建的文件夹从给定的种类名字中选择一个（图~\ref{fig: CreateGroupsWindow}）。如果给定的这些名字中没有合适的，你还可以选择另一个“Predefined Lists”或者先选择“New”作为名字，之后再在“Learning Set”这一栏中重新编辑命名。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{LearningWindow.png}
+\caption{创建训练集中分类类别的窗口}
+\label{fig: CreateGroupsWindow}
+\end{figure} 
+
+{\color{blue}\textit{注1：所创建的子文件夹名字不能重复。已经用过的名字在“Create Group Folders”窗口中将不再显示。}}
+
+{\color{blue}\textit{注2：可以通过\textbf{Tools>Import Name List}菜单来自定义你自己的种类名字清单。}}
+
+\textit{对缩略图进行归类}
+
+选中一个缩略图，下方会显示它的预览，如图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{1}}。你可以通过左侧的\textbf{zoom}按钮（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{2}}）将预览结果放大，还可以通过调节左侧对比度和亮度的状态条来显示更多细节。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{ThumbnailsSorting.eps}
+\caption{对样本文件中的缩略图进行分类}
+\label{fig: ThumbnailsSorting}
+\end{figure} 
+
+把缩略图拖到相应的子文件夹中（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{3}}），这时缩略图会被复制到那个子文件夹中，而不是被剪切过去了。对应的PID文件也被复制到了右边文件夹中，但在这个窗口中是看不见的，以免视觉上的混淆。一旦一个缩略图已经用在了所创建的数据集中，上面就会出现一个红色的叉（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{4}}），表示它不能再被使用了。
+
+一次选中多个缩略图也是可以的，可以通过按住Ctrl键来完成。在选中多个缩略图的时候，如果你想看每一个缩略图的预览效果，可以从右下角往左上角选择。
+
+每一个子文件夹中缩略图的数目会显示在这个子文件夹上，并且随着你的操作而更新。已经被归类了的缩略图数目以及还没有完成归类的缩略图数目都被显示在了窗口的最下方（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{5}}）。
+
+你可以对多个样本集中的缩略图进行归类以创建自己的训练数据集。点击上面的一个按钮（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{6}}）转到你想要操作的文件夹路径下。
+
+\textit{Cancel action}
+
+当你在训练数据集的创建过程中执行了一些误操作之后，可以有以下两个办法取消：（1）用\textbf{Undo}按钮（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{7}}）（2）打开右侧的子文件夹，选中缩略图然后用DEL键删除。其中\textbf{Undo}键可以用来取消删除操作或子文件夹删除操作，DEL键可以用来删除一个所有缩略图都被清除了的空子文件夹。
+
+\textit{创建学习文件}
+
+一旦你觉得你创建的每一个类别中已经归类了足够多的样本，你就可以点击“Create Learning File”按钮（图~\ref{fig: ThumbnailsSorting}: {\color{red}\textbf{8}}）了，点击之后会出现一个保存对话框，上面显示了所要保存的目标文件夹路径以及学习文件的名字，默认的名字为Learn\_<number>格式。点击“Save”按钮，所有的学习工作就完成了。这时又会出来一个会话框询问你是否要继续分类，如果你选择“No”，这个学习窗口就会被关闭回到主窗口。
+
+\subsection{Evaluation}
+
+这一步是要帮助你评估一下基于上一步中创建的训练数据集所建立的预测模型对训练数据集中的物体的识别率有多高。最后会生成一个包含识别结果的文本文件以及一个包含了数据分析信息的html报告。点击主窗口中的Evaluation按钮，会出现如下的界面（图~\ref{fig: EvaluationWindow}）。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{EvaluationWindow.eps}
+\caption{Evaluation窗口}
+\label{fig: EvaluationWindow}
+\end{figure} 
+
+1、选取学习文件（图~\ref{fig: EvaluationWindow}: {\color{red}\textbf{1}}）
+
+浏览硬盘文件夹，选择你想要用来进行数据分析的学习文件。
+
+{\color{blue}\textit{注1：选择学习文件后才能激活其它部分。}}
+
+{\color{blue}\textit{注2：双击PID文件，将会自动在PID viewer（如果已安装）或者文本编辑器（例如Windows下的Notepad）中打开，从而可以校正文件内容。}}
+
+2、初始变量（图~\ref{fig: EvaluationWindow}: {\color{red}\textbf{2}}）
+
+这里展示的是所选择的学习文件中的一些变量，你可以任意选取一些变量以用作分析，没有被选取的初始变量在计算时会被忽略，但不会从结果文件中移除。
+
+{\color{blue}\textit{注：对于那些用ZooProcess软件生成的PID文件，在计算时要被忽略的初始变量可以在附件中找到。}}
+
+3、自定义变量（图~\ref{fig: EvaluationWindow}: {\color{red}\textbf{3}}）
+
+这一步是要根据已有的初始变量创建自定义变量。在你安装PkID之后会有13个自定义变量可供你选择是否要用它。没有被选取的初始变量在计算时会被忽略，并且不会在结果文件中显示。如果定义的某个变量不能从已经选取的初始变量计算，那么它会自动变成不可选取状态，并且显示成灰色。
+
+要编辑一个已经存在的自定义变量，选中它，点击\textbf{Edit}以打开一个新窗口（~\ref{fig: CustomizedVariableWindow}）。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{CustomizedVariableWindow.png}
+\caption{自定义变量窗口}
+\label{fig: CustomizedVariableWindow}
+\end{figure}
+
+选中已存在的自定义变量，点击\textbf{Del}可以将其删除。
+
+要新建一个自定义变量，点击\textbf{New}，出现如图~\ref{}的变量自定义窗口。
+\begin{enumerate}
+\item 对新建的变量命名（命名必须与已有变量不同）
+\item 在“Operation”下面一栏中输入计算公式
+\item 按“OK”键
+\end{enumerate}
+{\color{blue}\textit{注：在编写公式时，一些基本的运算符（例如$+$, $-$, $\backslash$, $*$, $\^$）、括号、数字都是跟平常在键盘上敲的一样。要插入一个初始变量的话，可以在“Original Variables”下面一栏选中它，然后点击“Insert”。在公式中用到初始变量时，需要在这个初始变量前后加上“\#”号。在“Available functions”一栏中，可以选择一个函数进行插入。建议可以先看看已有的一些自定义变量是如何定义的，然后再编辑自己需要的公式。}}
+
+4、Identification Groups（图~\ref{fig: EvaluationWindow}: {\color{red}\textbf{4}}）
+
+这里显示了在选取的学习文件中所定义的分类种类。默认的种类是不能被删除或编辑的，但是你可以通过将已有的类别合并来创建新的类别。
+
+点击\textbf{New}可以创建新的类别，打开如图~\ref{fig: GroupsEditionWindow}所示的类别编辑窗口。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{GroupsEditionWindow.eps}
+\caption{分类类别编辑窗口}
+\label{fig: GroupsEditionWindow}
+\end{figure}
+
+修改初始类别名字（图~\ref{fig: GroupsEditionWindow}: {\color{red}\textbf{1}}）：
+\begin{enumerate}
+\item 在“Modified Group Names”一栏下方选择一个需要修改的名字（图~\ref{fig: GroupsEditionWindow}: {\color{red}\textbf{2}}）
+\item 给这个类别重新编辑命名，或者点击如图（图~\ref{fig: GroupsEditionWindow}: {\color{red}\textbf{3}}）所示按钮，在名字列表中选择一个
+\item 完成对类别的重新命名后，点击\textbf{Done}
+\end{enumerate}
+{\color{blue}\textit{注：你可以创建很多的分类种类的列表，后续数据分析中用到的只会是当前这个列表（在Evaluation窗口点击\textbf{Run}时所看见的那个列表）。你可以用\textbf{Prev.}和\textbf{Next>}按钮来选择你想要的进行分析那个列表。在生成的结果文件中，初始名字会显示在“Ident1”这一列中，新的名字显示在“Ident2”这一列中。}}
+
+5、选择一种方法（图~\ref{fig: EvaluationWindow}: {\color{red}\textbf{5}}）
+
+这里是要选择一种评价方法，用来检测用有监督学习方法和所选择的学习文件学习的模型的识别能力。PkID中一共提供了两种评价方法。
+
+{\color{red}k-fold cross-validation method}：用重采样技术来评价学习算法在学习文件上的识别准确率。初始的训练数据集被随机分为$k$个相同大小的子集。每一次循环过程中，将$k-1$个子集放在一起形成训练集，并且构造出预测模型，剩下的那1个子集被当成测试集来评价模型预测能力。一共循环$k$次。这样下来，每个子集都会有1次机会作为测试集，$k-1$次机会作为训练集。将$k$次预测结果取平均，可以得到这个模型的最终预测能力。交叉验证过程会重复$n$次，$n$次交叉验证的平均错误率在一个混淆矩阵中被计算得到。
+
+PkID一共实现了8种交叉验证方法，每一个都采用了不同的学习算法。
+
+所有的交叉验证方法中所用的参数都是$k = 2, n = 5$。要想改变这两个值：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{ModificationofCrossValidationParameterisation.eps}
+\caption{分类类别编辑窗口}
+\label{fig: ModificationofCrossValidationParameterisation}
+\end{figure}
+
+\begin{enumerate}
+\item 点击编辑按钮（图~\ref{fig: ModificationofCrossValidationParameterisation}: {\color{red}\textbf{1}}），打开相应的tdm文件
+\item 在交叉验证部分修改$k$和$n$值图~\ref{fig: ModificationofCrossValidationParameterisation}: {\color{red}\textbf{2}}
+\item 在关闭tdm文件前保存修改
+\end{enumerate}
+
+{\color{red}Test method}：在一个预先定义好的、独立的测试文件上对模型的准确率进行评价。在使用这个测试方法之前，需要创建一个特殊的文件，可以通过主窗口菜单中的\textbf{Concatenate Learning Files}来创建。相比于用两个不同的文件来作为训练集和测试集，我们更倾向于用一个文件来把它们联系起来，并且通过状态来表示所要扮演的角色，状态有“学习”和“测试”两种。
+
+PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文件上比较8个算法的准确率来选择最好的学习方法。Test 2只用到随机森林算法。
+
+{\color{blue}\textit{注：通常来讲，训练集越大，所构造的分类模型越好，测试集越大，预测准确率越高。}}
+
+{\color{red}Export to text file (no analysis)}：生成一个文本文件，包含了所选的学习文件中所有初始变量和自定义变量，而不包含预测结果。这个文件还可以输入到任意的数据挖掘软件站进行分析。
+
+6、开始分析
+
+当所有文件、变量、类别都选择好之后，点击\textbf{Run}按钮，将会出现一个保存页面，选择要保存的文件夹、文件名，点击\textbf{Save}。
+
+分析完成后（可能需要几分钟，这取决于样本大小和所选方法），结果和html报告被保存在了所选择的文件夹中，并且html报告会自动在网页中打开。这时会有一个会话框询问你是否要退出Evaluation窗口，如果你选择“Yes”，Evaluation窗口就会被关闭并返回主窗口。
+
+与初始PID文件相比，评价文件包含了以下新的列：
+\begin{enumerate}
+\item 对应于自定义变量的列
+\item 包含了学习文件中分类类别的一列（Ident）
+\item 包含了修改后的类别名字的一列（Ident2）
+\item 用来表示状态的一列（Learning或Test）
+\end{enumerate}
+
+\subsection{Prediction}
+
+这一步是要根据选择的学习文件中的种类对样本进行自动识别。结束后也会生成一个包含了自动识别结果的文本文件和一个包含了数据分析信息html报告。点击主窗口中的\textbf{Prediction}按钮，会打开一个新的窗口（图~\ref{fig: PredictionWindow}）：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{PredictionWindow.eps}
+\caption{Prediction窗口}
+\label{fig: PredictionWindow}
+\end{figure}
+
+1、选择学习文件（图~\ref{fig: PredictionWindow}: {\color{red}\textbf{1}}）
+
+2、选择样本文件（图~\ref{fig: PredictionWindow}: {\color{red}\textbf{2}}）
+
+3、选择学习算法（图~\ref{fig: PredictionWindow}: {\color{red}\textbf{3}}）
+
+从PkID提供的8个学习算法中选择一个。
+\begin{itemize}
+\item Spv learning 1 (5-NN)
+\item Spv learning 2 (C-SVC linear)
+\item Spv learning 3 (C-SVC RBF)
+\item Spv learning 4 (BVM)
+\item Spv learning 5 (C4.5)
+\item Spv learning 6 (Random Forest)
+\item Spv learning 7 (PLS)
+\item Spv learning 8 (Multilayer Perceptron)
+\end{itemize}
+
+4、开始分析
+
+当所有文件、变量和分类类别都选好之后，点击\textbf{Run}按钮，会出现一个保存会话框。
+
+\subsection{Validation}
+
+这一步是将上一步生成的预测文件可视化，并且人为地对识别结果进行校正。这里可以有两个选择（图~\ref{fig: ValidationWindow}）：1）用Prediction那一步生成的Pred\_.txt文件来将预测结果可视化，真正实现缩略图的自动分类，你还可以对自动识别的结果进行进一步检查和校正。2）打开一个已有的校正集来继续一个校正或进行二次校正。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{ValidationWindow.png}
+\caption{Validation窗口：What do you want to do?}
+\label{fig: ValidationWindow}
+\end{figure}
+
+{\color{red}Visualize a prediction from a Pred\_.txt file}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{SelectionWindowforValidation1.eps}
+\caption{校正选择窗口1}
+\label{fig: SelectionWindowforValidation1}
+\end{figure}
+
+\begin{enumerate}
+\item 选择一个要用来校正的Pred\_.txt文件（图~\ref{fig: SelectionWindowforValidation1}: {\color{red}\textbf{1}}）
+\item 选择一个包含未分类缩略图的文件夹作为“Sample Set”（图~\ref{fig: SelectionWindowforValidation1}: {\color{red}\textbf{2}}）
+\item 选择用来存放分类好了的缩略图的目标文件夹（图~\ref{fig: SelectionWindowforValidation1}: {\color{red}\textbf{3}}）
+\item 点击“Visual Validation”（图~\ref{fig: SelectionWindowforValidation1}: {\color{red}\textbf{4}}）
+\end{enumerate}
+
+{\color{blue}\textit{注：在分类过程中，缩略图是被复制而不是剪切到了目标文件夹中。如果你不想保留未分类的缩略图，可以在图~\ref{}处取消勾选\textbf{Keep Unsorted Thumbnails}。}}
+
+{\color{red}Check an existing Validated set}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{SelectionWindowforValidation2.eps}
+\caption{校正选择窗口2}
+\label{fig: SelectionWindowforValidation2}
+\end{figure}
+
+\begin{enumerate}
+\item 选择你想要检查的Valid\_.txt文件（图~\ref{fig: SelectionWindowforValidation2}: {\color{red}\textbf{1}}）
+\item 选择一个包含已分类好的校正后的缩略图的文件夹（图~\ref{fig: SelectionWindowforValidation2}: {\color{red}\textbf{2}}）
+\item 点击“Visual Validation”按钮（图~\ref{fig: SelectionWindowforValidation2}: {\color{red}\textbf{3}}）
+\end{enumerate}
+
+{\color{red}Visual Validation}
+
+前面的两个选择最终都会打开如图~\ref{fig: ValidationWindow2}所示的校正窗口：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{ValidationWindow2.png}
+\caption{校正窗口}
+\label{fig: ValidationWindow2}
+\end{figure}
+
+利用预测模型已经将每幅缩略图放到了其对应的类别文件夹中，你可以打开每个文件夹查看是否被正确分类了。
+
+{\color{red}Thumbnails moving}
+
+\subsection{Compilation}
+
+这一步是用来将上一步的生成的多个校正文件连起来，并且计算每个类别中的物体数目。在主窗口中点击\textbf{Compilation}，会出现如下窗口（图~\ref{fig: CompilationWindow1}）：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{CompilationWindow1.eps}
+\caption{Compilation窗口：连接}
+\label{fig: CompilationWindow1}
+\end{figure}
+
+1、Create a concatenation file
+
+\begin{enumerate}
+\item 浏览硬盘文件夹，找到包含你所要连接的Valid\_.txt文件的文件夹（图~\ref{fig: CompilationWindow1}: {\color{red}\textbf{1}}）
+\item 点击\textbf{Concatenate}（图~\ref{fig: CompilationWindow1}: {\color{red}\textbf{2}}），会出现一个保存会话框
+\item 给连接后的文件进行命名，选择将其保存的文件夹路径
+\item 点击\textbf{Save}按钮，连接就开始了（这可能需要几分钟，取决于你想要连接的文件数目）
+\end{enumerate}
+
+{\color{blue}\textit{注：要一次连接很多Valid\_.txt文件，需要把它们放在同一个文件夹中，然后按“Ctrl”键同时选中它们。}}
+
+{\color{red}Create a compilation file}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{CompilationWindow2}
+\caption{Compilation窗口：编译}
+\label{fig: CompilationWindow2}
+\end{figure}
+
+\begin{enumerate}
+\item 选择一个已经连接好的Concat\_.txt文件。最终的连接文件会以粗体显示（图~\ref{fig: CompilationWindow2}: {\color{red}\textbf{1}}）。
+\item “Variables to averaged”一栏中可以勾选也可以不勾选相应的变量（图~\ref{fig: CompilationWindow2}: {\color{red}\textbf{2}}），被打上勾的变量在编译文件中会被平均，没有打勾的会被去除。
+\item “Identification groups to compiled”一栏也可以挑选相应的类别打上勾（图~\ref{fig: CompilationWindow2}: {\color{red}\textbf{3}}），只有打上勾的类别才会计算出它所包含的物体数目。
+\item 点击\textbf{Compile}按钮（图~\ref{fig: CompilationWindow2}: {\color{red}\textbf{4}}），出现一个保存会话框
+\item 给编译后的文件进行命名，选择将其保存的文件夹路径
+\item 点击\textbf{Save}，编译就开始了
+\end{enumerate}
+
+编译后生成的文件如图~\ref{fig: CompilationFile}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{CompilationFile}
+\caption{编译文件}
+\label{fig: CompilationFile}
+\end{figure}
+
+%\begin{enumerate}
+%\item 第一列（Label）：包含样本名称，按字母顺序排列
+%\item 第二列（GroupNames）：包含分类类别名称，按字母顺序排列
+%\item 第三列（Fracld）：包含
+%\item 
+%\item 第五列（Count）：包含了每一类别的物体数目
+%\item 所有被选择用来计算平均值的变量
+%\end{enumerate}
+
+
+
+\section{评价方法}
+
+\subsection{论文中采用的评价方法}
+文中采用{\color{blue}混淆矩阵（CM）}（混淆矩阵介绍见~\ref{CM}）对分类器的分类效果进行评价。评价时计算的是CM的召回率（recall即the rate of true positives）和虚警率（low contamination即the rate of false positives）。
+
+论文中的具体介绍：
+\begin{tcolorbox}[colback=red!5,colframe=blue!75!black]
+~~~~Evaluation of classifier performance requires the examination of a {\color{blue}Confusion matrix (CM)}, which is a contingency table crossing true (manually validated) and predicted (assigned by the classifier) identification of objects. Correct interpretation of the CM requires the examination of each category separately, including {\color{blue}the rate of true positives} as well as {\color{blue}false positives}.
+\begin{itemize}
+    \item the rate of true positives (recall)
+        \begin{displaymath}
+            true~positives=\frac{number~of~objects~correctly~predicted}{total~number~actual~objects}
+        \end{displaymath}
+    \item the rate of false positives (low contamination)
+        \begin{displaymath}
+            false~positives=\frac{number~of~objects~falsely~assigned~to~a~category}{total~number~of~predicted~objects}
+        \end{displaymath}
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{论文中的评价结果}
+%文中采用的是Re-substitution得到CM，即用learning set进行测试得到混淆矩阵。
+论文中的评价结果如图~\ref{fig:cmlearn}：
+    \begin{figure}[!ht]
+      \centering 
+        \includegraphics[width=1\textwidth]{cmlearn}
+        \caption{Confusion matrix for the 20 categories in the learning set}
+        \label{fig:cmlearn}
+    \end{figure}
+
+\subsection{怎样得到混淆矩阵}
+论文中提到三种得到CM的方法（即采用什么训练集和测试集来生成）：
+    \begin{enumerate}
+        \item Re-substitution CM
+        
+       这个方法是采用的测试集和训练集为同一个数据集。在这个过程中，用产生的分类器对测试集进分类时，得到的分类结果错误较少甚至可能没有错误，采用CM进行评价时就会低估分类器的错误率。
+        \item Cross-validation CM
+        
+        这个方法是采用交叉验证的方法。在这个过程中，将一个数据集分成n个相等的子集，用其中n-1个子集来训练产生分类器，用剩下的1个子集来进行测试，重复进行n次来构建CM。
+        \item Uses two equivalent and independent learning files describing the same categories with different objects
+        
+        这种方法是用两个相等且相互独立的数据集分别作为训练集和测试集，根据测试结果建立CM。两个相等的数据集即在两个集合中浮游生物的种类相同，但是每种浮游生物中的个体是不同的。
+    \end{enumerate}
+%    \begin{tcolorbox}[colback=red!5,colframe=blue!75!black]
+%    There are three ways to build a CM, all available in PkID.
+%    \end{tcolorbox}
+    
+
+
+
+\subsection{混淆矩阵Confusion matrix (CM)介绍}
+\label{CM}
+
+在机器学习中，混淆矩阵(CM)是一种比较简单的对学习算法性能进行评价的评估准则，而且是大多数指标的基础。常用的算法评估准则有：Confusion Matrix、ROC、Lift、Gini、K-S等等。\newline
+
+混淆矩阵 (CM)\footnote{\url{http://baike.baidu.com/view/2781781.htm}}\footnote{\url{http://en.wikipedia.org/wiki/Confusion_matrix}}：混淆矩阵是一种评估分类器可信度的方法。在图像精度评价中，主要用于比较分类结果和实际测得值，可以把分类结果的精度显示在一个混淆矩阵里面。特别用于监督学习，在无监督学习一般叫做匹配矩阵。
+
+混淆矩阵是一个n行n列的矩阵，n代表类别的数量。矩阵的每一列代表预测的每一类的数量，每一行代表实际的每一类的数量。对角线上表示分类正确的每一类的数量。
+
+例如：有150个样本数据，这些数据实际分为3类，每类50个。分类结束后得到的混淆矩阵如图\ref{fig:cm}。例如：第一行说明类1的50个样本有43个样本分类正确，5个错分为类2，2个错分为类3；第一列说明类1有43个样本分类正确，类2的2个样本被错分为类1，类3没有样本被错分为类1；对角线上的数据表示，类1、2、3分别有43、45、49个样本被分类正确。\newline
+    \begin{figure}[!ht]
+      \centering 
+        \includegraphics[width=0.3\textwidth]{cm}
+        \caption{混淆矩阵例子}
+        \label{fig:cm}
+    \end{figure}
+
+根据混淆矩阵可以导出以下几个参数\footnote{\url{http://www2.cs.uregina.ca/~dbd/cs831/notes/confusion_matrix/confusion_matrix.html}}：
+\begin{itemize}
+    \item true positives (TP)：正样本被识别出的数量
+    \item true negatives (TN)：负样本被识别出的数量
+    \item false positives (FP)：负样本被错误分为正样本的数量
+    \item false negatives (FN)：正样本被错误分为负样本的数量\newline
+    
+    \item {\color{blue}The true positive rate (TPR) ：召回率，就是正样本被识别出的概率。}(文中使用的参数)
+        \begin{displaymath}
+            TPR=\frac{TP}{TP+FN}
+        \end{displaymath}
+     \item {\color{blue}The false positive rate (FPR)：虚警率，负样本被错误分为正样本的概率。}(文中使用的参数)
+        \begin{displaymath}
+            FPR=\frac{FP}{FP+TN}
+        \end{displaymath}
+    \item The true negative rate (TNR)：负样本被识别出的概率
+        \begin{displaymath}
+            TNR=\frac{TN}{FP+TN}
+        \end{displaymath}
+
+    \item The false negative rate (FNR) ：漏警率，正样本被错误分为负样本的概率。
+        \begin{displaymath}
+            FNR=\frac{FN}{FN+TP}
+        \end{displaymath}
+    \item Positive predictive value (PPV)
+        \begin{displaymath}
+            PPV=\frac{TP}{TP+FP}
+        \end{displaymath}
+    \item Negative predictive value (NPV)
+        \begin{displaymath}
+            NPV=\frac{TN}{TN+FN}
+        \end{displaymath}
+    \item False discovery rate (FDR)
+        \begin{displaymath}
+            FDR=\frac{FP}{FP+TP}
+        \end{displaymath}
+\end{itemize}
+
+
+
+
+
+%
+% references
+\bibliographystyle{plain}
+
+\bibliography{zooplankton} %参考文献
+
+
+\end{document}
