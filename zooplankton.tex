@@ -783,7 +783,7 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
        这个方法是采用的测试集和训练集为同一个数据集。在这个过程中，用产生的分类器对测试集进分类时，得到的分类结果错误较少甚至可能没有错误，采用CM进行评价时就会低估分类器的错误率。
         \item Cross-validation CM
         
-        这个方法是采用交叉验证的方法。在这个过程中，将一个数据集分成n个相等的子集，用其中n-1个子集来训练产生分类器，用剩下的1个子集来进行测试，重复进行n次来构建CM。
+        这个方法是采用交叉验证(交叉验证介绍见\ref{cv})的方法。在这个过程中，将一个数据集分成n个相等的子集，用其中n-1个子集来训练产生分类器，用剩下的1个子集来进行测试，重复进行n次来构建CM。
         \item Uses two equivalent and independent learning files describing the same categories with different objects
         
         这种方法是用两个相等且相互独立的数据集分别作为训练集和测试集，根据测试结果建立CM。两个相等的数据集即在两个集合中浮游生物的种类相同，但是每种浮游生物中的个体是不同的。
@@ -795,7 +795,7 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 
 
 
-\subsection{混淆矩阵Confusion matrix (CM)介绍}
+\subsection{混淆矩阵Confusion matrix (CM)}
 \label{CM}
 
 在机器学习中，混淆矩阵(CM)是一种比较简单的对学习算法性能进行评价的评估准则，而且是大多数指标的基础。常用的算法评估准则有：Confusion Matrix、ROC、Lift、Gini、K-S等等。\newline
@@ -857,6 +857,43 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 \label{fig: ratio}
 \end{figure} 
 
+\subsection{交叉验证Cross Validation (CV)}
+\label{cv}
+交叉验证是用来验证分类器的性能一种统计分析方法，基本思想是把在某种意义下将原始数据进行分组，一部分做为训练集（training set），另一部分做为验证集（validation set），首先用训练集对分类器进行训练，在利用验证集来测试训练得到的模型，以此来做为评价分类器的性能指标。
+\subsubsection{训练集和测试集}
+
+在模式识别与机器学习的相关研究中，经常会将数据集分为训练集跟测试集这两个子集，前者用以建立模型，后者则用来评估该模型对未知样本进行预测时的精确度，正规的说法是泛化能力。怎么将完整的数据集分为训练集跟测试集，必须遵守如下要点：
+\begin{enumerate}
+    \item 只有训练集才可以用在模型的训练过程中，测试集则必须在模型完成之后才被用来评估模型优劣的依据。
+    \item 训练集中样本数量必须够多，一般至少大于总样本数的50\%。
+    \item 两组子集必须从完整集合中均匀取样。
+\end{enumerate}
+
+        {\color{blue}注：}其中最后一点特别重要，均匀取样的目的是希望减少训练集和测试集与完整集合之间的偏差，但却也不易做到。一般的作法是随机取样，当样本数量足够时，便可达到均匀取样的效果，然而随机也正是此作法的盲点，也是经常是可以在数据上做手脚的地方。举例来说，当辨识率不理想时，便重新取样一组训练集和测试集，直到测试集的识别率满意为止，但严格来说这样便算是作弊了。
+        
+        在MATALB中使用cvpartition对数据集进行随机拆分，完成交叉验证。
+        
+\subsubsection{常见的交叉验证方法}
+
+\begin{itemize}
+    \item Hold-Out Method
+    
+    将原始数据随机分为两组，一组做为训练集，一组做为验证集。
+    \item Double Cross Validation（2-fold Cross Validation，记为2-CV）
+    
+    将数据集分成两个相等大小的子集，进行两回合的分类器训练。在第一回合中，一个子集作为training set，另一个便作为testing set；在第二回合中，则将training set与testing set对换后，再次训练分类器。
+    {\color{blue}\item K-fold Cross Validation（K-折交叉验证，记为K-CV）}（实验中采用的交叉验证方法）
+    
+    将原始数据分成K组，将每个子集数据分别做一次验证集，其余的K-1组子集数据作为训练集，这样会得到K个模型，用这K个模型最终的验证集的分类准确率的平均数作为此K-CV下分类器的性能指标。K一般大于等于2，实际操作时一般从3开始取。
+    \item Leave-One-Out Cross Validation（记为LOO-CV）
+    
+    将每个样本单独作为验证集，其余的N-1个样本作为训练集，所以LOO-CV会得到N个模型，用这N个模型最终的验证集的分类准确率的平均数作为此下LOO-CV分类器的性能指标。相比于前面的K-CV，LOO-CV有两个明显的优点：
+    \begin{itemize}
+        \item 每一回合中几乎所有的样本皆用于训练模型，因此最接近原始样本的分布，这样评估所得的结果比较可靠。
+        \item 实验过程中没有随机因素会影响实验数据，确保实验过程是可以被复制的。
+    \end{itemize}
+\end{itemize}
+
 \section{识别结果分析}
 
 采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，所采用的学习算法是随机森林。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。最终的评价结果如图~\ref{fig: evaluation}。
@@ -872,29 +909,29 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 
 \subsection{位置特征}
 
-\begin{itemize}
+\begin{description}
 \item[BX] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的X坐标 
 \item[BY] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的Y坐标 
 \item[Height] 能够包围物体，且平行于图像两条边的最小外界矩形的高
 \item[Width] 能够包围物体，且平行于图像两条边的最小外界矩形的宽
 \item[XStart] 图像最左上角像素点的X坐标
 \item[YStart] 图像最左上角像素点的Y坐标
-\end{itemize}
+\end{description}
 
 \subsection{尺寸特征}
 
-\begin{itemize}
+\begin{description}
 \item[Area] 包含物体的矩形面积 
 \item[Perim] 物体最外层边缘的长度
 \item[Major] 物体内切椭圆的长轴
 \item[Minor] 物体内切椭圆的短轴
 \item[Circ] Circularity = (4 * Pi * Area) / Perim2; 值为1时表示近似圆形，值趋于0时表示逐渐变得瘦长
 \item[Feret] Maximum feret diameter（最大费雷特径）, 沿物体边缘任意两个点的最长距离
-\end{itemize}
+\end{description}
 
 \subsection{灰度值特征}
 
-\begin{itemize}
+\begin{description}
 \item[Min] 物体内部所有像素点的最小灰度值 (0 = black)
 \item[Max] 物体内部所有像素点的最大灰度值 (255 = white)
 \item[Mean] 物体内的平均灰度值; 物体中所有像素点的灰度值的总和除以总的像素个数
@@ -909,13 +946,30 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 \item[Histcum1] 灰度累计直方图的值为25\%时所对应的灰度值
 \item[Histcum2] 灰度累计直方图的值为50\%时所对应的灰度值
 \item[Histcum3] 灰度累计直方图的值为75\%时所对应的灰度值
-\end{itemize}
+\end{description}
 
 \subsection{形状特征}
-\begin{itemize}
+\begin{description}
 \item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)
 \item[Skelarea] 骨架像素的表面积
-\end{itemize}
+\end{description}
+
+\subsection{自定义特征}
+\begin{description}
+    \item[ESD] $2 \times \sqrt{\cfrac{Area}{\pi}}$
+    \item[Elongation] $\cfrac{Major}{Minor}$
+    \item[Range] $Max-Min$
+    \item[MeanPos] $\cfrac{Mean-Max}{Max-Min}$
+    \item[CentrodisD] $\sqrt{(XM-X)^{2}+(YM-Y)^{2}}$
+    \item[CV] $100 \times \cfrac{StdDev}{Mean}$
+    \item[SR] $100 \times \cfrac{StdDev}{Max-Min}$
+    \item[PerimAreaexc] $\cfrac{Perim}{\sqrt{Area\_exc}}$
+    \item[FeretAreaexc] $\cfrac{Feret}{\sqrt{Area\_exc}}$
+    \item[PerimFeret] $\cfrac{Perim}{Feret}$
+    \item[PerimMaj] $\cfrac{Perim}{Major}$
+    \item[Circexc] $\cfrac{4 \times \pi Area\_exc}{Perim^{2}}$
+    \item[CDexc] $\cfrac{\sqrt{(XM-X)^{2}+(YM-Y)^{2}}}{{\sqrt{Area\_exc}}}$
+\end{description}
 
 \section{优缺点分析}
 
