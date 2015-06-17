@@ -187,7 +187,7 @@
 %\lhead{\color{black!50!green}2014年秋季学期}
 \chead{\color{black!50!green}Zooplankton Identification}
 %\rhead{\color{black!50!green}通信电子电路}
-\lfoot{\color{blue!50!green}朱亚菲}
+\lfoot{\color{blue!50!green}戴嘉伦\ 武斌\ 朱亚菲\ 王如晨}
 \cfoot{\color{blue!50!green}\href{http://vision.ouc.edu.cn/~zhenghaiyong}{CVBIOUC}}
 \rfoot{\color{blue!50!green}$\cdot$\ \thepage\ $\cdot$}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -332,43 +332,27 @@ ZooProcess介绍详见\url{http://wbtxd2004.github.io/zooscan/2015/06/13/Zooproc
 %
 %\begin{description}
 %\item[Angle] Angle between the primary axis and a line parallel to the $x$-axis of the image 
-%\item[BX] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的X坐标 
-%\item[BY] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的Y坐标 
-%\item[Height] 能够包围物体，且平行于图像两条边的最小外界矩形的高
-%\item[Width] 能够包围物体，且平行于图像两条边的最小外界矩形的宽
+
 %\item[X] X position of the center of gravity of the object 
 %\item[XM] X position of the center of gravity of the object's grey level
 %\item[XMg5] X position of the center of gravity of the object, using a gamma value of 51
-%\item[XStart] 图像最左上角像素点的X坐标
+
 %\item[Y] Y position of the center of gravity of the object 
 %\item[YM] Y position of the center of gravity of the object's grey level
 %\item[YMg5] Y position of the center of gravity of the object, using a gamma value of 51
-%\item[YStart] 图像最左上角像素点的Y坐标
-%
-%\item[Area] Surface area of the object in square pixels 
-%\item[Mean] Average grey value within the object; sum of the grey values of all pixels in the object
-%divided by the number of pixels
-%\item[StdDev] Standard deviation of the grey value used to generate the mean grey value 
-%\item[Mode] Modal grey value within the object
-%\item[Min] 物体内部所有像素点的最小灰度值 (0 = black)
-%\item[Max] 物体内部所有像素点的最大灰度值 (255 = white)
+
+
 %\item[Slope] 标准化灰度累计直方图的斜率
 %\item[Histcum1] grey level value at 25\% of the normalized cumulative histogram of grey levels
 %\item[Histcum2] grey level value at 50\% of the normalized cumulative histogram of grey levels
 %\item[Histcum3] grey level value at 75\% of the normalized cumulative histogram of grey levels
-%\item[Perim] The length of the outside boundary of the object
-%\item[Major] Primary axis of the best fitting ellipse for the object
-%\item[Minor] Secondary axis of the best fitting ellipse for the object
-%\item[Circ] Circularity $1⁄4$ (4 * Pi * Area) / Perim2; a value of 1 indicates a perfect circle, a value approaching 0 indicates an increasingly elongated polygon
-%\item[Feret] Maximum feret diameter, i.e. the longest distance between any two points along the object boundary
+
 %\item[IntDen] Integrated density. The sum of the grey values of the pixels in the object (i.e. $1⁄4$ Area*Mean) \item[Median] Median grey value within the object
-%\item[Skew] Skewness of the histogram of grey level values
-%\item[Kurt] 灰度直方图的峰值 
+
 %\item[\%area] Percentage of object's surface area that is comprised of holes, defined as the background grey level
-%\item[Area\_exc] Surface area of the object excluding holes, in square pixels ($1⁄4$Area*(12(\%area/100)) \item[Mean\_exc] Average grey value excluding holes within
-%the object ($1⁄4$ IntDen /Area\_exc)
-%\item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)
-%\item[Skelarea] Surface area of skeleton in pixels. In a binary image, the skeleton is obtained by repeatedly removing pixels from the edges of objects until they are reduced to the width of a single pixel
+%\item[Area\_exc] Surface area of the object excluding holes, in square pixels ($1⁄4$Area*(12(\%area/100)) 
+
+
 %\end{description}
 %
 %5、扫描“背景”图片
@@ -535,7 +519,7 @@ Default folder：默认文件夹是你第一次使用PkID执行一些步骤产�
 
 选中已存在的自定义变量，点击\textbf{Del}可以将其删除。
 
-要新建一个自定义变量，点击\textbf{New}，出现如图~\ref{}的变量自定义窗口。
+要新建一个自定义变量，点击\textbf{New}，出现如图~\ref{fig: CustomizedVariableWindow}的变量自定义窗口。
 \begin{enumerate}
 \item 对新建的变量命名（命名必须与已有变量不同）
 \item 在“Operation”下面一栏中输入计算公式
@@ -865,6 +849,84 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
             FDR=\frac{FP}{FP+TP}
         \end{displaymath}
 \end{itemize}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{每个类别所占比例.png}
+\caption{数据集中每种类别的数目及所占比例}
+\label{fig: ratio}
+\end{figure} 
+
+\section{识别结果分析}
+
+采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，所采用的学习算法是随机森林。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。最终的评价结果如图~\ref{fig: evaluation}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{evaluation.png}
+\caption{评价结果}
+\label{fig: evaluation}
+\end{figure} 
+
+\section{特征}
+
+\subsection{位置特征}
+
+\begin{itemize}
+\item[BX] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的X坐标 
+\item[BY] 能够包围物体，且平行于图像两条边的最小外界矩形的左上角顶点的Y坐标 
+\item[Height] 能够包围物体，且平行于图像两条边的最小外界矩形的高
+\item[Width] 能够包围物体，且平行于图像两条边的最小外界矩形的宽
+\item[XStart] 图像最左上角像素点的X坐标
+\item[YStart] 图像最左上角像素点的Y坐标
+\end{itemize}
+
+\subsection{尺寸特征}
+
+\begin{itemize}
+\item[Area] 包含物体的矩形面积 
+\item[Perim] 物体最外层边缘的长度
+\item[Major] 物体内切椭圆的长轴
+\item[Minor] 物体内切椭圆的短轴
+\item[Circ] Circularity = (4 * Pi * Area) / Perim2; 值为1时表示近似圆形，值趋于0时表示逐渐变得瘦长
+\item[Feret] Maximum feret diameter（最大费雷特径）, 沿物体边缘任意两个点的最长距离
+\end{itemize}
+
+\subsection{灰度值特征}
+
+\begin{itemize}
+\item[Min] 物体内部所有像素点的最小灰度值 (0 = black)
+\item[Max] 物体内部所有像素点的最大灰度值 (255 = white)
+\item[Mean] 物体内的平均灰度值; 物体中所有像素点的灰度值的总和除以总的像素个数
+\item[IntDen] Integrated density（总密度）。物体内像素点的灰度值的总和（i.e. = Area*Mean）
+\item[StdDev] 物体内像素的灰度值的标准差
+\item[Mode] Modal grey value within the object
+\item[Skew] 灰度直方图的偏斜度
+\item[Kurt] 灰度直方图的峰值 
+\item[Mean\_exc] Average grey value excluding holes within the object (= IntDen /Area\_exc)
+\item[Median] 物体内像素的灰度值的中位数
+\item[Slope] 归一化的灰度累计直方图的斜率
+\item[Histcum1] 灰度累计直方图的值为25\%时所对应的灰度值
+\item[Histcum2] 灰度累计直方图的值为50\%时所对应的灰度值
+\item[Histcum3] 灰度累计直方图的值为75\%时所对应的灰度值
+\end{itemize}
+
+\subsection{形状特征}
+\begin{itemize}
+\item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)
+\item[Skelarea] 骨架像素的表面积
+\end{itemize}
+
+\section{优缺点分析}
+
+
+
+
+
+
+
+
+
 
 
 
