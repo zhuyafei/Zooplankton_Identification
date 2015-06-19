@@ -894,49 +894,12 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
     \end{itemize}
 \end{itemize}
 
-\section{识别结果分析}
-
-采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，其中有10个是浮游动物类，包括Appendicularia（被囊类）、Bubble、Chaetognatha（毛颚类）、CladoceraPenilia（枝角类喙）、Copepoda（桡足类）、Decapoda（十足类）、Doliolida（海樽类）、Egg（蛋类）、Pteropoda（翼足类）、Gelatinous（凝胶纤维）。3个非浮游动物类：Multiple、Nonbio（非生物类）、Fiber（纤维）。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。
-
-采用随机森林学习算法，67个特征的评价结果如图~\ref{fig: RandomForest}。
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\textwidth]{RandomForest.png}
-\caption{评价结果}
-\label{fig: RandomForest}
-\end{figure} 
-
-采用C-SVC linear算法，67个特征的评价结果如图~\ref{fig: C-SVClinear}。
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\textwidth]{C-SVClinear.png}
-\caption{评价结果}
-\label{fig: C-SVClinear}
-\end{figure} 
-
-采用C-SVC RBF算法，67个特征的评价结果如图~\ref{fig: C-SVC-RBF}。
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\textwidth]{C-SVC-RBF.png}
-\caption{评价结果}
-\label{fig: C-SVC-RBF}
-\end{figure} 
-
-采用随机森林算法，去掉以下位置特征（XM, YM, BX, BY, Width, Height, Angle, Start, Start, XMg5, YMg5）的评价结果如图~\ref{fig: withoutposition}，可以看到，与用所有特征相比，去除不必要的位置特征会使评价结果有所提高。
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\textwidth]{withoutposition.png}
-\caption{评价结果}
-\label{fig: withoutposition}
-\end{figure} 
 
 \section{特征}
 
-PkID中用到的特征如下：Area, Mean, StdDev, Mode	, Min, Max, X, Y, XM, YM, Perim., BX, BY, Width, Height, Major, Minor, Angle, Circ., Feret, IntDen, Median, Skew, Kurt, \%Area, XStart, YStart, Area\_exc, Fractal, Skelarea, Slope, Histcum1, Histcum2, Histcum3, XMg5, YMg5, Nb1, Nb2, Nb3, Compentropy, Compmean, Compslope, CompM1, CompM2, CompM3, Symetrieh, Symetriev, Symetriehc, Symetrievc, Convperim, Convarea, Fcons, ThickR, Tag, ESD, Elongation, Range, MeanPos, CentroidsD, CV, SR, PerimAreaexc, FeretAreaexc, PerimFeret, PerimMaj, Circexc, CDexc
+PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y, XM, YM, Perim., BX, BY, Width, Height, Major, Minor, Angle, Circ., Feret, IntDen, Median, Skew, Kurt, \%Area, XStart, YStart, Area\_exc, Fractal, Skelarea, Slope, Histcum1, Histcum2, Histcum3, XMg5, YMg5, Nb1, Nb2, Nb3, Compentropy, Compmean, Compslope, CompM1, CompM2, CompM3, Symetrieh, Symetriev, Symetriehc, Symetrievc, Convperim, Convarea, Fcons, ThickR, Tag, ESD, Elongation, Range, MeanPos, CentroidsD, CV, SR, PerimAreaexc, FeretAreaexc, PerimFeret, PerimMaj, Circexc, CDexc
+
+从训练集的PID文件文件中看到，Compentropy, Compmean, Compslope, CompM1, CompM2, CompM3这6个特征在所有图像上的值都为0，在训练分类器时是不起作用的。这6个特征的具体含义也没有找到。
 
 \subsection{位置特征}
 
@@ -951,6 +914,8 @@ PkID中用到的特征如下：Area, Mean, StdDev, Mode	, Min, Max, X, Y, XM, YM
 \item[YM] 物体灰度重心的Y坐标
 \item[XMg5] gamma值为51时的物体灰度重心的X坐标
 \item[YMg5] gamma值为51时的物体灰度重心的Y坐标
+\item[X] 物体重心点的X坐标
+\item[Y] 物体重心点的Y坐标
 \end{description}
 
 \subsection{尺寸特征}
@@ -962,6 +927,7 @@ PkID中用到的特征如下：Area, Mean, StdDev, Mode	, Min, Max, X, Y, XM, YM
 \item[Minor] 物体内切椭圆的短轴
 \item[Feret] Maximum feret diameter（最大费雷特径）, 沿物体边缘任意两个点的最长距离
 \item[Area\_exc] 去掉物体空洞后的表面积，空洞是指灰度值与背景相同的部分
+\item[\%area] 物体表面积中空洞所占的百分比，即背景所占的比例
 \end{description}
 
 \subsection{灰度值特征}
@@ -986,12 +952,14 @@ PkID中用到的特征如下：Area, Mean, StdDev, Mode	, Min, Max, X, Y, XM, YM
 \subsection{形状特征}
 
 \begin{description}
-\item[X] 物体重心点的X坐标
-\item[Y] 物体重心点的Y坐标
 \item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)，表明物体边界的不规则程度
 \item[Skelarea] 骨架像素的表面积（在二值图像中，不断地从物体边缘处减去像素点直到仅剩一个像素的宽度，最后所得图形的像素点数）
 \item[Circ] $Circularity = (4 * Pi * Area) / Perim^2$; 表征物体接近圆的程度，值等于1时，说明物体为正圆形，值越接近0，物体体形越长。
 \item[Angle] 浮游动物主轴与图片x轴形成的夹角，在图片切割后旋转图片测量相关参数使用
+\item[Symetrieh] 水平对称
+\item[Symetriev] 垂直对称
+\item[Symetriehc]
+\item[Symetrievc]
 \end{description}
 
 \subsection{自定义特征}
@@ -1012,10 +980,88 @@ PkID中用到的特征如下：Area, Mean, StdDev, Mode	, Min, Max, X, Y, XM, YM
     \item[CDexc] $\cfrac{\sqrt{(XM-X)^{2}+(YM-Y)^{2}}}{{\sqrt{Area\_exc}}}$
 \end{description}
 
+
+\section{识别结果分析}
+
+采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，其中有10个是浮游动物类，包括Appendicularia（被囊类）、Chaetognatha（毛颚类）、CladoceraPenilia（枝角类喙）、Copepoda（桡足类）、Decapoda（十足类）、Doliolida（海樽类）、Egg（蛋类）、Pteropoda（翼足类）、Gelatinous（凝胶纤维）、Multiple。3个非浮游动物类：Nonbio（非生物类）、Bubble（气泡）、Fiber（纤维）。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。
+
+采用随机森林学习算法，67个特征的评价结果如图~\ref{fig: RandomForest}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{RandomForest.png}
+\caption{Random Forest}
+\label{fig: RandomForest}
+\end{figure} 
+
+采用随机森林算法，去掉以下位置特征（XM, YM, BX, BY, Width, Height, Angle, XStart, YStart, XMg5, YMg5, X, Y）的评价结果如图~\ref{fig: withoutposition}，可以看到，与用所有特征相比，去除不必要的位置特征会使评价结果有所提高，对所有种类的Recall值、Precision值求平均（除了Multi类），得到的平均的Recall值为0.799，平均的Precision值为0.161。PID文件中的位置特征大多是ImageJ自带的，是用来生成缩略图所需的参数，在训练分类器时并没有使用。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{withoutposition.png}
+\caption{Random Forest (without position variables)}
+\label{fig: withoutposition}
+\end{figure} 
+
+采用K-NN算法，去掉位置特征后的评价结果如图~\ref{fig: KNN}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{KNN.png}
+\caption{K-NN (without position variables)}
+\label{fig: KNN}
+\end{figure} 
+
+采用C-SVC linear算法，去掉位置特征后的评价结果如图~\ref{fig: C-SVClinear}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{C-SVClinear.png}
+\caption{C-SVC linear (without position variables)}
+\label{fig: C-SVClinear}
+\end{figure} 
+
+采用C-SVC RBF算法，去掉位置特征后的评价结果如图~\ref{fig: C-SVC-RBF}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{C-SVC-RBF.png}
+\caption{C-SVC RBF (without position variables)}
+\label{fig: C-SVC-RBF}
+\end{figure} 
+
+采用BVM RBF算法，去掉位置特征后的评价结果如图~\ref{fig: BVM-RBF}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{BVM-RBF.png}
+\caption{BVM RBF (without position variables)}
+\label{fig: BVM-RBF}
+\end{figure} 
+
+采用PLS算法，去掉位置特征后的评价结果如图~\ref{fig: PLS}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{PLS.png}
+\caption{PLS (without position variables)}
+\label{fig: PLS}
+\end{figure} 
+
+采用Multilayer perceptron算法，去掉位置特征后的评价结果如图~\ref{fig: MultilayerPerceptron}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{MultilayerPerceptron.png}
+\caption{MultilayerPerceptron (without position variables)}
+\label{fig: MultilayerPerceptron}
+\end{figure} 
+
 \section{优缺点分析}
 
+PkID主要用了灰度特征、尺寸特征和形状特征。其中灰度特征跟灰度图的质量有很大关系，并不能完全准确地将不同种类区分开来，这里可以尝试加入一些灰度对比度特征。对于尺寸特征，每幅图像中都有一个5mm的标尺，可以依据标尺来度量物体的一些长度特征。人在进行浮游动物分类时，主要是依据形状特征，所以形状特征应该是最重要的，但PkID中只采用了少数简单的形状特征，因而不能充分地表示某一类浮游动物。
 
-
+对于具体哪些特征是有用的哪些是没用的，还得通过具体的实验才能看出来。单从缩略图来看，这三类特征都是有用的，都有区分作用，但是还不充足，还应该再加入一些更合理的特征。
 
 
 
