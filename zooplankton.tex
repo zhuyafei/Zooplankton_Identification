@@ -896,16 +896,47 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 
 \section{识别结果分析}
 
-采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，所采用的学习算法是随机森林。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。最终的评价结果如图~\ref{fig: evaluation}。
+采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，其中有10个是浮游动物类，包括Appendicularia（被囊类）、Bubble、Chaetognatha（毛颚类）、CladoceraPenilia（枝角类喙）、Copepoda（桡足类）、Decapoda（十足类）、Doliolida（海樽类）、Egg（蛋类）、Pteropoda（翼足类）、Gelatinous（凝胶纤维）。3个非浮游动物类：Multiple、Nonbio（非生物类）、Fiber（纤维）。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。
+
+采用随机森林学习算法，67个特征的评价结果如图~\ref{fig: RandomForest}。
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\textwidth]{evaluation.png}
+\includegraphics[width=1.0\textwidth]{RandomForest.png}
 \caption{评价结果}
-\label{fig: evaluation}
+\label{fig: RandomForest}
+\end{figure} 
+
+采用C-SVC linear算法，67个特征的评价结果如图~\ref{fig: C-SVClinear}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{C-SVClinear.png}
+\caption{评价结果}
+\label{fig: C-SVClinear}
+\end{figure} 
+
+采用C-SVC RBF算法，67个特征的评价结果如图~\ref{fig: C-SVC-RBF}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{C-SVC-RBF.png}
+\caption{评价结果}
+\label{fig: C-SVC-RBF}
+\end{figure} 
+
+采用随机森林算法，去掉以下位置特征（XM, YM, BX, BY, Width, Height, Angle, Start, Start, XMg5, YMg5）的评价结果如图~\ref{fig: withoutposition}，可以看到，与用所有特征相比，去除不必要的位置特征会使评价结果有所提高。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\textwidth]{withoutposition.png}
+\caption{评价结果}
+\label{fig: withoutposition}
 \end{figure} 
 
 \section{特征}
+
+PkID中用到的特征如下：Label, Area	Mean, StdDev, Mode	, Min, Max, X, Y, XM, YM, Perim., BX, BY, Width, Height, Major, Minor, Angle, Circ., Feret, IntDen, Median, Skew, Kurt, \%Area, XStart, YStart, Area\_exc, Fractal, Skelarea, Slope, Histcum1, Histcum2, Histcum3, XMg5, YMg5, Nb1, Nb2, Nb3	, Compentropy, Compmean, Compslope, CompM1, CompM2, CompM3, Symetrieh, Symetriev, Symetriehc, Symetrievc, Convperim, Convarea, Fcons, ThickR, Tag, ESD, Elongation, Range, MeanPos, CentroidsD, CV, SR, PerimAreaexc, FeretAreaexc, PerimFeret, PerimMaj, Circexc, CDexc
 
 \subsection{位置特征}
 
@@ -916,17 +947,21 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 \item[Width] 能够包围物体，且平行于图像两条边的最小外界矩形的宽
 \item[XStart] 图像最左上角像素点的X坐标
 \item[YStart] 图像最左上角像素点的Y坐标
+\item[XM] 物体灰度重心的X坐标
+\item[YM] 物体灰度重心的Y坐标
+\item[XMg5] gamma值为51时的物体灰度重心的X坐标
+\item[YMg5] gamma值为51时的物体灰度重心的Y坐标
 \end{description}
 
 \subsection{尺寸特征}
 
 \begin{description}
-\item[Area] 包含物体的矩形面积 
+\item[Area] 包含物体的最小矩形面积 
 \item[Perim] 物体最外层边缘的长度
 \item[Major] 物体内切椭圆的长轴
 \item[Minor] 物体内切椭圆的短轴
-\item[Circ] Circularity = (4 * Pi * Area) / Perim2; 值为1时表示近似圆形，值趋于0时表示逐渐变得瘦长
 \item[Feret] Maximum feret diameter（最大费雷特径）, 沿物体边缘任意两个点的最长距离
+\item[Area\_exc] 去掉物体空洞后的表面积，空洞是指灰度值与背景相同的部分
 \end{description}
 
 \subsection{灰度值特征}
@@ -935,12 +970,12 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 \item[Min] 物体内部所有像素点的最小灰度值 (0 = black)
 \item[Max] 物体内部所有像素点的最大灰度值 (255 = white)
 \item[Mean] 物体内的平均灰度值; 物体中所有像素点的灰度值的总和除以总的像素个数
-\item[IntDen] Integrated density（总密度）。物体内像素点的灰度值的总和（i.e. = Area*Mean）
+\item[IntDen] Integrated density（总密度）。物体内像素点的灰度值的总和（$IntDen = Area * Mean$）
 \item[StdDev] 物体内像素的灰度值的标准差
 \item[Mode] Modal grey value within the object
-\item[Skew] 灰度直方图的偏斜度
+\item[Skew] 灰度直方图的偏斜度，是灰度分布是否符合正态分布的检验参数
 \item[Kurt] 灰度直方图的峰值 
-\item[Mean\_exc] Average grey value excluding holes within the object (= IntDen /Area\_exc)
+\item[Mean\_exc] 物体内部去掉空洞后的平均灰度值 ($Mean\_exc = IntDen / Area\_exc$)
 \item[Median] 物体内像素的灰度值的中位数
 \item[Slope] 归一化的灰度累计直方图的斜率
 \item[Histcum1] 灰度累计直方图的值为25\%时所对应的灰度值
@@ -950,8 +985,12 @@ PkID提供了两种测试方法。Test 1可以通过在预先定义的测试文�
 
 \subsection{形状特征}
 \begin{description}
-\item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)
-\item[Skelarea] 骨架像素的表面积
+\item[X] 物体重心点的X坐标
+\item[Y] 物体重心点的Y坐标
+\item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)，表明物体边界的不规则程度
+\item[Skelarea] 骨架像素的表面积（在二值图像中，不断地从物体边缘处减去像素点直到仅剩一个像素的宽度，最后所得图形的像素点数）
+\item[Circ] $Circularity = (4 * Pi * Area) / Perim^2$; 表征物体接近圆的程度，值等于1时，说明物体为正圆形，值越接近0，物体体形越长。
+\item[Angle] 浮游动物主轴与图片x轴形成的夹角，在图片切割后旋转图片测量相关参数使用
 \end{description}
 
 \subsection{自定义特征}
