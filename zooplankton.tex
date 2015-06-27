@@ -211,6 +211,8 @@
 \maketitle
 \tableofcontents 
 
+%\section{ZooScan系统}
+
 由法国国家科学研究院Villefranche海洋实验室的Gorsky等人发明~\cite{gorsky2003qualitative}、Hydroptic公司生产的ZooScan浮游动物图像扫描分析系统是一种实验室成像系统(即针对的是已经采集并固定保存的浮游生物样品)，主要用于对液体中的浮游动物样品进行计数、大小测量、种类鉴定以及生物量测定。ZooScan系统采用非破坏性技术对液体浮游动物样本进行分析，样品可重复使用。
 
 ZooScan系统是由ZooScan、ZooProcess和Plankton Identifier(PkID)等共同组成的，ZooScan是硬件部分，主要进行浮游动物样品扫描，形成数字图像。ZooProcess和PkID是软件部分，分别以标准化的程序处理原始图像、对不同个体的形态参数进行自动测量和对图像中的浮游动物进行自动分类和计数。
@@ -1100,6 +1102,9 @@ PkID主要用了灰度特征、尺寸特征和形状特征。其中灰度特征�
 
 DRFI方法中用到随机森林\footnote{\url{https://code.google.com/p/randomforest-matlab/}}学习方法，下载下来解压后是在randomforest-matlab文件夹中，其中又包含两个文件夹，一个是RF\_Class\_C，用来做分类的，另一个是RF\_Reg\_C，用来做回归的。
 
+RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件，这一步可以通过在终端输入make mex命令实现。但是可能由于我电脑中的fortran版本不行，编译总是出错，目前还没有解决，后来在网页上\footnote{\url{https://code.google.com/p/randomforest-matlab/issues/detail?id=54}}搜到了已编译好的mexmaci64文件，可以直接拿过来用。
+
+tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
 
 \section{特征（Ours）}
 
