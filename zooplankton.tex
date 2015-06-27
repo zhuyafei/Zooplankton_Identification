@@ -1198,9 +1198,8 @@ Gamma压缩公式：
 \subsubsection{代码}
 采用vl\_feat中的hog特征函数：
     \begin{lstlisting}[language=C++]
-    hog = vl_hog(img, cellsize);
-    perm = vl_hog('permutation');
-    image = vl_hog('render', hog);
+    hog = vl_hog(img, cellsize);//img表示输入的图像，cellsize为单元的大小
+    image = vl_hog('render', hog);//将hog特征转换为图像
     \end{lstlisting}
 
 \subsection{SIFT特征}
