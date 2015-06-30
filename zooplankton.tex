@@ -1094,23 +1094,12 @@ PkID主要用了灰度特征、尺寸特征和形状特征。其中灰度特征�
 
 对于具体哪些特征是有用的哪些是没用的，还得通过具体的实验才能看出来。单从缩略图来看，这三类特征都是有用的，都有区分作用，但是还不充足，还应该再加入一些更合理的特征。
 
-\section{学习算法}
-
-\subsection{随机森林}
-
-“视觉机器学习20讲”中提供了随机森林的源代码，是c与matlab的混合编程，但是只有在windows下编译好了的文件，在mac下无法跑。
-
-DRFI方法中用到随机森林\footnote{\url{https://code.google.com/p/randomforest-matlab/}}学习方法，下载下来解压后是在randomforest-matlab文件夹中，其中又包含两个文件夹，一个是RF\_Class\_C，用来做分类的，另一个是RF\_Reg\_C，用来做回归的。
-
-RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件，这一步可以通过在终端输入make mex命令实现。但是可能由于我电脑中的fortran版本不行，编译总是出错，目前还没有解决，后来在网页上\footnote{\url{https://code.google.com/p/randomforest-matlab/issues/detail?id=54}}搜到了已编译好的mexmaci64文件，可以直接拿过来用。
-
-tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
-
 \section{特征（Ours）}
 
-\subsection{HOG特征}
+\subsection{经典特征}
 
-\subsubsection{理论}
+\subsubsection{HOG特征}
+
 HOG\cite{dalal2005histograms}（Histogram of oriented gradients，方向梯度直方图）是用于目标检测的特征描述子，它同统计图像局部区域的梯度方向直方图来构成特征。
 
 {\color{blue}主要思想}：局部目标的表象和形状能够被梯度或边缘的方向密度分布很好地描述。
@@ -1195,17 +1184,17 @@ Gamma压缩公式：
 
     最终可以得到一个$m \times n \times \alpha$个数据组成的高维向量，其中$m$表示每个cell中方向bin的数目，$n,\alpha$分别表示block的个数以及一个block中cell的数目。
 
-\subsubsection{代码}
+代码:
+
 采用vl\_feat中的hog特征函数：
     \begin{lstlisting}[language=C++]
     hog = vl_hog(img, cellsize);//img表示输入的图像，cellsize为单元的大小
     image = vl_hog('render', hog);//将hog特征转换为图像
     \end{lstlisting}
 
-\subsection{SIFT特征}
+\subsubsection{SIFT特征}
 
-\subsubsection{理论}
-SIFT（Scale invariant feature transform，尺度不变特征变换）是一直检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并惊醒图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
+SIFT（Scale invariant feature transform，尺度不变特征变换）是一直检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
 
 {\color{blue}主要思想}：SIFT算法是一种提取局部特征的算法，在尺度空间寻找极值点，提取位置、尺度、旋转不变量。
 
@@ -1293,16 +1282,100 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一直�
         \item 根据特征点的尺度对特征描述向量进行排序，SIFT特征向量生成.
 \end{enumerate}
 
-\subsubsection{代码}
+{\color{blue}代码}：
+
 采用vl\_feat中的sift特征函数：
     \begin{lstlisting}[language=C++]
     [f,d] = vl_sift(img);
     \end{lstlisting}
+  
+\subsubsection{LBP}
+
+\subsubsection{Covariance Matrix}
+   
+\subsubsection{GMM-HMM}
+
+\subsubsection{Gabor}
+
+\subsubsection{DOG}
+
+\subsubsection{DPM}
+
+\subsubsection{Symmetry}
+
+\subsubsection{ICA(Independent Component Analysis)}
+
+独立成分分析（Independent Component Analysis, ICA）是近年来出现的一种强有力的数据分析工具（Hyvarinen A, Karhunen J, Oja E, 2001; Roberts S J, Everson R, 2001）。1994年由Comon给出了ICA的一个较为严格的数学定义，其思想最早是由Heranlt和Jutten于1986年提出来的。ICA从出现到现在虽然时间不长，然而无论从理论上还是应用上，它正受到越来越多的关注，成为国内外研究的一个热点。特别是从应用角度看，它的应用领域与应用前景都是非常广阔的，目前主要应用于盲源分离、图像处理、语言识别、通信、生物医学信号处理、脑功能成像研究、故障诊断、特征提取、金融时间序列分析和数据挖掘等。
+ICA是一种用来从多变量（多维）统计数据里找到隐含的因素或成分的方法，被认为是主成分分析（Principal Component Analysis, PCA）和因子分析（Factor Analysis）的一种扩展。对于盲源分离问题，ICA是指在只知道混合信号，而不知道源信号、噪声以及混合机制的情况下，分离或近似地分离出源信号的一种分析过程。
+
+\subsection{其它特征}
+
+
+\subsubsection{骨架特征}
+
+理论：骨架又称为中轴，它的定义来自于烧草模型和最大圆盘模型。骨架不仅包含了物体的几何特征，也描述了物体的拓扑结构。经典的骨架化算法有中轴变换、细化算法、Voronoi图算法等。在骨架的基础上可以通过奇点图、骨架树等对物体的结构特征进行描述。
+
+骨架树：将骨架映射到一个树状结构（如图\ref{fig:tree}）。仅有一个邻接点的骨架点成为端点，有两个以上邻接点的骨架点称为分支点，骨架上除了分支点和端点外的点称为连接点。
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.5\linewidth]{tree}
+            \caption{骨架树}
+            \label{fig:tree}
+        \end{figure}
+        根据骨架树深度优先搜索产生的节点序列中的所有节点用其孩子数替换，替换后得到的新序列即为树描述符。例如，图\ref{fig:tree}的树描述符为（3，2，0，0，0，0）。
+
+骨架化代码：\url{http://cs.smith.edu/~nhowe/research/code/}。
+
+\subsubsection{灰度特征}
+
+1）灰度直方图
+灰度直方图是灰度级函数，它表示图像中每种灰度级的像素的个数，反映图像中每种灰度出现的频率。灰度直方图的横坐标是灰度级，纵坐标是该灰度级出现的频率。
+
+    \begin{lstlisting}[language=C++]
+    imhist(I,n);
+    \end{lstlisting}
     
+2）灰度共生矩阵（GLCM）
+
+灰度共生矩阵是对图像上保持某距离的两像素分别具有某种灰度的情况进行统计得到的。它不仅反映亮度的分布特性，也
+反映具有同样亮度或接近亮度的像素之间的位置分布特性。对灰度共生矩阵的理解，需要明确几个概念：方向、偏移量和灰度共生矩阵的阶数。
+\begin{description}
+    \item[方向] 一般计算过程会分别选在几个不同的方向来进行，通常为0，45，90，135。
+    \item[偏移量] 
+    \item[灰度共生矩阵阶数] 灰度共生矩阵的阶数和灰度图像灰度值的阶数是一致的，即当灰度图像灰度值的阶数是$N$时，灰度共生矩阵为$N \times N$。
+\end{description}
+
+ 取图像($N \times N$)中任意一点(x,y)及偏离它的另一点(x+a,y+b)，设该点对的灰度值为(g1,g2)。令点(x,y)在整个画面上移动，则会得到各种(g1,g2)值，设灰度值的级数为256，则(g1,g2)的组合共有256*256种（共生矩阵的大小）。对于整个画面，统计出每一种(g1,g2)值出现的次数，然后排列成一个方阵，在用(g1,g2)出现的总次数将它们归一化为出现的概率$P(g1,g2)$，这样的方阵称为灰度共生矩阵。
+ 
+ 为了能更直观的以共生矩阵描述纹理情况，从共生矩阵导出一下反映矩阵情况的参数，典型的有一下几种：
+ \begin{description}
+     \item[能量] 为灰度共生矩阵元素值的平方和，反映了图像灰度分布均匀程度和纹理粗细度。ASM值大表明一种较均一和规则变化的纹理模式。
+         \begin{displaymath}
+             ASM=\sum_{i=0}^{k}\sum_{j=0}^{k}G(i,j)^{2}
+         \end{displaymath}
+     \item[对比度] 反映了某个像素值及其领域像素值的亮度的对比情况。如果偏离对角线的元素有较大值，即图像亮度值变化很快，则CON会有较大取值。
+         \begin{displaymath}
+             CON=\sum_{i}\sum_{j}(i-j)^{2}G(i,j)
+         \end{displaymath}
+     \item[熵] 表示图像的信息量，当共生矩阵中所有元素有最大的随机性、空间共生矩阵中所有值几乎相等时，共生矩阵中元素分散分布时，熵较大。它表示了图像中纹理的非均匀程度或复杂程度。 
+         \begin{displaymath}
+             ENT=\sum_{i}\sum_{j}G(i,j)\log G(i,j)
+         \end{displaymath}
+     \item[自相关] 反应了图像纹理的一致性。如果图像中有水平方向纹理，则水平方向矩阵的COR大于其余矩阵的COR值。
+         \begin{displaymath}
+             COR=\frac{\sum_{i}\sum{j}[(ij)G(i,j)]-u_{i}u_{j}}{s_{i}s_{j}}
+         \end{displaymath}
+ \end{description}
+ 
+    \begin{lstlisting}[language=C++]
+    [glcm,SI] = graycomatrix(Img);
+    \end{lstlisting}
+
+\subsubsection{凸包}
+
+
+\subsubsection{SC}
     
-\subsection{SC}
-    
-\subsubsection{理论}
     SC\cite{belongie2002shape}（Shape context，形状上下文）是基于物体轮廓样本点进行描述的。
     
     {\color{blue}主要思想}：用直方图描述轮廓上点间的位置关系。
@@ -1351,77 +1424,45 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一直�
     \end{enumerate}
     但由于形状上下文不能很好地解决物体类内部之间的变形，因此采用基于内部距离的形状上下文\cite{ling2007shape}，内距离形状上下文中采用内距离代替欧式距离。
     
-\subsubsection{代码}
-内距离形状上下文代码\url{http://www.dabi.temple.edu/~hbling/code_data.htm}。
-
-\subsection{骨架特征}
-
-\subsubsection{理论}
-骨架又称为中轴，它的定义来自于烧草模型和最大圆盘模型。骨架不仅包含了物体的几何特征，也描述了物体的拓扑结构。经典的骨架化算法有中轴变换、细化算法、Voronoi图算法等。在骨架的基础上可以通过奇点图、骨架树等对物体的结构特征进行描述。
-
-骨架树：将骨架映射到一个树状结构（如图\ref{fig:tree}）。仅有一个邻接点的骨架点成为端点，有两个以上邻接点的骨架点称为分支点，骨架上除了分支点和端点外的点称为连接点。
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.5\linewidth]{tree}
-            \caption{骨架树}
-            \label{fig:tree}
-        \end{figure}
-        根据骨架树深度优先搜索产生的节点序列中的所有节点用其孩子数替换，替换后得到的新序列即为树描述符。例如，图\ref{fig:tree}的树描述符为（3，2，0，0，0，0）。
-
-\subsubsection{代码}
-骨架化代码\url{http://cs.smith.edu/~nhowe/research/code/}。
-
-\subsection{灰度特征}
-
-\subsubsection{灰度直方图}
-灰度直方图是灰度级函数，它表示图像中每种灰度级的像素的个数，反映图像中每种灰度出现的频率。灰度直方图的横坐标是灰度级，纵坐标是该灰度级出现的频率。
-
-    \begin{lstlisting}[language=C++]
-    imhist(I,n);
-    \end{lstlisting}
-    
-\subsubsection{灰度共生矩阵（GLCM）}
-
-灰度共生矩阵是对图像上保持某距离的两像素分别具有某种灰度的情况进行统计得到的。它不仅反映亮度的分布特性，也
-反映具有同样亮度或接近亮度的像素之间的位置分布特性。对灰度共生矩阵的理解，需要明确几个概念：方向、偏移量和灰度共生矩阵的阶数。
-\begin{description}
-    \item[方向] 一般计算过程会分别选在几个不同的方向来进行，通常为0，45，90，135。
-    \item[偏移量] 
-    \item[灰度共生矩阵阶数] 灰度共生矩阵的阶数和灰度图像灰度值的阶数是一致的，即当灰度图像灰度值的阶数是$N$时，灰度共生矩阵为$N \times N$。
-\end{description}
-
- 取图像($N \times N$)中任意一点(x,y)及偏离它的另一点(x+a,y+b)，设该点对的灰度值为(g1,g2)。令点(x,y)在整个画面上移动，则会得到各种(g1,g2)值，设灰度值的级数为256，则(g1,g2)的组合共有256*256种（共生矩阵的大小）。对于整个画面，统计出每一种(g1,g2)值出现的次数，然后排列成一个方阵，在用(g1,g2)出现的总次数将它们归一化为出现的概率$P(g1,g2)$，这样的方阵称为灰度共生矩阵。
- 
- 为了能更直观的以共生矩阵描述纹理情况，从共生矩阵导出一下反映矩阵情况的参数，典型的有一下几种：
- \begin{description}
-     \item[能量] 为灰度共生矩阵元素值的平方和，反映了图像灰度分布均匀程度和纹理粗细度。ASM值大表明一种较均一和规则变化的纹理模式。
-         \begin{displaymath}
-             ASM=\sum_{i=0}^{k}\sum_{j=0}^{k}G(i,j)^{2}
-         \end{displaymath}
-     \item[对比度] 反映了某个像素值及其领域像素值的亮度的对比情况。如果偏离对角线的元素有较大值，即图像亮度值变化很快，则CON会有较大取值。
-         \begin{displaymath}
-             CON=\sum_{i}\sum_{j}(i-j)^{2}G(i,j)
-         \end{displaymath}
-     \item[熵] 表示图像的信息量，当共生矩阵中所有元素有最大的随机性、空间共生矩阵中所有值几乎相等时，共生矩阵中元素分散分布时，熵较大。它表示了图像中纹理的非均匀程度或复杂程度。 
-         \begin{displaymath}
-             ENT=\sum_{i}\sum_{j}G(i,j)\log G(i,j)
-         \end{displaymath}
-     \item[自相关] 反应了图像纹理的一致性。如果图像中有水平方向纹理，则水平方向矩阵的COR大于其余矩阵的COR值。
-         \begin{displaymath}
-             COR=\frac{\sum_{i}\sum{j}[(ij)G(i,j)]-u_{i}u_{j}}{s_{i}s_{j}}
-         \end{displaymath}
- \end{description}
- 
-    \begin{lstlisting}[language=C++]
-    [glcm,SI] = graycomatrix(Img);
-    \end{lstlisting}
-
-\subsection{凸包}
+内距离形状上下文代码：\url{http://www.dabi.temple.edu/~hbling/code_data.htm}。
 
 
 
+田奇
+
+binary feature descriptors
+
+\subsubsection{Binary SIFT (BSIFT) – Zhou, TIP 2014}
+
+\subsubsection{COGE - PCM 2013 Best Paper, Mao , 2013}
+
+\subsubsection{Ultra-Short Binary Descriptor (USB) – Zhang S., TIP , 2014}
+
+\subsubsection{Topology-Preserving Hashing – Zhang L., MM 2012}
 
 
+\section{学习算法}
+
+
+\subsection{随机森林}
+
+“视觉机器学习20讲”中提供了随机森林的源代码，是c与matlab的混合编程，但是只有在windows下编译好了的文件，在mac下无法跑。
+
+DRFI方法中用到随机森林\footnote{\url{https://code.google.com/p/randomforest-matlab/}}学习方法，下载下来解压后是在randomforest-matlab文件夹中，其中又包含两个文件夹，一个是RF\_Class\_C，用来做分类的，另一个是RF\_Reg\_C，用来做回归的。
+
+RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件，这一步可以通过在终端输入make mex命令实现。但是可能由于我电脑中的fortran版本不行，编译总是出错，目前还没有解决，后来在网页上\footnote{\url{https://code.google.com/p/randomforest-matlab/issues/detail?id=54}}搜到了已编译好的mexmaci64文件，可以直接拿过来用。
+
+tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
+
+\subsection{AdaBoost}
+
+\subsection{Boosting}
+
+\subsection{SVM}
+
+\subsection{Decision tree}
+
+\subsection{KNN}
 
 
 
