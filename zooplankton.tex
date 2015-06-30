@@ -1293,6 +1293,25 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一直�
 
 \subsubsection{LBP}
 
+LBP（Local Binary Pattern，局部二值模式）\footnote{\url{http://blog.csdn.net/zouxy09/article/details/7929531}}是一种用来描述图像局部纹理特征的算子；它具有旋转不变性和灰度不变性等显著的优点。它是首先由T. Ojala, M.Pietikäinen, 和 D. Harwood 在1994年提出\cite{ojala1994performance}，用于纹理特征提取。而且，提取的特征是图像的局部的纹理特征。
+ 
+ 原始的LBP算子定义为在3*3的窗口内，以窗口中心像素为阈值，将相邻的8个像素的灰度值与其进行比较，若周围像素值大于中心像素值，则该像素点的位置被标记为1，否则为0。这样，3*3邻域内的8个点经比较可产生8位二进制数（通常转换为十进制数即LBP码，共256种），即得到该窗口中心像素点的LBP值，并用这个值来反映该区域的纹理信息。如下图\ref{fig:lbp}：
+    \begin{figure}[!ht]
+    \centering
+    \includegraphics[width=4in]{LBP}
+    \caption{LBP特征}
+    \label{fig:lbp}
+    \end{figure}
+   
+对LBP特征向量进行提取的步骤：
+\begin{enumerate}
+    \item 首先将检测窗口划分为16×16的小区域（cell）；
+    \item 对于每个cell中的一个像素，将相邻的8个像素的灰度值与其进行比较，若周围像素值大于中心像素值，则该像素点的位置被标记为1，否则为0。这样，3*3邻域内的8个点经比较可产生8位二进制数，即得到该窗口中心像素点的LBP值；
+    \item 然后计算每个cell的直方图，即每个数字（假定是十进制数LBP值）出现的频率；然后对该直方图进行归一化处理。
+    \item 最后将得到的每个cell的统计直方图进行连接成为一个特征向量，也就是整幅图的LBP纹理特征向量；
+    \item 然后便可利用SVM或者其他机器学习算法进行分类了。
+\end{enumerate}
+
 \subsubsection{Covariance Matrix}
 
 \subsubsection{FV(Fisher vector)}
