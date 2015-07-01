@@ -1100,7 +1100,7 @@ PkID主要用了灰度特征、尺寸特征和形状特征。其中灰度特征�
 
 \subsubsection{HOG特征}
 
-HOG\cite{dalal2005histograms}（Histogram of oriented gradients，方向梯度直方图）是用于目标检测的特征描述子，它同统计图像局部区域的梯度方向直方图来构成特征。
+HOG\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度直方图）是用于目标检测的特征描述子，它同统计图像局部区域的梯度方向直方图来构成特征。
 
 {\color{blue}主要思想}：局部目标的表象和形状能够被梯度或边缘的方向密度分布很好地描述。
 %首先计算图片中不同方向上的梯度值，然后将图像分成小的连通区域,我们把它叫细胞单元(cell)，采集细胞单元中各像素点的梯度或边缘的方向直方图，这个直方图就可以代表这块区域的特征。
@@ -1194,7 +1194,7 @@ Gamma压缩公式：
 
 \subsubsection{SIFT特征}
 
-SIFT（Scale invariant feature transform，尺度不变特征变换）是一直检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
+SIFT（Scale Invariant Feature Transform，尺度不变特征变换）是一直检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
 
 {\color{blue}主要思想}：SIFT算法是一种提取局部特征的算法，在尺度空间寻找极值点，提取位置、尺度、旋转不变量。
 
@@ -1289,7 +1289,7 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一直�
     [f,d] = vl_sift(img);
     \end{lstlisting}
   
-\subsubsection{SURF}
+\subsubsection{SURF(Speed-Up Robust Feature)}
 
 \subsubsection{LBP}
 
@@ -1320,17 +1320,37 @@ LBP（Local Binary Pattern，局部二值模式）\footnote{\url{http://blog.csd
 
 \subsubsection{Gabor}
 
-\subsubsection{DOG}
+\subsubsection{DoG}
+
+
 
 \subsubsection{DPM(Deformable Part Model)}
 
+DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
+
 \subsubsection{GIST}
+
+GIST是一个全局描述子，主要用于场景分类。
 
 \subsubsection{Harris-Laplace}
 
-\subsubsection{Haar-like features}
+\subsubsection{哈尔特征（Haar-like features）}
 
-\subsubsection{Symmetry}
+Haar-like特征最早是由Oren等~\cite{Pedestrian Detection Using Wavelet Templates}应用于人脸表示，Viola和Jones~\cite{Rapid
+object detection using boosted cascade of simple features}在此基础上，使用3种类型4种形式的特征。
+
+Viola等提出的Harr-like特征如图~\ref{fig: Viola_Haar-like}：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=4in]{Viola_Haar-like}
+\caption{Viola提出的Haar-like特征}
+\label{fig: Viola_Haar-like}
+\end{figure}
+
+将上面的任意一个矩形放到人脸区域上，然后，将白色区域的像素和减去黑色区域的像素和，得到的值我们暂且称之为人脸特征值，如果你把这个矩形放到一个非人脸区域，那么计算出的特征值应该和人脸特征值是不一样的，而且越不一样越好，所以这些方块的目的就是把人脸特征量化，以区分人脸和非人脸。
+
+为了增加区分度，可以对多个矩形特征计算得到一个区分度更大的特征值，那么什么样的矩形特征怎么样的组合到一块可以更好的区分出人脸和非人脸呢，这就是AdaBoost算法要做的事了。
 
 \subsubsection{ICA(Independent Component Analysis)}
 
@@ -1339,6 +1359,46 @@ ICA是一种用来从多变量（多维）统计数据里找到隐含的因素�
 
 \subsection{其它特征}
 
+\subsubsection{local symmetry}
+
+Reisfeld等人~\cite{}发表的论文中有关于局部对称性的描述。
+
+Isotropic Symmetry Operator:
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=3in]{ExamplesofPixelpairs}
+\caption{用对称性算子来对像素对的梯度进行比较的三个例子}
+\label{fig: ExamplesofPixelpairs}
+\end{figure}
+
+基于周围像素的灰度梯度，计算在给定点$p$处的对称性程度。如图~\ref{fig: ExamplesofPixelpairs}所示，点$p$处的对称性可以通过比较位于$p_i$和$p_j$处的像素对$i$和$j$的灰度梯度来度量，其中$p = (p_i  = p_j)/2$。每对像素对对点$p$处的局部对称性的贡献为
+\begin{align}
+c(i, j) = d(i, j, \sigma) \cdot p(i, j) \cdot m_i \cdot m_j
+\end{align}
+$m_i$是像素点$i$的梯度的模，$d(i, j, \sigma)$是当标准差为$\sigma$时，两个像素点间的距离的高斯加权函数，对称性
+\begin{align}
+p(i, j) = \Big(1-cos(\gamma_i+\gamma_j)\Big)\cdot \Big(1-cos(\gamma_i-\gamma_j)\Big)
+\label{eq: SymmetryMeasurement}
+\end{align}
+
+其中，$\gamma_i = \theta_i-\alpha$，见图~\ref{fig: PixelpairContribution}。当点$p_i$、$p_j$关于点$p$对称时，$\gamma_i+\gamma_i=\pi$，式~（\ref{eq: SymmetryMeasurement}）中的第一项取得最大值。如果只用第一项，会使得在直线边缘上的点取得较大的值，而这些点通常并不具有对称性。为了避免这个问题，又加入了第二项，表示具有相似梯度方向的像素对。最后，对所有像素对的贡献进行求和得到点$p$处的isotropic symmetry值
+\begin{align}
+M^{iso}(x, y) = \sum_{(i, j)\in \Gamma(p)} c(i, j)
+\label{eq: IsotropicSymmetry}
+\end{align}
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=3in]{PixelpairContribution}
+\caption{每对像素对的贡献的几何表示}
+\label{fig: PixelpairContribution}
+\end{figure}
+
+为了使symmetry operator对有多个对称轴的对称图案更敏感，Reisfeld等人~\cite{}又提出了radial symmetry operator，作为isotropic symmetry operator的扩展。首先，像素对的贡献的方向用$\varphi(i, j) = (\theta_i+\theta_j)/2$来计算。然后，对最大贡献为$c(i, j)$的像素对$(i, j)$，对称方向被确定为$\phi(p) = \varphi(i, j)$。这个值也用来提升有不相似方向的像素对的贡献
+\begin{align}
+M^{rad}= \sum_{(i, j)\in \Gamma(p)} c(i, j) \cdot sin^2(\varphi(i, j) - \phi(p))
+\end{align}
 
 \subsubsection{骨架特征}
 
