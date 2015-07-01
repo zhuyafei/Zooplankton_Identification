@@ -1100,7 +1100,7 @@ PkID主要用了灰度特征、尺寸特征和形状特征。其中灰度特征�
 
 \subsubsection{HOG特征}
 
-HOG\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度直方图）是用于目标检测的特征描述子，它同统计图像局部区域的梯度方向直方图来构成特征。
+HOG\cite{dalal2005histograms}（Histogram of oriented gradients，方向梯度直方图）是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子，它通过统计图像局部区域的梯度方向直方图来构成特征。Hog特征结合\textbf{SVM分类器}已经被广泛应用于图像识别中，尤其在\textbf{行人检测}中获得了极大的成功。
 
 {\color{blue}主要思想}：局部目标的表象和形状能够被梯度或边缘的方向密度分布很好地描述。
 %首先计算图片中不同方向上的梯度值，然后将图像分成小的连通区域,我们把它叫细胞单元(cell)，采集细胞单元中各像素点的梯度或边缘的方向直方图，这个直方图就可以代表这块区域的特征。
@@ -1184,7 +1184,11 @@ Gamma压缩公式：
 
     最终可以得到一个$m \times n \times \alpha$个数据组成的高维向量，其中$m$表示每个cell中方向bin的数目，$n,\alpha$分别表示block的个数以及一个block中cell的数目。
 
-代码:
+{\color{blue}在行人检测中的应用}：
+
+用一个窗口（OpenCV采用$64 \times 128$）在图像中滑动，计算窗口对应的hog特征。窗口中块的大小为$16 \times 16$，块的步长为$8 \times 8$，单元的大小为$8 \times 8$。把每一个胞元投影到9个bin，那么每一个单元对应的向量就是9维，每个bin对应该9维向量的一个数。该窗口特征向量的维数为：$9 \times \frac{16}{8} \times \frac{16}{8} \times (\frac{64-16}{8}+1) \times (\frac{128-16}{8}+1)=3780$。
+
+{\color{blue}代码}：
 
 采用vl\_feat中的hog特征函数：
     \begin{lstlisting}[language=C++]
@@ -1194,7 +1198,7 @@ Gamma压缩公式：
 
 \subsubsection{SIFT特征}
 
-SIFT（Scale Invariant Feature Transform，尺度不变特征变换）是一直检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
+SIFT（Scale invariant feature transform，尺度不变特征变换）是一种检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
 
 {\color{blue}主要思想}：SIFT算法是一种提取局部特征的算法，在尺度空间寻找极值点，提取位置、尺度、旋转不变量。
 
@@ -1282,6 +1286,10 @@ SIFT（Scale Invariant Feature Transform，尺度不变特征变换）是一直�
         \item 根据特征点的尺度对特征描述向量进行排序，SIFT特征向量生成.
 \end{enumerate}
 
+{\color{blue}应用}：
+
+特征点检测匹配
+
 {\color{blue}代码}：
 
 采用vl\_feat中的sift特征函数：
@@ -1289,7 +1297,23 @@ SIFT（Scale Invariant Feature Transform，尺度不变特征变换）是一直�
     [f,d] = vl_sift(img);
     \end{lstlisting}
   
-\subsubsection{SURF(Speed-Up Robust Feature)}
+\subsubsection{SURF}
+
+SURF与SIFT算法相似，SIFT算法比较稳定，检测特征点更多，但是复杂度较高，而SURF要运算简单，效率高，运算时间短一点。
+
+{\color{blue}算法步骤}：
+
+(1)构建Hessian矩阵。采用的是Hessian矩阵行列式近似值图像。
+
+(2)构造多尺度空间。
+
+为了实现尺度不变性的特征点检测与匹配，SURF算法与SIFT算法的第一步都是构造图像多尺度空间。SURF算法则用高斯滤波与Hessian矩阵结合近似实现多尺度空间，计算复杂度相比SIFT降低多了。
+
+(3)根据非极大值抑制初步确定特征点。
+
+(4)主方向确定
+
+(5)构造特征点算术描述子，SURF算法是选取一个20S（单位）的区域，分成4X4分，每一份中有5X5S，统计一份中的∑dx，∑dy，∑|dx|，∑|dy|，这样就得到$4 \times 4 \times 4 = 64$的向量描述子。SIFT是128个描述子，比SURF复杂一点。
 
 \subsubsection{LBP}
 
@@ -1316,9 +1340,24 @@ LBP（Local Binary Pattern，局部二值模式）\footnote{\url{http://blog.csd
 
 \subsubsection{FV(Fisher vector)}
    
-\subsubsection{GMM-HMM}
+Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
+
+{\color{blue}主要思路}：用生成式模型(GMM)对样本输入进行建模，进而得到样本的一种表示(fisher vector)，再将这种表示(fisher vector)输入判别式分类器(SVM)得到图像分类结果。fisher vector是fisher kernel中对样本特征的一种表示，它把一幅图片表示成一个向量。
+
+{\color{blue}应用}：图像的分类，目标识别等领域，特别是结合着BOW model。
+   
+\subsubsection{GMM-HMM(Gaussian Mixture Model-Hidden Markov Model)}
+
+{\color{blue}应用}：语音识别
 
 \subsubsection{Gabor}
+
+Gabor变换是D.Gabor 1946年提出的。Gabor变换属于加窗傅立叶变换，Gabor函数可以在频域不同尺度、不同方向上提取相关的特征。另外Gabor函数与人眼的生物作用相仿，所以经常用作纹理识别上，并取得了较好的效果。
+
+Gabor滤波器是一个用于边缘检测的线性滤波器。用Gabor 函数形成的二维Gabor 滤波器具有在空间域和频率域同时取得最优局部化的特性，与人类生物视觉特性很相似，因此能够很好地描述对应于空间频率(尺度)、空间位置及方向选择性的局部结构信息。
+同时，二维Gabor函数也类似于增强边缘以及峰、谷、脊轮廓等底层图像特征，这相当于增强了被认为是面部关键部件的眼睛、鼻子、嘴巴等信息，同时也增强了诸于黑痣、酒窝、伤疤等局部特征，从而使得在保留总体人脸信息的同时增强局部特性成为可能。它的小波特性说明了Gabor滤波结果是描述图像局部灰度分布的有力工具，因此，可以使用Gabor滤波来抽取图像的纹理信息。由于Gabor特征具有良好的空间局部性和方向选择性，而且对光照、姿态具有一定的鲁棒性，因此在人脸识别中获得了成功的应用。
+
+{\color{blue}应用}：人脸识别、人脸表情识别、汉字识别
 
 \subsubsection{DoG}
 
@@ -1543,8 +1582,6 @@ RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件�
 
 tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
 
-\subsection{AdaBoost}
-
 \subsection{SVM}
 
 \subsection{Bayes}
@@ -1553,8 +1590,18 @@ tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑�
 
 \subsection{Decision tree}
 
+\subsection{EM(Expectation Maximization Algorithm)}
+最大期望（EM）算法是在概率（probabilistic）模型中寻找参数最大似然估计或者最大后验估计的算法，其中概率模型依赖于无法观测的隐藏变量（Latent Variable）。最大期望经常用在机器学习和计算机视觉的数据聚类（Data Clustering）领域。
+
 \subsection{KNN}
 
+\subsection{Ensemble learning}
+
+\subsubsection{AdaBoost}
+
+\subsubsection{Bagging}
+
+\subsubsection{Gasen}
 
 
 
