@@ -1094,6 +1094,22 @@ PkID主要用了灰度特征、尺寸特征和形状特征。其中灰度特征�
 
 对于具体哪些特征是有用的哪些是没用的，还得通过具体的实验才能看出来。单从缩略图来看，这三类特征都是有用的，都有区分作用，但是还不充足，还应该再加入一些更合理的特征。
 
+
+\section{竞赛}
+
+
+\subsection{PASCAL VOC Challenges 2005-2012}
+
+PASCAL VOC挑战赛是视觉对象的分类识别和检测的一个基准测试，提供了检测算法和学习性能的标准图像注释数据集和标准的评估系统。
+
+挑战赛主要分为三个部分：图像的分类、识别、分割，另外还有一个‘动态’分类项目，一个由Image Net 举行的大规模识别竞赛和人类身体部位识别的附加赛项目。
+
+分类就是让算法找出测试图片都是属于哪一个标签，对测试的图片进行分类，将图片对号入座。检测则是检测出测试图片中由委员会特别圈定的内容，看看算法能否正确的符合圈定的内容。分割是对图片进行像素级分割，也就是识别出的特定物体用一种颜色表示，其他的则作为背景。动作分类则是在静态图片中预测人类的动作，比如有一张人类跑步的图片，算法根据身体各部位的位置特征判别这个动作是‘running’。人类轮廓识别就是识别标示出来的人体部位，这对于一张图片有多个人或者两个人身体部分纠缠在一起的图片识别有重要意义。
+
+\subsection{IMAGENET Large Scale Visual Recognition Challenges 2010-2015}
+
+\subsection{Labeled Faces in the Wild}
+
 \section{特征（Ours）}
 
 \subsection{经典特征}
@@ -1195,6 +1211,8 @@ Gamma压缩公式：
     hog = vl_hog(img, cellsize);//img表示输入的图像，cellsize为单元的大小
     image = vl_hog('render', hog);//将hog特征转换为图像
     \end{lstlisting}
+    
+{\color{blue}应用(DPM（Deformable Part Model）)}：DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
 
 \subsubsection{SIFT特征}
 
@@ -1336,8 +1354,6 @@ LBP（Local Binary Pattern，局部二值模式）\footnote{\url{http://blog.csd
     \item 然后便可利用SVM或者其他机器学习算法进行分类了。
 \end{enumerate}
 
-\subsubsection{Covariance Matrix}
-
 \subsubsection{FV(Fisher vector)}
    
 Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
@@ -1345,33 +1361,6 @@ Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
 {\color{blue}主要思路}：用生成式模型(GMM)对样本输入进行建模，进而得到样本的一种表示(fisher vector)，再将这种表示(fisher vector)输入判别式分类器(SVM)得到图像分类结果。fisher vector是fisher kernel中对样本特征的一种表示，它把一幅图片表示成一个向量。
 
 {\color{blue}应用}：图像的分类，目标识别等领域，特别是结合着BOW model。
-   
-\subsubsection{GMM-HMM(Gaussian Mixture Model-Hidden Markov Model)}
-
-{\color{blue}应用}：语音识别
-
-\subsubsection{Gabor}
-
-Gabor变换是D.Gabor 1946年提出的。Gabor变换属于加窗傅立叶变换，Gabor函数可以在频域不同尺度、不同方向上提取相关的特征。另外Gabor函数与人眼的生物作用相仿，所以经常用作纹理识别上，并取得了较好的效果。
-
-Gabor滤波器是一个用于边缘检测的线性滤波器。用Gabor 函数形成的二维Gabor 滤波器具有在空间域和频率域同时取得最优局部化的特性，与人类生物视觉特性很相似，因此能够很好地描述对应于空间频率(尺度)、空间位置及方向选择性的局部结构信息。
-同时，二维Gabor函数也类似于增强边缘以及峰、谷、脊轮廓等底层图像特征，这相当于增强了被认为是面部关键部件的眼睛、鼻子、嘴巴等信息，同时也增强了诸于黑痣、酒窝、伤疤等局部特征，从而使得在保留总体人脸信息的同时增强局部特性成为可能。它的小波特性说明了Gabor滤波结果是描述图像局部灰度分布的有力工具，因此，可以使用Gabor滤波来抽取图像的纹理信息。由于Gabor特征具有良好的空间局部性和方向选择性，而且对光照、姿态具有一定的鲁棒性，因此在人脸识别中获得了成功的应用。
-
-{\color{blue}应用}：人脸识别、人脸表情识别、汉字识别
-
-\subsubsection{DoG}
-
-
-
-\subsubsection{DPM(Deformable Part Model)}
-
-DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
-
-\subsubsection{GIST}
-
-GIST是一个全局描述子，主要用于场景分类。
-
-\subsubsection{Harris-Laplace}
 
 \subsubsection{哈尔特征（Haar-like features）}
 
@@ -1391,16 +1380,32 @@ Viola等提出的Harr-like特征如图~\ref{fig: Viola_Haar-like}：
 
 为了增加区分度，可以对多个矩形特征计算得到一个区分度更大的特征值，那么什么样的矩形特征怎么样的组合到一块可以更好的区分出人脸和非人脸呢，这就是AdaBoost算法要做的事了。
 
-\subsubsection{ICA(Independent Component Analysis)}
-
-独立成分分析（Independent Component Analysis, ICA）是近年来出现的一种强有力的数据分析工具（Hyvarinen A, Karhunen J, Oja E, 2001; Roberts S J, Everson R, 2001）。1994年由Comon给出了ICA的一个较为严格的数学定义，其思想最早是由Heranlt和Jutten于1986年提出来的。ICA从出现到现在虽然时间不长，然而无论从理论上还是应用上，它正受到越来越多的关注，成为国内外研究的一个热点。特别是从应用角度看，它的应用领域与应用前景都是非常广阔的，目前主要应用于盲源分离、图像处理、语言识别、通信、生物医学信号处理、脑功能成像研究、故障诊断、特征提取、金融时间序列分析和数据挖掘等。
-ICA是一种用来从多变量（多维）统计数据里找到隐含的因素或成分的方法，被认为是主成分分析（Principal Component Analysis, PCA）和因子分析（Factor Analysis）的一种扩展。对于盲源分离问题，ICA是指在只知道混合信号，而不知道源信号、噪声以及混合机制的情况下，分离或近似地分离出源信号的一种分析过程。
-
 \subsection{其它特征}
+
+\subsubsection{GIST}
+
+GIST是一个全局描述子，主要用于场景分类。
+
+\subsubsection{Harris-Laplace}
+
+\subsubsection{GMM-HMM(Gaussian Mixture Model-Hidden Markov Model)}
+
+{\color{blue}应用}：语音识别
+
+\subsubsection{Gabor}
+
+Gabor变换是D.Gabor 1946年提出的。Gabor变换属于加窗傅立叶变换，Gabor函数可以在频域不同尺度、不同方向上提取相关的特征。另外Gabor函数与人眼的生物作用相仿，所以经常用作纹理识别上，并取得了较好的效果。
+
+Gabor滤波器是一个用于边缘检测的线性滤波器。用Gabor 函数形成的二维Gabor 滤波器具有在空间域和频率域同时取得最优局部化的特性，与人类生物视觉特性很相似，因此能够很好地描述对应于空间频率(尺度)、空间位置及方向选择性的局部结构信息。
+同时，二维Gabor函数也类似于增强边缘以及峰、谷、脊轮廓等底层图像特征，这相当于增强了被认为是面部关键部件的眼睛、鼻子、嘴巴等信息，同时也增强了诸于黑痣、酒窝、伤疤等局部特征，从而使得在保留总体人脸信息的同时增强局部特性成为可能。它的小波特性说明了Gabor滤波结果是描述图像局部灰度分布的有力工具，因此，可以使用Gabor滤波来抽取图像的纹理信息。由于Gabor特征具有良好的空间局部性和方向选择性，而且对光照、姿态具有一定的鲁棒性，因此在人脸识别中获得了成功的应用。
+
+{\color{blue}应用}：人脸识别、人脸表情识别、汉字识别
+
+\subsubsection{DoG}
 
 \subsubsection{local symmetry}
 
-Reisfeld等人~\cite{}发表的论文中有关于局部对称性的描述。
+Reisfeld等人~\cite{Context-Free Attentional Operators: The Generalized Symmetry Transform}发表的论文中有关于局部对称性的描述。
 
 Isotropic Symmetry Operator:
 
@@ -1434,10 +1439,12 @@ M^{iso}(x, y) = \sum_{(i, j)\in \Gamma(p)} c(i, j)
 \label{fig: PixelpairContribution}
 \end{figure}
 
-为了使symmetry operator对有多个对称轴的对称图案更敏感，Reisfeld等人~\cite{}又提出了radial symmetry operator，作为isotropic symmetry operator的扩展。首先，像素对的贡献的方向用$\varphi(i, j) = (\theta_i+\theta_j)/2$来计算。然后，对最大贡献为$c(i, j)$的像素对$(i, j)$，对称方向被确定为$\phi(p) = \varphi(i, j)$。这个值也用来提升有不相似方向的像素对的贡献
+为了使symmetry operator对有多个对称轴的对称图案更敏感，Reisfeld等人~\cite{Context-Free Attentional Operators: The Generalized Symmetry Transform}又提出了radial symmetry operator，作为isotropic symmetry operator的扩展。首先，像素对的贡献的方向用$\varphi(i, j) = (\theta_i+\theta_j)/2$来计算。然后，对最大贡献为$c(i, j)$的像素对$(i, j)$，对称方向被确定为$\phi(p) = \varphi(i, j)$。这个值也用来提升有不相似方向的像素对的贡献
 \begin{align}
 M^{rad}= \sum_{(i, j)\in \Gamma(p)} c(i, j) \cdot sin^2(\varphi(i, j) - \phi(p))
 \end{align}
+
+\subsubsection{Covariance Matrix}
 
 \subsubsection{骨架特征}
 
@@ -1501,6 +1508,10 @@ M^{rad}= \sum_{(i, j)\in \Gamma(p)} c(i, j) \cdot sin^2(\varphi(i, j) - \phi(p))
 
 \subsubsection{凸包}
 
+\subsubsection{ICA(Independent Component Analysis)}
+
+独立成分分析（Independent Component Analysis, ICA）是近年来出现的一种强有力的数据分析工具（Hyvarinen A, Karhunen J, Oja E, 2001; Roberts S J, Everson R, 2001）。1994年由Comon给出了ICA的一个较为严格的数学定义，其思想最早是由Heranlt和Jutten于1986年提出来的。ICA从出现到现在虽然时间不长，然而无论从理论上还是应用上，它正受到越来越多的关注，成为国内外研究的一个热点。特别是从应用角度看，它的应用领域与应用前景都是非常广阔的，目前主要应用于盲源分离、图像处理、语言识别、通信、生物医学信号处理、脑功能成像研究、故障诊断、特征提取、金融时间序列分析和数据挖掘等。
+ICA是一种用来从多变量（多维）统计数据里找到隐含的因素或成分的方法，被认为是主成分分析（Principal Component Analysis, PCA）和因子分析（Factor Analysis）的一种扩展。对于盲源分离问题，ICA是指在只知道混合信号，而不知道源信号、噪声以及混合机制的情况下，分离或近似地分离出源信号的一种分析过程。
 
 \subsubsection{SC}
     
@@ -1571,20 +1582,18 @@ binary feature descriptors
 
 \section{学习算法}
 
+\subsection{贝叶斯学习}
 
-\subsection{随机森林}
+贝叶斯学习是由英国学者T. Bayesian（贝叶斯）~\cite{An essay towards solving a problem in the doctrine of chance}于1763年提出的一种归纳推理的理论。
 
-“视觉机器学习20讲”中提供了随机森林的源代码，是c与matlab的混合编程，但是只有在windows下编译好了的文件，在mac下无法跑。
+贝叶斯学习的基本公式如下：
+\begin{align}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{align}
 
-DRFI方法中用到随机森林\footnote{\url{https://code.google.com/p/randomforest-matlab/}}学习方法，下载下来解压后是在randomforest-matlab文件夹中，其中又包含两个文件夹，一个是RF\_Class\_C，用来做分类的，另一个是RF\_Reg\_C，用来做回归的。
+\subsection{SVM方法}
 
-RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件，这一步可以通过在终端输入make mex命令实现。但是可能由于我电脑中的fortran版本不行，编译总是出错，目前还没有解决，后来在网页上\footnote{\url{https://code.google.com/p/randomforest-matlab/issues/detail?id=54}}搜到了已编译好的mexmaci64文件，可以直接拿过来用。
-
-tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
-
-\subsection{SVM}
-
-\subsection{Bayes}
+SVM（Support Vector Machine，支持向量机）是一种有监督的统计学习方法，能够最小化经验误差和最大化几何边缘，被称为最大间隔分类器，可用于分类与回归分析。最早的相关论文为美国贝尔实验室（Bell Lab., USA）的Corinna Cortes和Vladimir Vapnik等人于1995年在Machine Learning杂志上提出~\cite{support vector networks}，被引用次数已经超过17600次。
 
 \subsection{K-means}
 
@@ -1595,11 +1604,21 @@ tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑�
 
 \subsection{KNN}
 
-\subsection{Ensemble learning}
+\subsection{集成学习（Ensemble learning）}
 
 \subsubsection{AdaBoost}
 
 \subsubsection{Bagging}
+
+随机森林（Random Forest）是一种采用决策树作为基预测器的集成学习方法，2001年由Breiman~\cite{Random Forests}提出，结合Bagging和随机子空间理论，集成众多决策树进行预测，通过各个决策树的预测值进行平均或投票，得到最终预测结果。
+
+“视觉机器学习20讲”中提供了随机森林的源代码，是c与matlab的混合编程，但是只有在windows下编译好了的文件，在mac下无法跑。
+
+DRFI方法中用到随机森林\footnote{\url{https://code.google.com/p/randomforest-matlab/}}学习方法，下载下来解压后是在randomforest-matlab文件夹中，其中又包含两个文件夹，一个是RF\_Class\_C，用来做分类的，另一个是RF\_Reg\_C，用来做回归的。
+
+RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件，这一步可以通过在终端输入make mex命令实现。但是可能由于我电脑中的fortran版本不行，编译总是出错，目前还没有解决，后来在网页上\footnote{\url{https://code.google.com/p/randomforest-matlab/issues/detail?id=54}}搜到了已编译好的mexmaci64文件，可以直接拿过来用。
+
+tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
 
 \subsubsection{Gasen}
 
