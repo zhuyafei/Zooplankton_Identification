@@ -1362,90 +1362,6 @@ Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
 
 {\color{blue}应用}：图像的分类，目标识别等领域，特别是结合着BOW model。
 
-\subsubsection{哈尔特征（Haar-like features）}
-
-Haar-like特征最早是由Oren等~\cite{oren1997pedestrian}应用于人脸表示，Viola和Jones~\cite{Rapid
-object detection using boosted cascade of simple features}在此基础上，使用3种类型4种形式的特征。
-
-Viola等提出的Harr-like特征如图~\ref{fig: Viola_Haar-like}：
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=4in]{Viola_Haar-like}
-\caption{Viola提出的Haar-like特征}
-\label{fig: Viola_Haar-like}
-\end{figure}
-
-将上面的任意一个矩形放到人脸区域上，然后，将白色区域的像素和减去黑色区域的像素和，得到的值我们暂且称之为人脸特征值，如果你把这个矩形放到一个非人脸区域，那么计算出的特征值应该和人脸特征值是不一样的，而且越不一样越好，所以这些方块的目的就是把人脸特征量化，以区分人脸和非人脸。
-
-为了增加区分度，可以对多个矩形特征计算得到一个区分度更大的特征值，那么什么样的矩形特征怎么样的组合到一块可以更好的区分出人脸和非人脸呢，这就是AdaBoost算法要做的事了。
-
-\subsection{其它特征}
-
-\subsubsection{GIST}
-
-GIST是一个全局描述子，主要用于场景分类。
-
-\subsubsection{Harris-Laplace}
-
-\subsubsection{GMM-HMM(Gaussian Mixture Model-Hidden Markov Model)}
-
-{\color{blue}应用}：语音识别
-
-\subsubsection{Gabor}
-
-Gabor变换是D.Gabor 1946年提出的。Gabor变换属于加窗傅立叶变换，Gabor函数可以在频域不同尺度、不同方向上提取相关的特征。另外Gabor函数与人眼的生物作用相仿，所以经常用作纹理识别上，并取得了较好的效果。
-
-Gabor滤波器是一个用于边缘检测的线性滤波器。用Gabor 函数形成的二维Gabor 滤波器具有在空间域和频率域同时取得最优局部化的特性，与人类生物视觉特性很相似，因此能够很好地描述对应于空间频率(尺度)、空间位置及方向选择性的局部结构信息。
-同时，二维Gabor函数也类似于增强边缘以及峰、谷、脊轮廓等底层图像特征，这相当于增强了被认为是面部关键部件的眼睛、鼻子、嘴巴等信息，同时也增强了诸于黑痣、酒窝、伤疤等局部特征，从而使得在保留总体人脸信息的同时增强局部特性成为可能。它的小波特性说明了Gabor滤波结果是描述图像局部灰度分布的有力工具，因此，可以使用Gabor滤波来抽取图像的纹理信息。由于Gabor特征具有良好的空间局部性和方向选择性，而且对光照、姿态具有一定的鲁棒性，因此在人脸识别中获得了成功的应用。
-
-{\color{blue}应用}：人脸识别、人脸表情识别、汉字识别
-
-\subsubsection{DoG}
-
-\subsubsection{local symmetry}
-
-Reisfeld等人~\cite{reisfeld1995context}发表的论文中有关于局部对称性的描述。
-
-Isotropic Symmetry Operator:
-
-\begin{figure}[!ht]
- \centering
- \includegraphics[width=3in]{ExamplesofPixelpairs}
-\caption{用对称性算子来对像素对的梯度进行比较的三个例子}
-\label{fig: ExamplesofPixelpairs}
-\end{figure}
-
-基于周围像素的灰度梯度，计算在给定点$p$处的对称性程度。如图~\ref{fig: ExamplesofPixelpairs}所示，点$p$处的对称性可以通过比较位于$p_i$和$p_j$处的像素对$i$和$j$的灰度梯度来度量，其中$p = (p_i  = p_j)/2$。每对像素对对点$p$处的局部对称性的贡献为
-\begin{align}
-c(i, j) = d(i, j, \sigma) \cdot p(i, j) \cdot m_i \cdot m_j
-\end{align}
-$m_i$是像素点$i$的梯度的模，$d(i, j, \sigma)$是当标准差为$\sigma$时，两个像素点间的距离的高斯加权函数，对称性
-\begin{align}
-p(i, j) = \Big(1-cos(\gamma_i+\gamma_j)\Big)\cdot \Big(1-cos(\gamma_i-\gamma_j)\Big)
-\label{eq: SymmetryMeasurement}
-\end{align}
-
-其中，$\gamma_i = \theta_i-\alpha$，见图~\ref{fig: PixelpairContribution}。当点$p_i$、$p_j$关于点$p$对称时，$\gamma_i+\gamma_i=\pi$，式~（\ref{eq: SymmetryMeasurement}）中的第一项取得最大值。如果只用第一项，会使得在直线边缘上的点取得较大的值，而这些点通常并不具有对称性。为了避免这个问题，又加入了第二项，表示具有相似梯度方向的像素对。最后，对所有像素对的贡献进行求和得到点$p$处的isotropic symmetry值
-\begin{align}
-M^{iso}(x, y) = \sum_{(i, j)\in \Gamma(p)} c(i, j)
-\label{eq: IsotropicSymmetry}
-\end{align}
-
-\begin{figure}[!ht]
- \centering
- \includegraphics[width=3in]{PixelpairContribution}
-\caption{每对像素对的贡献的几何表示}
-\label{fig: PixelpairContribution}
-\end{figure}
-
-为了使symmetry operator对有多个对称轴的对称图案更敏感，Reisfeld等人~\cite{Context-Free Attentional Operators: The Generalized Symmetry Transform}又提出了radial symmetry operator，作为isotropic symmetry operator的扩展。首先，像素对的贡献的方向用$\varphi(i, j) = (\theta_i+\theta_j)/2$来计算。然后，对最大贡献为$c(i, j)$的像素对$(i, j)$，对称方向被确定为$\phi(p) = \varphi(i, j)$。这个值也用来提升有不相似方向的像素对的贡献
-\begin{align}
-M^{rad}= \sum_{(i, j)\in \Gamma(p)} c(i, j) \cdot sin^2(\varphi(i, j) - \phi(p))
-\end{align}
-
-\subsubsection{Covariance Matrix}
-
 \subsubsection{骨架特征}
 
 理论：骨架又称为中轴，它的定义来自于烧草模型和最大圆盘模型。骨架不仅包含了物体的几何特征，也描述了物体的拓扑结构。经典的骨架化算法有中轴变换、细化算法、Voronoi图算法等。在骨架的基础上可以通过奇点图、骨架树等对物体的结构特征进行描述。
@@ -1460,58 +1376,6 @@ M^{rad}= \sum_{(i, j)\in \Gamma(p)} c(i, j) \cdot sin^2(\varphi(i, j) - \phi(p))
         根据骨架树深度优先搜索产生的节点序列中的所有节点用其孩子数替换，替换后得到的新序列即为树描述符。例如，图\ref{fig:tree}的树描述符为（3，2，0，0，0，0）。
 
 骨架化代码：\url{http://cs.smith.edu/~nhowe/research/code/}。
-
-\subsubsection{灰度特征}
-
-1）灰度直方图
-灰度直方图是灰度级函数，它表示图像中每种灰度级的像素的个数，反映图像中每种灰度出现的频率。灰度直方图的横坐标是灰度级，纵坐标是该灰度级出现的频率。
-
-    \begin{lstlisting}[language=C++]
-    imhist(I,n);
-    \end{lstlisting}
-    
-2）灰度共生矩阵（GLCM）
-
-灰度共生矩阵是对图像上保持某距离的两像素分别具有某种灰度的情况进行统计得到的。它不仅反映亮度的分布特性，也
-反映具有同样亮度或接近亮度的像素之间的位置分布特性。对灰度共生矩阵的理解，需要明确几个概念：方向、偏移量和灰度共生矩阵的阶数。
-\begin{description}
-    \item[方向] 一般计算过程会分别选在几个不同的方向来进行，通常为0，45，90，135。
-    \item[偏移量] 
-    \item[灰度共生矩阵阶数] 灰度共生矩阵的阶数和灰度图像灰度值的阶数是一致的，即当灰度图像灰度值的阶数是$N$时，灰度共生矩阵为$N \times N$。
-\end{description}
-
- 取图像($N \times N$)中任意一点(x,y)及偏离它的另一点(x+a,y+b)，设该点对的灰度值为(g1,g2)。令点(x,y)在整个画面上移动，则会得到各种(g1,g2)值，设灰度值的级数为256，则(g1,g2)的组合共有256*256种（共生矩阵的大小）。对于整个画面，统计出每一种(g1,g2)值出现的次数，然后排列成一个方阵，在用(g1,g2)出现的总次数将它们归一化为出现的概率$P(g1,g2)$，这样的方阵称为灰度共生矩阵。
- 
- 为了能更直观的以共生矩阵描述纹理情况，从共生矩阵导出一下反映矩阵情况的参数，典型的有一下几种：
- \begin{description}
-     \item[能量] 为灰度共生矩阵元素值的平方和，反映了图像灰度分布均匀程度和纹理粗细度。ASM值大表明一种较均一和规则变化的纹理模式。
-         \begin{displaymath}
-             ASM=\sum_{i=0}^{k}\sum_{j=0}^{k}G(i,j)^{2}
-         \end{displaymath}
-     \item[对比度] 反映了某个像素值及其领域像素值的亮度的对比情况。如果偏离对角线的元素有较大值，即图像亮度值变化很快，则CON会有较大取值。
-         \begin{displaymath}
-             CON=\sum_{i}\sum_{j}(i-j)^{2}G(i,j)
-         \end{displaymath}
-     \item[熵] 表示图像的信息量，当共生矩阵中所有元素有最大的随机性、空间共生矩阵中所有值几乎相等时，共生矩阵中元素分散分布时，熵较大。它表示了图像中纹理的非均匀程度或复杂程度。 
-         \begin{displaymath}
-             ENT=\sum_{i}\sum_{j}G(i,j)\log G(i,j)
-         \end{displaymath}
-     \item[自相关] 反应了图像纹理的一致性。如果图像中有水平方向纹理，则水平方向矩阵的COR大于其余矩阵的COR值。
-         \begin{displaymath}
-             COR=\frac{\sum_{i}\sum{j}[(ij)G(i,j)]-u_{i}u_{j}}{s_{i}s_{j}}
-         \end{displaymath}
- \end{description}
- 
-    \begin{lstlisting}[language=C++]
-    [glcm,SI] = graycomatrix(Img);
-    \end{lstlisting}
-
-\subsubsection{凸包}
-
-\subsubsection{ICA(Independent Component Analysis)}
-
-独立成分分析（Independent Component Analysis, ICA）是近年来出现的一种强有力的数据分析工具（Hyvarinen A, Karhunen J, Oja E, 2001; Roberts S J, Everson R, 2001）。1994年由Comon给出了ICA的一个较为严格的数学定义，其思想最早是由Heranlt和Jutten于1986年提出来的。ICA从出现到现在虽然时间不长，然而无论从理论上还是应用上，它正受到越来越多的关注，成为国内外研究的一个热点。特别是从应用角度看，它的应用领域与应用前景都是非常广阔的，目前主要应用于盲源分离、图像处理、语言识别、通信、生物医学信号处理、脑功能成像研究、故障诊断、特征提取、金融时间序列分析和数据挖掘等。
-ICA是一种用来从多变量（多维）统计数据里找到隐含的因素或成分的方法，被认为是主成分分析（Principal Component Analysis, PCA）和因子分析（Factor Analysis）的一种扩展。对于盲源分离问题，ICA是指在只知道混合信号，而不知道源信号、噪声以及混合机制的情况下，分离或近似地分离出源信号的一种分析过程。
 
 \subsubsection{SC}
     
@@ -1564,6 +1428,148 @@ ICA是一种用来从多变量（多维）统计数据里找到隐含的因素�
     但由于形状上下文不能很好地解决物体类内部之间的变形，因此采用基于内部距离的形状上下文\cite{ling2007shape}，内距离形状上下文中采用内距离代替欧式距离。
     
 内距离形状上下文代码：\url{http://www.dabi.temple.edu/~hbling/code_data.htm}。
+
+
+
+\subsubsection{哈尔特征（Haar-like features）}
+
+Haar-like特征最早是由Oren等~\cite{oren1997pedestrian}应用于人脸表示，Viola和Jones~\cite{Rapid
+object detection using boosted cascade of simple features}在此基础上，使用3种类型4种形式的特征。
+
+Viola等提出的Harr-like特征如图~\ref{fig: Viola_Haar-like}：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=4in]{Viola_Haar-like}
+\caption{Viola提出的Haar-like特征}
+\label{fig: Viola_Haar-like}
+\end{figure}
+
+将上面的任意一个矩形放到人脸区域上，然后，将白色区域的像素和减去黑色区域的像素和，得到的值我们暂且称之为人脸特征值，如果你把这个矩形放到一个非人脸区域，那么计算出的特征值应该和人脸特征值是不一样的，而且越不一样越好，所以这些方块的目的就是把人脸特征量化，以区分人脸和非人脸。
+
+为了增加区分度，可以对多个矩形特征计算得到一个区分度更大的特征值，那么什么样的矩形特征怎么样的组合到一块可以更好的区分出人脸和非人脸呢，这就是AdaBoost算法要做的事了。
+
+\subsection{其它特征}
+
+\subsubsection{local symmetry}
+
+Reisfeld等人~\cite{reisfeld1995context}发表的论文中有关于局部对称性的描述。
+
+Isotropic Symmetry Operator:
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=3in]{ExamplesofPixelpairs}
+\caption{用对称性算子来对像素对的梯度进行比较的三个例子}
+\label{fig: ExamplesofPixelpairs}
+\end{figure}
+
+基于周围像素的灰度梯度，计算在给定点$p$处的对称性程度。如图~\ref{fig: ExamplesofPixelpairs}所示，点$p$处的对称性可以通过比较位于$p_i$和$p_j$处的像素对$i$和$j$的灰度梯度来度量，其中$p = (p_i  = p_j)/2$。每对像素对对点$p$处的局部对称性的贡献为
+\begin{align}
+c(i, j) = d(i, j, \sigma) \cdot p(i, j) \cdot m_i \cdot m_j
+\end{align}
+$m_i$是像素点$i$的梯度的模，$d(i, j, \sigma)$是当标准差为$\sigma$时，两个像素点间的距离的高斯加权函数，对称性
+\begin{align}
+p(i, j) = \Big(1-cos(\gamma_i+\gamma_j)\Big)\cdot \Big(1-cos(\gamma_i-\gamma_j)\Big)
+\label{eq: SymmetryMeasurement}
+\end{align}
+
+其中，$\gamma_i = \theta_i-\alpha$，见图~\ref{fig: PixelpairContribution}。当点$p_i$、$p_j$关于点$p$对称时，$\gamma_i+\gamma_i=\pi$，式~（\ref{eq: SymmetryMeasurement}）中的第一项取得最大值。如果只用第一项，会使得在直线边缘上的点取得较大的值，而这些点通常并不具有对称性。为了避免这个问题，又加入了第二项，表示具有相似梯度方向的像素对。最后，对所有像素对的贡献进行求和得到点$p$处的isotropic symmetry值
+\begin{align}
+M^{iso}(x, y) = \sum_{(i, j)\in \Gamma(p)} c(i, j)
+\label{eq: IsotropicSymmetry}
+\end{align}
+
+\begin{figure}[!ht]
+ \centering
+ \includegraphics[width=3in]{PixelpairContribution}
+\caption{每对像素对的贡献的几何表示}
+\label{fig: PixelpairContribution}
+\end{figure}
+
+为了使symmetry operator对有多个对称轴的对称图案更敏感，Reisfeld等人~\cite{Context-Free Attentional Operators: The Generalized Symmetry Transform}又提出了radial symmetry operator，作为isotropic symmetry operator的扩展。首先，像素对的贡献的方向用$\varphi(i, j) = (\theta_i+\theta_j)/2$来计算。然后，对最大贡献为$c(i, j)$的像素对$(i, j)$，对称方向被确定为$\phi(p) = \varphi(i, j)$。这个值也用来提升有不相似方向的像素对的贡献
+\begin{align}
+M^{rad}= \sum_{(i, j)\in \Gamma(p)} c(i, j) \cdot sin^2(\varphi(i, j) - \phi(p))
+\end{align}
+
+\subsubsection{灰度特征}
+
+1）灰度直方图
+灰度直方图是灰度级函数，它表示图像中每种灰度级的像素的个数，反映图像中每种灰度出现的频率。灰度直方图的横坐标是灰度级，纵坐标是该灰度级出现的频率。
+
+    \begin{lstlisting}[language=C++]
+    imhist(I,n);
+    \end{lstlisting}
+    
+2）灰度共生矩阵（GLCM）
+
+灰度共生矩阵是对图像上保持某距离的两像素分别具有某种灰度的情况进行统计得到的。它不仅反映亮度的分布特性，也
+反映具有同样亮度或接近亮度的像素之间的位置分布特性。对灰度共生矩阵的理解，需要明确几个概念：方向、偏移量和灰度共生矩阵的阶数。
+\begin{description}
+    \item[方向] 一般计算过程会分别选在几个不同的方向来进行，通常为0，45，90，135。
+    \item[偏移量] 
+    \item[灰度共生矩阵阶数] 灰度共生矩阵的阶数和灰度图像灰度值的阶数是一致的，即当灰度图像灰度值的阶数是$N$时，灰度共生矩阵为$N \times N$。
+\end{description}
+
+ 取图像($N \times N$)中任意一点(x,y)及偏离它的另一点(x+a,y+b)，设该点对的灰度值为(g1,g2)。令点(x,y)在整个画面上移动，则会得到各种(g1,g2)值，设灰度值的级数为256，则(g1,g2)的组合共有256*256种（共生矩阵的大小）。对于整个画面，统计出每一种(g1,g2)值出现的次数，然后排列成一个方阵，在用(g1,g2)出现的总次数将它们归一化为出现的概率$P(g1,g2)$，这样的方阵称为灰度共生矩阵。
+ 
+ 为了能更直观的以共生矩阵描述纹理情况，从共生矩阵导出一下反映矩阵情况的参数，典型的有一下几种：
+ \begin{description}
+     \item[能量] 为灰度共生矩阵元素值的平方和，反映了图像灰度分布均匀程度和纹理粗细度。ASM值大表明一种较均一和规则变化的纹理模式。
+         \begin{displaymath}
+             ASM=\sum_{i=0}^{k}\sum_{j=0}^{k}G(i,j)^{2}
+         \end{displaymath}
+     \item[对比度] 反映了某个像素值及其领域像素值的亮度的对比情况。如果偏离对角线的元素有较大值，即图像亮度值变化很快，则CON会有较大取值。
+         \begin{displaymath}
+             CON=\sum_{i}\sum_{j}(i-j)^{2}G(i,j)
+         \end{displaymath}
+     \item[熵] 表示图像的信息量，当共生矩阵中所有元素有最大的随机性、空间共生矩阵中所有值几乎相等时，共生矩阵中元素分散分布时，熵较大。它表示了图像中纹理的非均匀程度或复杂程度。 
+         \begin{displaymath}
+             ENT=\sum_{i}\sum_{j}G(i,j)\log G(i,j)
+         \end{displaymath}
+     \item[自相关] 反应了图像纹理的一致性。如果图像中有水平方向纹理，则水平方向矩阵的COR大于其余矩阵的COR值。
+         \begin{displaymath}
+             COR=\frac{\sum_{i}\sum{j}[(ij)G(i,j)]-u_{i}u_{j}}{s_{i}s_{j}}
+         \end{displaymath}
+ \end{description}
+ 
+    \begin{lstlisting}[language=C++]
+    [glcm,SI] = graycomatrix(Img);
+    \end{lstlisting}
+
+\subsubsection{GIST}
+
+GIST是一个全局描述子，主要用于场景分类。
+
+\subsubsection{Harris-Laplace}
+
+\subsubsection{GMM-HMM(Gaussian Mixture Model-Hidden Markov Model)}
+
+{\color{blue}应用}：语音识别
+
+\subsubsection{Gabor}
+
+Gabor变换是D.Gabor 1946年提出的。Gabor变换属于加窗傅立叶变换，Gabor函数可以在频域不同尺度、不同方向上提取相关的特征。另外Gabor函数与人眼的生物作用相仿，所以经常用作纹理识别上，并取得了较好的效果。
+
+Gabor滤波器是一个用于边缘检测的线性滤波器。用Gabor 函数形成的二维Gabor 滤波器具有在空间域和频率域同时取得最优局部化的特性，与人类生物视觉特性很相似，因此能够很好地描述对应于空间频率(尺度)、空间位置及方向选择性的局部结构信息。
+同时，二维Gabor函数也类似于增强边缘以及峰、谷、脊轮廓等底层图像特征，这相当于增强了被认为是面部关键部件的眼睛、鼻子、嘴巴等信息，同时也增强了诸于黑痣、酒窝、伤疤等局部特征，从而使得在保留总体人脸信息的同时增强局部特性成为可能。它的小波特性说明了Gabor滤波结果是描述图像局部灰度分布的有力工具，因此，可以使用Gabor滤波来抽取图像的纹理信息。由于Gabor特征具有良好的空间局部性和方向选择性，而且对光照、姿态具有一定的鲁棒性，因此在人脸识别中获得了成功的应用。
+
+{\color{blue}应用}：人脸识别、人脸表情识别、汉字识别
+
+\subsubsection{DoG}
+
+
+\subsubsection{Covariance Matrix}
+
+
+\subsubsection{凸包}
+
+\subsubsection{ICA(Independent Component Analysis)}
+
+独立成分分析（Independent Component Analysis, ICA）是近年来出现的一种强有力的数据分析工具（Hyvarinen A, Karhunen J, Oja E, 2001; Roberts S J, Everson R, 2001）。1994年由Comon给出了ICA的一个较为严格的数学定义，其思想最早是由Heranlt和Jutten于1986年提出来的。ICA从出现到现在虽然时间不长，然而无论从理论上还是应用上，它正受到越来越多的关注，成为国内外研究的一个热点。特别是从应用角度看，它的应用领域与应用前景都是非常广阔的，目前主要应用于盲源分离、图像处理、语言识别、通信、生物医学信号处理、脑功能成像研究、故障诊断、特征提取、金融时间序列分析和数据挖掘等。
+ICA是一种用来从多变量（多维）统计数据里找到隐含的因素或成分的方法，被认为是主成分分析（Principal Component Analysis, PCA）和因子分析（Factor Analysis）的一种扩展。对于盲源分离问题，ICA是指在只知道混合信号，而不知道源信号、噪声以及混合机制的情况下，分离或近似地分离出源信号的一种分析过程。
+
+
 
 
 
