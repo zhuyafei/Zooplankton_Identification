@@ -1114,106 +1114,6 @@ PASCAL VOC挑战赛是视觉对象的分类识别和检测的一个基准测试�
 
 \subsection{经典特征}
 
-\subsubsection{HOG特征}
-
-HOG\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度直方图）是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子，它通过统计图像局部区域的梯度方向直方图来构成特征。HOG特征结合\textbf{SVM分类器}已经被广泛应用于图像识别中，尤其在\textbf{行人检测}中获得了极大的成功。
-
-{\color{blue}主要思想}：局部目标的表象和形状能够被梯度或边缘的方向密度分布很好地描述。
-%首先计算图片中不同方向上的梯度值，然后将图像分成小的连通区域,我们把它叫细胞单元(cell)，采集细胞单元中各像素点的梯度或边缘的方向直方图，这个直方图就可以代表这块区域的特征。
-
-{\color{blue}具体实现方法}：将图像分成小的连通区域，我们把它叫细胞单元（cell）。然后采集细胞单元中各像素点的梯度的或边缘的方向直方图，最后把这些直方图组合起来就可以构成特征描述器。具体实现流程如图\ref{fig:shixian}。
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.4\linewidth]{flowchart}
-            \caption{HOG特征}
-            \label{fig:shixian}
-        \end{figure}
-
-{\color{blue}算法步骤}：
-
-（1）图像归一化。采用 Gamma 校正法对输入图像进行颜色空间的标准化 ；目的是调节图像的对比度，降低图像局部的阴影和光照变化所造成的影响，同时可以抑制噪音的干扰。
-
-Gamma压缩公式：
-\begin{displaymath}
-    I(x,y)=I(x,y)^{gamma}
-\end{displaymath}
-
-比如可以取Gamma=$\frac{1}{2}$。
-
-（2）利用一阶微分计算每一个像素的梯度（包括大小和方向）；目的是为了捕获轮廓信息，同时进一步弱化光照的干扰。
-    
-    采用模板$[-1~0~1]$(实验表明采用模板$[-1~0~1]$求得的梯度效果最好)计算水平和垂直方向的梯度：
-        \begin{displaymath}
-        G_{h}(x,y)=f(x+1,y)-f(x-1,y)~~~~\forall x,y
-        \end{displaymath}
-        \begin{displaymath}
-        G_{v}(x,y)=f(x,y+1)-f(x,y-1)~~~~\forall x,y
-        \end{displaymath}
-        
-        计算梯度值和梯度方向：
-        \begin{displaymath}
-        M(x,y)=\sqrt{G_{h}(x,y)^{2}+G_{v}(x,y)^2}
-        \end{displaymath}
-        \begin{displaymath}
-        \theta(x,y)=\arctan\frac{G_{h}(x,y)}{G_{v}(x,y)}
-        \end{displaymath}
-        
-（3）将图像划分成小cells（例如$6 \times 6$像素/cell）。
-
-（4）统计每个cell的梯度直方图，可形成每个cell的描述子；
-        
-        构建每个单元的梯度方向直方图，将cell的梯度方向360度根据需要分成m个bin，例如图\ref{fig:bin}分成了16个bin。然后根据每个像素点的梯度方向，采用加权投票的方式得到直方图，即每一票都是带权值的，这个权值是根据该像素点的梯度幅度计算出来的。
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.3\linewidth]{bin}
-            \caption{梯度方向bin}
-            \label{fig:bin}
-        \end{figure}
-       % 一张图像由若干个块（Block）组成，一个块（Block）都由若干单元（Cell）组成，一个单元都有若干个像素点组成。块与单元的关系如图\ref{fig:block}。
-       
-（5）将每几个cell组成一个块（block）（例如$3 \times 3 $个cell/block），一个block内所有cell的梯度直方图串联起来便得到该block的HOG特征描述子。
-    
-    把各个细胞单元组合成大的、空间上连通的区间（blocks）。这样以来，HOG描述器就变成了由各区间所有细胞单元的直方图成分所组成的一个向量。这些区间是互有重叠的，这就意味着：每一个细胞单元的输出都多次作用于最终的描述器。区间有两个主要的几何形状——矩形区间（R-HOG）和环形区间（C-HOG）如图\ref{fig:shape}。
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.5\linewidth]{shape}
-            \caption{矩形区间和环形区间}
-            \label{fig:shape}
-        \end{figure}
-        
-（6）将图像内的所有block的HOG特征直方图串联起来就可以得到该图像的HOG特征描述子了。这个就是最终的可供分类使用的特征向量了。
-    \begin{comment}
-    对block块内特征向量的归一化主要是为了使特征向量空间对光照，阴影和边缘变化具有鲁棒性。作者采用了四中不同的方法对区间进行归一化，并对结果进行了比较。引入$v$表示一个还没有被归一化的向量，它包含了给定区间（block）的所有直方图信息。$||v_{k}||$表示v的k阶范数，这里的$k$为1、2。用$\varepsilon$表示一个很小的常数。这时，归一化因子可以表示如下：
-    \begin{displaymath}
-    L_{2}-norm, v \gets \frac{v}{\sqrt{||v||_{2}^{2}+\varepsilon^{2}}}
-    \end{displaymath}
-    \begin{displaymath}
-    L_{2}-Hys% $(方法同上，只是限制v的最大值到0.2，然后再次重新标准化)$
-    \end{displaymath}
-    \begin{displaymath}
-    L_{1}-norm, v \gets \frac{v}{||v||_{1}+\varepsilon}
-    \end{displaymath}
-    \begin{displaymath}
-    L_{1}-sqrt, v \gets \frac{v}{\sqrt{||v||_{1}+\varepsilon}}
-    \end{displaymath}
-    \end{comment}
-
-    最终可以得到一个$m \times n \times \alpha$个数据组成的高维向量，其中$m$表示每个cell中方向bin的数目，$n,\alpha$分别表示block的个数以及一个block中cell的数目。
-
-{\color{blue}在行人检测中的应用}：
-
-用一个窗口（OpenCV采用$64 \times 128$）在图像中滑动，计算窗口对应的HOG特征。窗口中块的大小为$16 \times 16$，块的步长为$8 \times 8$，单元的大小为$8 \times 8$。把每一个胞元投影到9个bin，那么每一个单元对应的向量就是9维，每个bin对应该9维向量的一个数。该窗口特征向量的维数为：$9 \times \frac{16}{8} \times \frac{16}{8} \times (\frac{64-16}{8}+1) \times (\frac{128-16}{8}+1)=3780$。
-
-{\color{blue}代码}：
-
-采用vl\_feat中的HOG特征函数：
-    \begin{lstlisting}[language=C++]
-    HOG = vl_hog(img, cellsize);//img表示输入的图像，cellsize为单元的大小
-    image = vl_hog('render', hog);//将HOG特征转换为图像
-    \end{lstlisting}
-    
-{\color{blue}应用(DPM(Deformable Part Model))}：DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
-
 \subsubsection{SIFT特征}
 
 SIFT（Scale invariant feature transform，尺度不变特征变换）是一种检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
@@ -1314,6 +1214,108 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
     \begin{lstlisting}[language=C++]
     [f,d] = vl_sift(img);
     \end{lstlisting}
+
+\subsubsection{HOG特征}
+
+HOG\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度直方图）是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子，它通过统计图像局部区域的梯度方向直方图来构成特征。HOG特征结合\textbf{SVM分类器}已经被广泛应用于图像识别中，尤其在\textbf{行人检测}中获得了极大的成功。
+
+{\color{blue}主要思想}：局部目标的表象和形状能够被梯度或边缘的方向密度分布很好地描述。
+%首先计算图片中不同方向上的梯度值，然后将图像分成小的连通区域,我们把它叫细胞单元(cell)，采集细胞单元中各像素点的梯度或边缘的方向直方图，这个直方图就可以代表这块区域的特征。
+
+{\color{blue}具体实现方法}：将图像分成小的连通区域，我们把它叫细胞单元（cell）。然后采集细胞单元中各像素点的梯度的或边缘的方向直方图，最后把这些直方图组合起来就可以构成特征描述器。具体实现流程如图\ref{fig:shixian}。
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.4\linewidth]{flowchart}
+            \caption{HOG特征}
+            \label{fig:shixian}
+        \end{figure}
+
+{\color{blue}算法步骤}：
+
+（1）图像归一化。采用 Gamma 校正法对输入图像进行颜色空间的标准化 ；目的是调节图像的对比度，降低图像局部的阴影和光照变化所造成的影响，同时可以抑制噪音的干扰。
+
+Gamma压缩公式：
+\begin{displaymath}
+    I(x,y)=I(x,y)^{gamma}
+\end{displaymath}
+
+比如可以取Gamma=$\frac{1}{2}$。
+
+（2）利用一阶微分计算每一个像素的梯度（包括大小和方向）；目的是为了捕获轮廓信息，同时进一步弱化光照的干扰。
+    
+    采用模板$[-1~0~1]$(实验表明采用模板$[-1~0~1]$求得的梯度效果最好)计算水平和垂直方向的梯度：
+        \begin{displaymath}
+        G_{h}(x,y)=f(x+1,y)-f(x-1,y)~~~~\forall x,y
+        \end{displaymath}
+        \begin{displaymath}
+        G_{v}(x,y)=f(x,y+1)-f(x,y-1)~~~~\forall x,y
+        \end{displaymath}
+        
+        计算梯度值和梯度方向：
+        \begin{displaymath}
+        M(x,y)=\sqrt{G_{h}(x,y)^{2}+G_{v}(x,y)^2}
+        \end{displaymath}
+        \begin{displaymath}
+        \theta(x,y)=\arctan\frac{G_{h}(x,y)}{G_{v}(x,y)}
+        \end{displaymath}
+        
+（3）将图像划分成小cells（例如$6 \times 6$像素/cell）。
+
+（4）统计每个cell的梯度直方图，可形成每个cell的描述子；
+        
+        构建每个单元的梯度方向直方图，将cell的梯度方向360度根据需要分成m个bin，例如图\ref{fig:bin}分成了16个bin。然后根据每个像素点的梯度方向，采用加权投票的方式得到直方图，即每一票都是带权值的，这个权值是根据该像素点的梯度幅度计算出来的。
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.3\linewidth]{bin}
+            \caption{梯度方向bin}
+            \label{fig:bin}
+        \end{figure}
+       % 一张图像由若干个块（Block）组成，一个块（Block）都由若干单元（Cell）组成，一个单元都有若干个像素点组成。块与单元的关系如图\ref{fig:block}。
+       
+（5）将每几个cell组成一个块（block）（例如$3 \times 3 $个cell/block），一个block内所有cell的梯度直方图串联起来便得到该block的HOG特征描述子。
+    
+    把各个细胞单元组合成大的、空间上连通的区间（blocks）。这样以来，HOG描述器就变成了由各区间所有细胞单元的直方图成分所组成的一个向量。这些区间是互有重叠的，这就意味着：每一个细胞单元的输出都多次作用于最终的描述器。区间有两个主要的几何形状——矩形区间（R-HOG）和环形区间（C-HOG）如图\ref{fig:shape}。
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.5\linewidth]{shape}
+            \caption{矩形区间和环形区间}
+            \label{fig:shape}
+        \end{figure}
+        
+（6）将图像内的所有block的HOG特征直方图串联起来就可以得到该图像的HOG特征描述子了。这个就是最终的可供分类使用的特征向量了。
+    \begin{comment}
+    对block块内特征向量的归一化主要是为了使特征向量空间对光照，阴影和边缘变化具有鲁棒性。作者采用了四中不同的方法对区间进行归一化，并对结果进行了比较。引入$v$表示一个还没有被归一化的向量，它包含了给定区间（block）的所有直方图信息。$||v_{k}||$表示v的k阶范数，这里的$k$为1、2。用$\varepsilon$表示一个很小的常数。这时，归一化因子可以表示如下：
+    \begin{displaymath}
+    L_{2}-norm, v \gets \frac{v}{\sqrt{||v||_{2}^{2}+\varepsilon^{2}}}
+    \end{displaymath}
+    \begin{displaymath}
+    L_{2}-Hys% $(方法同上，只是限制v的最大值到0.2，然后再次重新标准化)$
+    \end{displaymath}
+    \begin{displaymath}
+    L_{1}-norm, v \gets \frac{v}{||v||_{1}+\varepsilon}
+    \end{displaymath}
+    \begin{displaymath}
+    L_{1}-sqrt, v \gets \frac{v}{\sqrt{||v||_{1}+\varepsilon}}
+    \end{displaymath}
+    \end{comment}
+
+    最终可以得到一个$m \times n \times \alpha$个数据组成的高维向量，其中$m$表示每个cell中方向bin的数目，$n,\alpha$分别表示block的个数以及一个block中cell的数目。
+
+{\color{blue}在行人检测中的应用}：
+
+用一个窗口（OpenCV采用$64 \times 128$）在图像中滑动，计算窗口对应的HOG特征。窗口中块的大小为$16 \times 16$，块的步长为$8 \times 8$，单元的大小为$8 \times 8$。把每一个胞元投影到9个bin，那么每一个单元对应的向量就是9维，每个bin对应该9维向量的一个数。该窗口特征向量的维数为：$9 \times \frac{16}{8} \times \frac{16}{8} \times (\frac{64-16}{8}+1) \times (\frac{128-16}{8}+1)=3780$。
+
+{\color{blue}代码}：
+
+采用vl\_feat中的HOG特征函数：
+    \begin{lstlisting}[language=C++]
+    HOG = vl_hog(img, cellsize);//img表示输入的图像，cellsize为单元的大小
+    image = vl_hog('render', hog);//将HOG特征转换为图像
+    \end{lstlisting}
+    
+{\color{blue}应用(DPM(Deformable Part Model))}：DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
+
+
   
 \subsubsection{SURF}
 
