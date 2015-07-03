@@ -1161,7 +1161,7 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
             \label{fig:eight}
         \end{figure}
         
-描述子采用$4×4×4=128$维向量表征，综合效果最优。
+描述子采用$4×4×8=128$维向量表征，综合效果最优。
         \begin{figure}
             \centering
             \includegraphics[width=0.5\linewidth]{sift2}
@@ -1333,7 +1333,7 @@ SURF与SIFT算法相似，SIFT算法比较稳定，检测特征点更多，但�
 
 (4)主方向确定
 
-(5)构造特征点算术描述子，SURF算法是选取一个20S（单位）的区域，分成$4 \times 4$分，每一份中有55S，统计一份中的∑dx，∑dy，∑|dx|，∑|dy|，这样就得到$4 \times 4 \times 4 = 64$的向量描述子。SIFT是128个描述子，比SURF复杂一点。
+(5)构造特征点算术描述子，SURF算法是选取一个20S（单位）的区域，分成$4 \times 4$分，每一份中有$5 \times 5$S，统计一份中的$\sum d_{x}$，$\sum d_{y}$，$|d_{x}|$，$\sum |d_{y}|$，这样就得到$4 \times 4 \times 4 = 64$的向量描述子。SIFT是128个描述子，比SURF复杂一点。
 
 \subsubsection{LBP}
 
