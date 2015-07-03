@@ -1667,6 +1667,32 @@ GASEN\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 
 代码：\url{http://lamda.nju.edu.cn/Default.aspx?Page=code_GASEN&NS=&AspxAutoDetectCookieSupport=1}
 
+\section{技术路线和方案}
+
+\subsection{技术路线}
+
+在设计浮游动物分类系统过程中，需要完成特征和分类器的选择，技术路线如图~\ref{fig:TechnicalRoute}。
+
+特征：根据浮游动物的形态特征和计算机视觉中分类识别常用的经典特征，完成对系统所用特征的选取。
+
+分类器：根据经典学习方法和集成学习，完成对分类器的设计。
+
+    \begin{figure}[!ht]
+    \centering
+    \includegraphics[width=4in]{TechnicalRoute}
+    \caption{技术路线}
+    \label{fig:TechnicalRoute}
+    \end{figure}
+    
+\subsection{方案}
+
+20150706$\sim$20150710 用三个经典特征（HOG, SIFT, LBP）和SVM分类器分别完成对浮游动物的分类，并对分类结果进行评价分析。
+
+20150713$\sim$20150717 根据上周的评价分析，确定这一周是单独使用每个特征还是混合使用多个特征。进行实验并分析实验结果。
+
+20150720$\sim$20150724 如果还是单独分析每个特征的效果，就用SVM, KNN, Bayes, AdaBoost训练分类器，否则，就采用随机森林的方法。
+
+在回家之前，初步实现一套浮游动物分类系统。
 
 
 
