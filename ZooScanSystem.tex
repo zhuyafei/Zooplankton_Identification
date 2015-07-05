@@ -1,0 +1,244 @@
+\documentclass[12pt]{article}
+%%---------------------------------------------------------------------
+% packages
+% geometry
+\usepackage{geometry}
+% font
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}  %%如果没有它，会有一些 tex 特殊字符无法正常使用，比如连字符。
+\usepackage{xunicode,xltxtra}
+\usepackage[BoldFont,SlantFont,CJKnumber,CJKchecksingle]{xeCJK}  % \CJKnumber{12345}: 一万二千三百四十五
+\usepackage{CJKfntef}  %%实现对汉字加点、下划线等。
+\usepackage{pifont}  % \ding{}
+% math
+\usepackage{amsmath,amsfonts,amssymb}
+% color
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{EYE}{RGB}{199,237,204}
+\definecolor{FLY}{RGB}{128,0,128}
+\definecolor{ZHY}{RGB}{139,0,255}
+% graphics
+\usepackage[americaninductors,europeanresistors]{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shadows,shapes,calc,mindmap,trees,backgrounds}  % placements=positioning
+\usepackage{graphicx}  % \includegraphics[]{}
+\usepackage{subfigure}  %%图形或表格并排排列
+% table
+\usepackage{colortbl,dcolumn}  %% 彩色表格
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+% code
+\usepackage{fancyvrb}
+\usepackage{listings}
+\lstset{language=C++}%这条命令可以让LaTeX排版时将C++键字突出显示
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}
+% title
+\usepackage{titlesec}
+% head/foot
+\usepackage{fancyhdr}
+% ref
+\usepackage{hyperref}
+% pagecolor
+\usepackage[pagecolor={EYE}]{pagecolor}
+% tightly-packed lists
+\usepackage{mdwlist}
+
+\usepackage{styles/iplouccfg}
+\usepackage{styles/zhfontcfg}
+\usepackage{styles/iplouclistings}
+
+%%---------------------------------------------------------------------
+% settings
+% geometry
+\geometry{left=2cm,right=1cm,top=2cm,bottom=2cm}  %设置 上、左、下、右 页边距
+\linespread{1.5} %行间距
+% font
+\setCJKmainfont{Adobe Kaiti Std}
+%\setmainfont[BoldFont=Adobe Garamond Pro Bold]{Apple Garamond}  % 英文字体
+%\setmainfont[BoldFont=Adobe Garamond Pro Bold,SmallCapsFont=Apple Garamond,SmallCapsFeatures={Scale=0.7}]{Apple Garamond}  %%苹果字体没有SmallCaps
+\setCJKmonofont{Adobe Fangsong Std}
+% graphics
+\graphicspath{{figures/}}
+\tikzset{
+    % Define standard arrow tip
+    >=stealth',
+    % Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,},
+    % Define style for FlyZhyBall
+    FlyZhyBall/.style={
+      circle,
+      minimum size=6mm,
+      inner sep=0.5pt,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for FlyZhyRectangle
+    FlyZhyRectangle/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for zhyfly
+    zhyfly/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!25!blue,
+      text=white,},
+    % Define style for new rectangle
+    nrectangle/.style={
+      rectangle,
+      draw=#1!50,
+      fill=#1!20,
+      minimum size=5mm,
+      inner sep=0.1pt,}
+}
+\ctikzset{
+  bipoles/length=.8cm
+}
+% code
+\lstnewenvironment{VHDLcode}[1][]{%
+  \lstset{
+    basicstyle=\footnotesize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLmiddle}[1][]{%
+  \lstset{
+    basicstyle=\scriptsize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLsmall}[1][]{%
+  \lstset{
+    basicstyle=\tiny\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+% pdf
+\hypersetup{pdfpagemode=FullScreen,%
+            pdfauthor={Haiyong Zheng},%
+            pdftitle={Title},%
+            CJKbookmarks=true,%
+            bookmarksnumbered=true,%
+            bookmarksopen=false,%
+            plainpages=false,%
+            colorlinks=true,%
+            citecolor=green,%
+            filecolor=magenta,%
+            linkcolor=cyan,%red(default)
+            urlcolor=cyan}
+% section
+%http://tex.stackexchange.com/questions/34288/how-to-place-a-shaded-box-around-a-section-label-and-name
+\newcommand\titlebar{%
+\tikz[baseline,trim left=3.1cm,trim right=3cm] {
+    \fill [cyan!25] (2.5cm,-1ex) rectangle (\textwidth+3.1cm,2.5ex);
+    \node [
+        fill=cyan!60!white,
+        anchor= base east,
+        rounded rectangle,
+        minimum height=3.5ex] at (3cm,0) {
+        \textbf{\thesection.}
+    };
+}%
+}
+\titleformat{\section}{\Large\bf\color{blue}}{\titlebar}{0.1cm}{}
+% head/foot
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+%\lhead{\color{black!50!green}2014年秋季学期}
+\chead{\color{black!50!green}Zooplankton Identification}
+%\rhead{\color{black!50!green}通信电子电路}
+\lfoot{\color{blue!50!green}戴嘉伦\ 武斌\ 朱亚菲\ 王如晨}
+\cfoot{\color{blue!50!green}\href{http://vision.ouc.edu.cn/~zhenghaiyong}{CVBIOUC}}
+\rfoot{\color{blue!50!green}$\cdot$\ \thepage\ $\cdot$}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+%%---------------------------------------------------------------------
+\begin{document}
+%%---------------------------------------------------------------------
+%%---------------------------------------------------------------------
+% \titlepage
+\title{\vspace{-2em}浮游动物识别\vspace{-0.7em}}
+\author{戴嘉伦\ 武斌\ 朱亚菲\ 王如晨}
+\date{\vspace{-0.7em}2015年6月\vspace{-0.7em}}
+%%---------------------------------------------------------------------
+\maketitle\thispagestyle{fancy}
+%%---------------------------------------------------------------------
+\maketitle
+\tableofcontents 
+
+%\section{ZooScan系统}
+
+由法国国家科学研究院Villefranche海洋实验室的Gorsky等人发明~\cite{gorsky2003qualitative}、Hydroptic公司生产的ZooScan浮游动物图像扫描分析系统是一种实验室成像系统(即针对的是已经采集并固定保存的浮游生物样品)，主要用于对液体中的浮游动物样品进行计数、大小测量、种类鉴定以及生物量测定。ZooScan系统采用非破坏性技术对液体浮游动物样本进行分析，样品可重复使用。
+
+ZooScan系统是由ZooScan、ZooProcess和Plankton Identifier(PkID)等共同组成的，ZooScan是硬件部分，主要进行浮游动物样品扫描，形成数字图像。ZooProcess和PkID是软件部分，分别以标准化的程序处理原始图像、对不同个体的形态参数进行自动测量和对图像中的浮游动物进行自动分类和计数。
+
+\include{ZooScanSystem/ZooScan}
+
+
+\section{ZooProcess}
+ZooProcess介绍详见\url{http://wbtxd2004.github.io/zooscan/2015/06/13/Zooprocess-Study.html}。
+
+
+\include{ZooScanSystem/PkID}
+\include{ZooScanSystem/Evaluation}
+\include{ZooScanSystem/Features}
+\include{ZooScanSystem/Results}
+
+
+
+
+
+
+%
+% references
+\bibliographystyle{plain}
+
+\bibliography{ZooScanSystem} %参考文献
+
+
+\end{document}
