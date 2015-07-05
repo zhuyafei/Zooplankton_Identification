@@ -553,8 +553,7 @@ Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
 
 \subsubsection{哈尔特征（Haar-like features）}
 
-Haar-like特征最早是由Oren等~\cite{oren1997pedestrian}应用于人脸表示，Viola和Jones~\cite{Rapid
-object detection using boosted cascade of simple features}在此基础上，使用3种类型4种形式的特征。
+Haar-like特征最早是由Oren等~\cite{oren1997pedestrian}应用于人脸表示，Viola和Jones~\cite{viola2001rapid}在此基础上，使用3种类型4种形式的特征。
 
 Viola等提出的Harr-like特征如图~\ref{fig: Viola_Haar-like}：
 
@@ -769,7 +768,7 @@ AdaBoost，是英文``Adaptive Boosting''（自适应增强）的缩写，由Yoa
 
 让学习算法训练多轮，每轮的训练集由从初始的训练集中随机取出的n个训练样本组成，某个初始训练样本在某轮训练集中可以出现多次或根本不出现，训练之后可得到一个预测函数序列$h\_1,\dots,h\_n$，最终的预测函数H对分类问题采用投票方式。
 
-随机森林（Random Forest）是一种采用决策树作为基预测器的集成学习方法，2001年由Breiman~\cite{Random Forests}提出，结合Bagging和随机子空间理论，集成众多决策树进行预测，通过各个决策树的预测值进行平均或投票，得到最终预测结果。
+随机森林（Random Forest）是一种采用决策树作为基预测器的集成学习方法，2001年由Breiman~\cite{breiman2001random}提出，结合Bagging和随机子空间理论，集成众多决策树进行预测，通过各个决策树的预测值进行平均或投票，得到最终预测结果。
 
 “视觉机器学习20讲”中提供了随机森林的源代码，是c与matlab的混合编程，但是只有在windows下编译好了的文件，在mac下无法跑。
 
