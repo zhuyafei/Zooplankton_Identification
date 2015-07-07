@@ -732,10 +732,12 @@ P(A|B) = \frac{P(B|A)P(A)}{P(B)}
 
 SVM（Support Vector Machine，支持向量机）是一种有监督的统计学习方法，能够最小化经验误差和最大化几何边缘，被称为最大间隔分类器，可用于分类与回归分析。最早的相关论文为美国贝尔实验室（Bell Lab., USA）的Corinna Cortes和Vladimir Vapnik等人于1995年在Machine Learning杂志上提出~\cite{cortes1995support}，被引用次数已经超过17600次。
 
+代码：SVMlight\footnote{http://svmlight.joachims.org/}和LibSVM\footnote{http://www.csie.ntu.edu.tw/~cjlin/libsvm}
+
 SVM是一种典型的两类分类器，即它只回答属于正类还是负类的问题。当遇到多类别的时候，一般采取如下两种策略：
 \begin{itemize}
     \item 一对多法：训练时依次把某个类别的样本归为一类，其他剩余的样本归为另一类，这样k个类别的样本就构造出了k个SVM。分类时将未知样本分类为具有最大分类函数值的那类。
-    \item 一对一法：其做法是在任意两类样本之间设计一个SVM，因此k个类别的样本就需要设计$\frac{k(k-1)}{2}$个SVM。当对一个未知样本进行分类时，最后得票最多的类别即为该未知样本的类别。Libsvm中的多类分类就是根据这个方法实现的。
+    \item 一对一法：其做法是在任意两类样本之间设计一个SVM，因此k个类别的样本就需要设计$\frac{k(k-1)}{2}$个SVM。当对一个未知样本进行分类时，最后得票最多的类别即为该未知样本的类别。LibSVM中的多类分类就是根据这个方法实现的。
 \end{itemize}
 
 \subsection{K-means}
