@@ -1,5 +1,5 @@
 #!/bin/bash
-classifyPath='./Datasets'
+classifyPath='./square'
 classifyTrainTestPath=$(ls $classifyPath)
 
 for m in $classifyTrainTestPath
