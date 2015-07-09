@@ -68,6 +68,7 @@ int main(int argc, const char * argv[]) {
         "Decapoda", "Doliolida", "Egg", "Fiber", "Gelatinous",
         "Multiple", "Nonbio", "Pteropoda"
     };
+    int classifyNum=13;
     ifstream imgtrainData("Training_Set.txt");
     ifstream imgtestData("Test_Set.txt");
     string predictDataTxt="predictData.txt";
@@ -166,6 +167,16 @@ int main(int argc, const char * argv[]) {
     svm->predict(predictData, result);
     WriteData(predictDataTxt, result);
     
+    labels.convertTo(labels, CV_32S);
+    result.convertTo(result, CV_32S);
+    Mat confusionMatrix=Mat::zeros(classifyNum, classifyNum, CV_32S);
+    for (int i=0; i<result.rows; i++) {
+        int trueClassify=labels.at<int>(0, i);
+        int predictClassify=result.at<int>(0, i);
+        confusionMatrix.at<int>(predictClassify-1,trueClassify-1)++;
+    }
+    string confusionMatrixName="confusionMatrix.txt";
+    WriteData(confusionMatrixName, confusionMatrix);
     
     return 0;
 }
