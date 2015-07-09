@@ -220,23 +220,21 @@
 
 PASCAL VOC挑战赛是视觉对象的分类识别和检测的一个基准测试，提供了检测算法和学习性能的标准图像注释数据集和标准的评估系统。
 
-挑战赛主要分为三个部分：图像的分类、识别、分割，另外还有一个‘动态’分类项目，一个由Image Net 举行的大规模识别竞赛和人类身体部位识别的附加赛项目。
+挑战赛主要分为三个部分：图像的分类、识别、分割，另外还有一个“动态”分类项目，一个由Image Net 举行的大规模识别竞赛和人类身体部位识别的附加赛项目。
 
-分类就是让算法找出测试图片都是属于哪一个标签，对测试的图片进行分类，将图片对号入座。检测则是检测出测试图片中由委员会特别圈定的内容，看看算法能否正确的符合圈定的内容。分割是对图片进行像素级分割，也就是识别出的特定物体用一种颜色表示，其他的则作为背景。动作分类则是在静态图片中预测人类的动作，比如有一张人类跑步的图片，算法根据身体各部位的位置特征判别这个动作是‘running’。人类轮廓识别就是识别标示出来的人体部位，这对于一张图片有多个人或者两个人身体部分纠缠在一起的图片识别有重要意义。
+分类就是让算法找出测试图片都是属于哪一个标签，对测试的图片进行分类，将图片对号入座。检测则是检测出测试图片中由委员会特别圈定的内容，看看算法能否正确的符合圈定的内容。分割是对图片进行像素级分割，也就是识别出的特定物体用一种颜色表示，其他的则作为背景。动作分类则是在静态图片中预测人类的动作，比如有一张人类跑步的图片，算法根据身体各部位的位置特征判别这个动作是“running”。人类轮廓识别就是识别标示出来的人体部位，这对于一张图片有多个人或者两个人身体部分纠缠在一起的图片识别有重要意义。
 
 \subsection{IMAGENET Large Scale Visual Recognition Challenges 2010-2015}
 
 ILSVRC每年的竞赛内容包括：
 
-ILSVRC2014: {\color{blue}Detection} and {\color{blue}Classification and localization}
-
-ILSVRC2013: {\color{blue}Detection} and {\color{blue}Classification and localization}
-
-ILSVRC2012: {\color{blue}Classification}, {\color{blue}Classification and localization} and {\color{blue}Fine-grained classification}
-
-ILSVRC2011: {\color{blue}Classification} and {\color{blue}Classification and localization}
-
-ILSVRC2010: {\color{blue}Classification}
+\begin{itemize}
+\item ILSVRC2014: {\color{blue}Detection} and {\color{blue}Classification and localization}
+\item ILSVRC2013: {\color{blue}Detection} and {\color{blue}Classification and localization}
+\item ILSVRC2012: {\color{blue}Classification}, {\color{blue}Classification and localization} and {\color{blue}Fine-grained classification}
+\item ILSVRC2011: {\color{blue}Classification} and {\color{blue}Classification and localization}
+\item ILSVRC2010: {\color{blue}Classification}
+\end{itemize}
 
 \subsection{Labeled Faces in the Wild}
 
@@ -246,13 +244,14 @@ ILSVRC2010: {\color{blue}Classification}
 
 \subsubsection{SIFT特征}
 
-SIFT（Scale invariant feature transform，尺度不变特征变换）是一种检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年\cite{lowe1999object}所发表, 2004 年\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
+SIFT（Scale invariant feature transform，尺度不变特征变换）是一种检测局部特征的算法，该算法通过求得一幅图像中的特征点及有关尺度和方向的描述子得到特征并进行图像特征点匹配，它由 David Lowe 在 1999 年~\cite{lowe1999object}所发表, 2004 年~\cite{lowe2004distinctive}完善总结。%SIFT算法提取的特征点具有尺度不变性，也就是说，同一物体在图像上不论尺度大小，都能根据SIFT算法提取到相同的特征点。
 
 {\color{blue}主要思想}：SIFT算法是一种提取局部特征的算法，在尺度空间寻找极值点，提取位置、尺度、旋转不变量。
 
 {\color{blue}算法步骤}：
 
-(1)构建尺度空间，检测极值点，获得尺度不变性。
+\begin{enumerate}
+\item 构建尺度空间，检测极值点，获得尺度不变性。
     
     通过高斯微分函数来识别潜在的对于尺度和旋转不变的兴趣点。用不同尺度（标准差）的高斯函数对图像进行平滑，然后比较平滑后图像的差别，差别大的像素就是特征明显的点。
     
@@ -271,9 +270,9 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
         D(x,y,\sigma)=[G(x,y,k\sigma)-G(x,y,\sigma)]*I(x,y)=L(x,y,k\sigma)-L(x,y,\sigma)
     \end{displaymath}
     
-(2)精确定位出特征关键点的位置。
+\item 精确定位出特征关键点的位置。
 
-(3)为关键点指定方向参数。
+\item 为关键点指定方向参数。
 
 利用关键点邻域像素的梯度方向分布特性，我们可以为每个关键点指定方向参数方向，从而使描述子对图像旋转具有不变性，我们通过求每个极值点的梯度来为极值点赋予方向。
 \begin{displaymath}
@@ -299,7 +298,7 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
 %            \label{fig:shape}
         \end{figure}
 
-(4)关键点描述子产生。
+\item 关键点描述子产生。
 \begin{enumerate}
     \item 确定计算描述子所需的图像区域，图像区域的半径通过下式计算：
         \begin{displaymath}
@@ -333,6 +332,7 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
         \item 描述子向量元素门限化及门限化后的描述子向量规范化。
         \item 根据特征点的尺度对特征描述向量进行排序，SIFT特征向量生成.
 \end{enumerate}
+\end{enumerate}
 
 {\color{blue}应用}：
 
@@ -347,7 +347,7 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
 
 \subsubsection{HOG特征}
 
-HOG\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度直方图）是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子，它通过统计图像局部区域的梯度方向直方图来构成特征。HOG特征结合\textbf{SVM分类器}已经被广泛应用于图像识别中，尤其在\textbf{行人检测}中获得了极大的成功。
+HOG~\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度直方图）是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子，它通过统计图像局部区域的梯度方向直方图来构成特征。HOG特征结合\textbf{SVM分类器}已经被广泛应用于图像识别中，尤其在\textbf{行人检测}中获得了极大的成功。
 
 {\color{blue}主要思想}：局部目标的表象和形状能够被梯度或边缘的方向密度分布很好地描述。
 %首先计算图片中不同方向上的梯度值，然后将图像分成小的连通区域,我们把它叫细胞单元(cell)，采集细胞单元中各像素点的梯度或边缘的方向直方图，这个直方图就可以代表这块区域的特征。
@@ -362,7 +362,8 @@ HOG\cite{dalal2005histograms}（Histogram of Oriented Gradients，方向梯度�
 
 {\color{blue}算法步骤}：
 
-（1）图像归一化。采用 Gamma 校正法对输入图像进行颜色空间的标准化 ；目的是调节图像的对比度，降低图像局部的阴影和光照变化所造成的影响，同时可以抑制噪音的干扰。
+\begin{enumerate}
+\item 图像归一化。采用 Gamma 校正法对输入图像进行颜色空间的标准化 ；目的是调节图像的对比度，降低图像局部的阴影和光照变化所造成的影响，同时可以抑制噪音的干扰。
 
 Gamma压缩公式：
 \begin{displaymath}
@@ -371,7 +372,7 @@ Gamma压缩公式：
 
 比如可以取Gamma=$\frac{1}{2}$。
 
-（2）利用一阶微分计算每一个像素的梯度（包括大小和方向）；目的是为了捕获轮廓信息，同时进一步弱化光照的干扰。
+\item 利用一阶微分计算每一个像素的梯度（包括大小和方向）；目的是为了捕获轮廓信息，同时进一步弱化光照的干扰。
     
     采用模板$[-1~0~1]$(实验表明采用模板$[-1~0~1]$求得的梯度效果最好)计算水平和垂直方向的梯度：
         \begin{displaymath}
@@ -389,9 +390,9 @@ Gamma压缩公式：
         \theta(x,y)=\arctan\frac{G_{h}(x,y)}{G_{v}(x,y)}
         \end{displaymath}
         
-（3）将图像划分成小cells（例如$6 \times 6$像素/cell）。
+\item 将图像划分成小cells（例如$6 \times 6$像素/cell）。
 
-（4）统计每个cell的梯度直方图，可形成每个cell的描述子；
+\item 统计每个cell的梯度直方图，可形成每个cell的描述子；
         
         构建每个单元的梯度方向直方图，将cell的梯度方向360度根据需要分成m个bin，例如图\ref{fig:bin}分成了16个bin。然后根据每个像素点的梯度方向，采用加权投票的方式得到直方图，即每一票都是带权值的，这个权值是根据该像素点的梯度幅度计算出来的。
         \begin{figure}
@@ -402,7 +403,7 @@ Gamma压缩公式：
         \end{figure}
        % 一张图像由若干个块（Block）组成，一个块（Block）都由若干单元（Cell）组成，一个单元都有若干个像素点组成。块与单元的关系如图\ref{fig:block}。
        
-（5）将每几个cell组成一个块（block）（例如$3 \times 3 $个cell/block），一个block内所有cell的梯度直方图串联起来便得到该block的HOG特征描述子。
+\item 将每几个cell组成一个块（block）（例如$3 \times 3 $个cell/block），一个block内所有cell的梯度直方图串联起来便得到该block的HOG特征描述子。
     
     把各个细胞单元组合成大的、空间上连通的区间（blocks）。这样以来，HOG描述器就变成了由各区间所有细胞单元的直方图成分所组成的一个向量。这些区间是互有重叠的，这就意味着：每一个细胞单元的输出都多次作用于最终的描述器。区间有两个主要的几何形状——矩形区间（R-HOG）和环形区间（C-HOG）如图\ref{fig:shape}。
         \begin{figure}
@@ -412,7 +413,7 @@ Gamma压缩公式：
             \label{fig:shape}
         \end{figure}
         
-（6）将图像内的所有block的HOG特征直方图串联起来就可以得到该图像的HOG特征描述子了。这个就是最终的可供分类使用的特征向量了。
+\item 将图像内的所有block的HOG特征直方图串联起来就可以得到该图像的HOG特征描述子了。这个就是最终的可供分类使用的特征向量了。
     \begin{comment}
     对block块内特征向量的归一化主要是为了使特征向量空间对光照，阴影和边缘变化具有鲁棒性。作者采用了四中不同的方法对区间进行归一化，并对结果进行了比较。引入$v$表示一个还没有被归一化的向量，它包含了给定区间（block）的所有直方图信息。$||v_{k}||$表示v的k阶范数，这里的$k$为1、2。用$\varepsilon$表示一个很小的常数。这时，归一化因子可以表示如下：
     \begin{displaymath}
@@ -430,6 +431,7 @@ Gamma压缩公式：
     \end{comment}
 
     最终可以得到一个$m \times n \times \alpha$个数据组成的高维向量，其中$m$表示每个cell中方向bin的数目，$n,\alpha$分别表示block的个数以及一个block中cell的数目。
+\end{enumerate}
 
 {\color{blue}在行人检测中的应用}：
 
@@ -443,7 +445,7 @@ Gamma压缩公式：
     image = vl_hog('render', hog);//将HOG特征转换为图像
     \end{lstlisting}
     
-{\color{blue}应用(DPM(Deformable Part Model))}：DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
+{\color{blue}应用（Deformable Part Model）}：DPM是一个非常成功的目标检测算法，连续获得VOC（Visual Object Class）07,08,09年的检测冠军。目前已成为众多分类器、分割、人体姿态和行为分类的重要部分。2010年Pedro Felzenszwalb被VOC授予"终身成就奖"。DPM可以看做是HOG（Histogrrams of Oriented Gradients）的扩展，大体思路与HOG一致。先计算梯度方向直方图，然后用SVM（Surpport Vector Machine ）训练得到物体的梯度模型（Model）。有了这样的模板就可以直接用来分类了，简单理解就是模型和目标匹配。DPM只是在模型上做了很多改进工作。
 
 
   
@@ -453,21 +455,23 @@ SURF与SIFT算法相似，SIFT算法比较稳定，检测特征点更多，但�
 
 {\color{blue}算法步骤}：
 
-(1)构建Hessian矩阵。采用的是Hessian矩阵行列式近似值图像。
+\begin{enumerate}
+\item 构建Hessian矩阵。采用的是Hessian矩阵行列式近似值图像。
 
-(2)构造多尺度空间。
+\item 构造多尺度空间。
 
 为了实现尺度不变性的特征点检测与匹配，SURF算法与SIFT算法的第一步都是构造图像多尺度空间。SURF算法则用高斯滤波与Hessian矩阵结合近似实现多尺度空间，计算复杂度相比SIFT降低多了。
 
-(3)根据非极大值抑制初步确定特征点。
+\item 根据非极大值抑制初步确定特征点。
 
-(4)主方向确定
+\item 主方向确定
 
-(5)构造特征点算术描述子，SURF算法是选取一个20S（单位）的区域，分成$4 \times 4$分，每一份中有$5 \times 5$S，统计一份中的$\sum d_{x}$，$\sum d_{y}$，$\sum |d_{x}|$，$\sum |d_{y}|$，这样就得到$4 \times 4 \times 4 = 64$的向量描述子。SIFT是128个描述子，比SURF复杂一点。
+\item 构造特征点算术描述子，SURF算法是选取一个20S（单位）的区域，分成$4 \times 4$分，每一份中有$5 \times 5$S，统计一份中的$\sum d_{x}$，$\sum d_{y}$，$\sum |d_{x}|$，$\sum |d_{y}|$，这样就得到$4 \times 4 \times 4 = 64$的向量描述子。SIFT是128个描述子，比SURF复杂一点。
+\end{enumerate}
 
 \subsubsection{LBP}
 
-LBP（Local Binary Pattern，局部二值模式）\footnote{\url{http://blog.csdn.net/zouxy09/article/details/7929531}}是一种用来描述图像局部纹理特征的算子；它具有旋转不变性和灰度不变性等显著的优点。它是首先由T. Ojala, M.Pietikäinen, 和 D. Harwood 在1994年提出\cite{ojala1994performance}，用于纹理特征提取。而且，提取的特征是图像的局部的纹理特征。
+LBP（Local Binary Pattern，局部二值模式）\footnote{\url{http://blog.csdn.net/zouxy09/article/details/7929531}}是一种用来描述图像局部纹理特征的算子；它具有旋转不变性和灰度不变性等显著的优点。它是首先由T. Ojala, M.Pietikäinen, 和 D. Harwood 在1994年提出~\cite{ojala1994performance}，用于纹理特征提取。而且，提取的特征是图像的局部的纹理特征。
  
  原始的LBP算子定义为在3*3的窗口内，以窗口中心像素为阈值，将相邻的8个像素的灰度值与其进行比较，若周围像素值大于中心像素值，则该像素点的位置被标记为1，否则为0。这样，3*3邻域内的8个点经比较可产生8位二进制数（通常转换为十进制数即LBP码，共256种），即得到该窗口中心像素点的LBP值，并用这个值来反映该区域的纹理信息。如下图\ref{fig:lbp}：
     \begin{figure}[!ht]
@@ -507,11 +511,11 @@ Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
         \end{figure}
         根据骨架树深度优先搜索产生的节点序列中的所有节点用其孩子数替换，替换后得到的新序列即为树描述符。例如，图\ref{fig:tree}的树描述符为（3，2，0，0，0，0）。
 
-骨架化代码：\url{http://cs.smith.edu/~nhowe/research/code/}。
+{\color{blue}骨架化代码}：\url{http://cs.smith.edu/~nhowe/research/code/}。
 
 \subsubsection{SC}
     
-    SC\cite{belongie2002shape}（Shape context，形状上下文）是基于物体轮廓样本点进行描述的。
+    SC~\cite{belongie2002shape}（Shape context，形状上下文）是基于物体轮廓样本点进行描述的。
     
     {\color{blue}主要思想}：用直方图描述轮廓上点间的位置关系。
     
@@ -557,9 +561,9 @@ Fisher vector本质上是用似然函数的梯度vector来表达一幅图像。
               \end{minipage}
             \end{figure}  
     \end{enumerate}
-    但由于形状上下文不能很好地解决物体类内部之间的变形，因此采用基于内部距离的形状上下文\cite{ling2007shape}，内距离形状上下文中采用内距离代替欧式距离。
+    但由于形状上下文不能很好地解决物体类内部之间的变形，因此采用基于内部距离的形状上下文~\cite{ling2007shape}，内距离形状上下文中采用内距离代替欧式距离。
     
-内距离形状上下文代码：\url{http://www.dabi.temple.edu/~hbling/code_data.htm}。
+{\color{blue}内距离形状上下文代码}：\url{http://www.dabi.temple.edu/~hbling/code_data.htm}。
 
 
 
@@ -732,7 +736,7 @@ P(A|B) = \frac{P(B|A)P(A)}{P(B)}
 
 SVM（Support Vector Machine，支持向量机）是一种有监督的统计学习方法，能够最小化经验误差和最大化几何边缘，被称为最大间隔分类器，可用于分类与回归分析。最早的相关论文为美国贝尔实验室（Bell Lab., USA）的Corinna Cortes和Vladimir Vapnik等人于1995年在Machine Learning杂志上提出~\cite{cortes1995support}，被引用次数已经超过17600次。
 
-代码：SVMlight\footnote{http://svmlight.joachims.org/}和LibSVM\footnote{http://www.csie.ntu.edu.tw/~cjlin/libsvm}
+{\color{blue}代码}：SVMlight\footnote{\url{http://svmlight.joachims.org/}}和LibSVM\footnote{\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm}}
 
 SVM是一种典型的两类分类器，即它只回答属于正类还是负类的问题。当遇到多类别的时候，一般采取如下两种策略：
 \begin{itemize}
@@ -761,6 +765,12 @@ SVM是一种典型的两类分类器，即它只回答属于正类还是负类�
 
 K最近邻分类算法，是一个理论上比较成熟的方法，也是最简单的机器学习算法之一。该方法的思路是：如果一个样本在特征空间中的k个最相 似(即特征空间中最邻近)的样本中的大多数属于某一个类别，则该样本也属于这个类别。由于KNN方法主要靠周围有限的邻近的样本，而不是靠判别类域的方 法来确定所属类别的，因此对于类域的交叉或重叠较多的待分样本集来说，KNN方法较其他方法更为适合。
 
+\subsection{ELM（极限学习机）}
+
+ELM算法~\cite{Extreme Learning Machine: A New Learning Scheme of Feedforward Neural Networks}是新加坡南洋理工大学的黄广斌教授提出来的。
+
+{\color{blue}代码}：\url{http://www.ntu.edu.sg/home/egbhuang/}
+
 \subsection{集成学习（Ensemble learning）}
 
 集成学习（Ensemble learning）是使用一系列学习器进行学习，并使用某种规则把各个学习结果进行整合从而获得比单个学习器更好的学习效果的一种机器学习方法。
@@ -786,7 +796,7 @@ AdaBoost，是英文``Adaptive Boosting''（自适应增强）的缩写，由Yoa
 
 {\color{blue}主要思路}：
 
-让学习算法训练多轮，每轮的训练集由从初始的训练集中随机取出的n个训练样本组成，某个初始训练样本在某轮训练集中可以出现多次或根本不出现，训练之后可得到一个预测函数序列$h\_1,\dots,h\_n$，最终的预测函数H对分类问题采用投票方式。
+让学习算法训练多轮，每轮的训练集由从初始的训练集中随机取出的n个训练样本组成，某个初始训练样本在某轮训练集中可以出现多次或根本不出现，训练之后可得到一个预测函数序列$h\_1, \dots, h\_n$，最终的预测函数H对分类问题采用投票方式。
 
 随机森林（Random Forest）是一种采用决策树作为基预测器的集成学习方法，2001年由Breiman~\cite{breiman2001random}提出，结合Bagging和随机子空间理论，集成众多决策树进行预测，通过各个决策树的预测值进行平均或投票，得到最终预测结果。
 
@@ -800,9 +810,9 @@ tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑�
 
 \subsubsection{Gasen}
 
-GASEN\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算法）。随机生成若干权向量，权向量的每个分量对应了一个个体学习器，这些权向量被遗传算法进化，得到一个最优权向量，它表示了各个体学习器在构成集成时的“重要性”，据此进行个体的选择。该方法是建立在遗传算法基础上，由于遗传算法计算效率低，使得 GASEN 计算量更大。
+GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算法）。随机生成若干权向量，权向量的每个分量对应了一个个体学习器，这些权向量被遗传算法进化，得到一个最优权向量，它表示了各个体学习器在构成集成时的“重要性”，据此进行个体的选择。该方法是建立在遗传算法基础上，由于遗传算法计算效率低，使得 GASEN 计算量更大。
 
-代码：\url{http://lamda.nju.edu.cn/Default.aspx?Page=code_GASEN&NS=&AspxAutoDetectCookieSupport=1}
+{\color{blue}代码}：\url{http://lamda.nju.edu.cn/Default.aspx?Page=code_GASEN&NS=&AspxAutoDetectCookieSupport=1}
 
 \section{技术路线和方案}
 
