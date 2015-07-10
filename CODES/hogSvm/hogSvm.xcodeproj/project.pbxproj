@@ -106,7 +106,10 @@
 		05A6DD251B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A6DCC21B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib */; };
 		05A6DD261B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A6DCC31B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib */; };
 		05A6DD271B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A6DCC41B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib */; };
-		05E49B341A7C755B002A8C8D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05E49B331A7C755B002A8C8D /* main.cpp */; };
+		05ED7A831B4F5F1B00CBA32F /* extractFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05ED7A7D1B4F5F1B00CBA32F /* extractFeature.cpp */; };
+		05ED7A841B4F5F1B00CBA32F /* pathAndLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05ED7A7F1B4F5F1B00CBA32F /* pathAndLabel.cpp */; };
+		05ED7A851B4F5F1B00CBA32F /* WriteData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05ED7A811B4F5F1B00CBA32F /* WriteData.cpp */; };
+		05ED7A871B4F5F5100CBA32F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05ED7A861B4F5F5100CBA32F /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -222,7 +225,13 @@
 		05A6DCC31B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_xphoto.3.0.0.dylib; path = /usr/local/lib/libopencv_xphoto.3.0.0.dylib; sourceTree = "<absolute>"; };
 		05A6DCC41B4C1A1800ECA982 /* libopencv_xphoto.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_xphoto.3.0.0.dylib; path = /usr/local/lib/libopencv_xphoto.3.0.0.dylib; sourceTree = "<absolute>"; };
 		05E49B301A7C755B002A8C8D /* hogSvm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hogSvm; sourceTree = BUILT_PRODUCTS_DIR; };
-		05E49B331A7C755B002A8C8D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		05ED7A7D1B4F5F1B00CBA32F /* extractFeature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = extractFeature.cpp; path = ../../../tmp/hogSvm/hogSvm/extractFeature.cpp; sourceTree = "<group>"; };
+		05ED7A7E1B4F5F1B00CBA32F /* extractFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = extractFeature.h; path = ../../../tmp/hogSvm/hogSvm/extractFeature.h; sourceTree = "<group>"; };
+		05ED7A7F1B4F5F1B00CBA32F /* pathAndLabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pathAndLabel.cpp; path = ../../../tmp/hogSvm/hogSvm/pathAndLabel.cpp; sourceTree = "<group>"; };
+		05ED7A801B4F5F1B00CBA32F /* pathAndLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pathAndLabel.h; path = ../../../tmp/hogSvm/hogSvm/pathAndLabel.h; sourceTree = "<group>"; };
+		05ED7A811B4F5F1B00CBA32F /* WriteData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WriteData.cpp; path = ../../../tmp/hogSvm/hogSvm/WriteData.cpp; sourceTree = "<group>"; };
+		05ED7A821B4F5F1B00CBA32F /* WriteData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WriteData.h; path = ../../../tmp/hogSvm/hogSvm/WriteData.h; sourceTree = "<group>"; };
+		05ED7A861B4F5F5100CBA32F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -461,7 +470,13 @@
 		05E49B321A7C755B002A8C8D /* hogSvm */ = {
 			isa = PBXGroup;
 			children = (
-				05E49B331A7C755B002A8C8D /* main.cpp */,
+				05ED7A861B4F5F5100CBA32F /* main.cpp */,
+				05ED7A7D1B4F5F1B00CBA32F /* extractFeature.cpp */,
+				05ED7A7E1B4F5F1B00CBA32F /* extractFeature.h */,
+				05ED7A7F1B4F5F1B00CBA32F /* pathAndLabel.cpp */,
+				05ED7A801B4F5F1B00CBA32F /* pathAndLabel.h */,
+				05ED7A811B4F5F1B00CBA32F /* WriteData.cpp */,
+				05ED7A821B4F5F1B00CBA32F /* WriteData.h */,
 			);
 			path = hogSvm;
 			sourceTree = "<group>";
@@ -522,7 +537,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05E49B341A7C755B002A8C8D /* main.cpp in Sources */,
+				05ED7A831B4F5F1B00CBA32F /* extractFeature.cpp in Sources */,
+				05ED7A841B4F5F1B00CBA32F /* pathAndLabel.cpp in Sources */,
+				05ED7A871B4F5F5100CBA32F /* main.cpp in Sources */,
+				05ED7A851B4F5F1B00CBA32F /* WriteData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
