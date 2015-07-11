@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
     /*----------------------Predict----------------------*/
     Mat result;   // 输出分类结果
     testData=extractFeature(trainImgName);
-    WriteData(testFeatureVector, trainData);
+    WriteData(testFeatureVector, testData);
     
     svm->predict(testData, result);
     WriteData(predictDataTxt, result);
