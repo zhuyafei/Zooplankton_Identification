@@ -55,7 +55,7 @@ int main(int argc, const char * argv[]) {
     for (int i=0; i<result.rows; i++) {
         int trueClassify=labelsTrain.at<int>(0, i);
         int predictClassify=result.at<int>(0, i);
-        confusionMatrix.at<int>(predictClassify-1,trueClassify-1)++;
+        confusionMatrix.at<int>(trueClassify-1,predictClassify-1)++;
     }
     string confusionMatrixName="confusionMatrix.txt";
     WriteData(confusionMatrixName, confusionMatrix);
