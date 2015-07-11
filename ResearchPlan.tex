@@ -844,10 +844,39 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 
 \subsection{HOG+SVM}
 
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图：
+实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM}
+\caption{混淆矩阵（训练集与测试集相同）}
+\label{fig: Train-CM-HOG-SVM}
+\end{figure}
 
+对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM}
+\caption{混淆矩阵（训练集与测试集不同）}
+\label{fig: Test-CM-HOG-SVM}
+\end{figure}
 
-对测试集进行预测得到的混淆矩阵如图：
+\subsection{LBP+SVM}
+
+实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM}
+\caption{混淆矩阵（训练集与测试集相同）}
+\label{fig: Train-CM-LBP-SVM}
+\end{figure}
+
+对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-LBP-SVM}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Test-CM-LBP-SVM}
+\caption{混淆矩阵（训练集与测试集不同）}
+\label{fig: Test-CM-LBP-SVM}
+\end{figure}
 
 \bibliographystyle{plain}
 
