@@ -844,38 +844,66 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 
 \subsection{HOG+SVM}
 
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM}：
+\subsubsection{C-SVC Linear}
+实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-Linear}：
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM}
+\includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM-Linear}
 \caption{混淆矩阵（训练集与测试集相同）}
-\label{fig: Train-CM-HOG-SVM}
+\label{fig: Train-CM-HOG-SVM-Linear}
 \end{figure}
 
-对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM}：
+对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM-linear}：
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM}
+\includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM-linear}
 \caption{混淆矩阵（训练集与测试集不同）}
-\label{fig: Test-CM-HOG-SVM}
+\label{fig: Test-CM-HOG-SVM-linear}
+\end{figure}
+
+\subsubsection{C-SVC RBF}
+实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-RBF}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM-RBF}
+\caption{混淆矩阵（训练集与测试集相同）}
+\label{fig: Train-CM-HOG-SVM-RBF}
+\end{figure}
+
+对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM-RBF}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM-RBF}
+\caption{混淆矩阵（训练集与测试集不同）}
+\label{fig: Test-CM-HOG-SVM-RBF}
 \end{figure}
 
 \subsection{LBP+SVM}
 
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM}：
+\subsubsection{C-SVC Linear}
+实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-linear}：
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM}
+\includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM-linear}
 \caption{混淆矩阵（训练集与测试集相同）}
-\label{fig: Train-CM-LBP-SVM}
+\label{fig: Train-CM-LBP-SVM-linear}
 \end{figure}
 
-对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-LBP-SVM}：
+对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-LBP-SVM-linear}：
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{Test-CM-LBP-SVM}
+\includegraphics[width=1.0\linewidth]{Test-CM-LBP-SVM-linear}
 \caption{混淆矩阵（训练集与测试集不同）}
-\label{fig: Test-CM-LBP-SVM}
+\label{fig: Test-CM-LBP-SVM-linear}
+\end{figure}
+
+\subsubsection{C-SVC RBF}
+实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-RBF}：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM-RBF}
+\caption{混淆矩阵（训练集与测试集相同）}
+\label{fig: Train-CM-LBP-SVM-RBF}
 \end{figure}
 
 \bibliographystyle{plain}
