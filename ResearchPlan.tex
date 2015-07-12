@@ -843,8 +843,14 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 \section{实验}
 
 \subsection{HOG+SVM}
+在实验中，针对SVM核函数选用了Linear核和RBF核。
+\begin{itemize} 
+\item Linear核：主要用于线性可分的情形。参数少，速度快，对于一般数据，分类效果已经很理想了。
+\item RBF核：主要用于线性不可分的情形。参数多，分类结果非常依赖于参数。
+\end{itemize}
+实验中，针对整幅图像提取HOG特征，其中块（block）选用$16 \times 16$，单元（cell）选用$8 \times 8$。
 
-\subsubsection{C-SVC Linear}
+\subsubsection{HOG+C-SVC Linear}
 实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-Linear}：
 \begin{figure}[!ht]
 \centering
@@ -879,6 +885,8 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 \end{figure}
 
 \subsection{LBP+SVM}
+SVM核函数也选用了Linear核和RBF核。
+实验中，将图像划分为$16 \times 16$的区域，统计每一个区域内的LBP直方图（直方图的bin设置为256）。
 
 \subsubsection{C-SVC Linear}
 实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-linear}：
@@ -905,6 +913,8 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 \caption{混淆矩阵（训练集与测试集相同）}
 \label{fig: Train-CM-LBP-SVM-RBF}
 \end{figure}
+
+\subsection{实验总结}
 
 \bibliographystyle{plain}
 
