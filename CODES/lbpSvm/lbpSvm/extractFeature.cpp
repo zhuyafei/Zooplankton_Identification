@@ -16,6 +16,7 @@ Mat extractFeature(vector<string> imgName)
         resize(img, img, Size(64,64));
         Mat lbpFeature=lbp::OLBP(img);
         normalize(lbpFeature, lbpFeature, 0, 255, NORM_MINMAX, CV_8U);
+        cout << lbpFeature.size() << endl;
         Mat spatialHist=lbp::spatial_histogram(lbpFeature, 256);
         vector<float> featureVector;
         for(int j = 0; j < spatialHist.cols; ++j)
