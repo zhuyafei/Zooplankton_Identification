@@ -6,6 +6,7 @@
 
 #include <opencv/cv.h>
 #include <limits>
+#include <iostream>
 
 using namespace cv;
 using namespace std;
