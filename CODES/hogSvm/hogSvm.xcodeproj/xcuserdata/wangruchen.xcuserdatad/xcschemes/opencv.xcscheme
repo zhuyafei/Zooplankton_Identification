@@ -44,7 +44,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/wangruchen/work/github/zhuyafei/Zooplankton_Identification/CODES/hogSvm/hogSvm"
+      customWorkingDirectory = "/Users/wangruchen/work/github/zhuyafei/Zooplankton_Identification/tmp/hogSvm/hogSvm"
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"

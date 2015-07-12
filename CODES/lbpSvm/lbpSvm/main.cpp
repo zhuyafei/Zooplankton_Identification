@@ -6,6 +6,7 @@
 #include "pathAndLabel.h"
 #include "WriteData.h"
 #include "extractFeature.h"
+#include "confusionMatrix.h"
 
 using namespace cv;
 using namespace std;
@@ -14,23 +15,27 @@ using namespace ml;
 int main(int argc, const char * argv[])
 {
     int classifyNum=13;
-    string imgtrainDataName="Training_Set.txt";
-    string imgtestDataName="Test_Set.txt";
-    string testDataTxt="predictData.txt";
-    string trainFeatureVector="trainFeatureVector.txt";
-    string testFeatureVector="testFeatureVector.txt";
+    string imgTrainDataName="Training_Set.txt";
+    string imgTestDataName="Test_Set.txt";
+    string predictTrainDataTxt="./result/predictTrainData.txt";
+    string predictTestDataTxt="./result/predictTestData.txt";
+    string trainFeatureVector="./result/trainFeatureVector.txt";
+    string predictTrainFeatureVector="./result/predictTrainFeatureVector.txt";
+    string predictTestFeatureVector="./result/predictTestFeatureVector.txt";
+    string confusionMatrixTrainName="./result/confusionMatrixTrain.txt";
+    string confusionMatrixTestName="./result/confusionMatrixTest.txt";
     Mat labelsTrain(0,1,CV_32FC1);
     Mat labelsTest(0,1,CV_32FC1);
     Mat trainData(0,16384, CV_32FC1);
-    Mat testData(0,16384, CV_32FC1);
+    Mat trainFeatureData(0,16384, CV_32FC1);
+    Mat testFeatureData(0,16384, CV_32FC1);
     
     vector<string> trainImgName;
     vector<string> testImgName;
     
-    pathAndLabel(imgtrainDataName, labelsTrain, trainImgName);
-    pathAndLabel(imgtestDataName, labelsTest, testImgName);
-    /*------------------------LBP------------------------*/
-
+    pathAndLabel(imgTrainDataName, labelsTrain, trainImgName);
+    pathAndLabel(imgTestDataName, labelsTest, testImgName);
+    /*-------------------Train LBP-----------------------*/
     trainData=extractFeature(trainImgName);
     WriteData(trainFeatureVector, trainData);
     
@@ -39,29 +44,34 @@ int main(int argc, const char * argv[])
     params.svmType = SVM::C_SVC;//C_SVC用于n类分类问题
     params.kernelType = SVM::LINEAR;
     params.gamma = 3;
-    //    params.degree = 0;
     Ptr<SVM> svm = SVM::create(params);
     svm->train( trainData , ROW_SAMPLE , labelsTrain );
     
-    /*----------------------Predict----------------------*/
+    /*----------------Predict traindata------------------*/
+    Mat resultTrain;   // 输出分类结果
+    trainFeatureData=extractFeature(trainImgName);
+    WriteData(predictTrainFeatureVector, trainFeatureData);
     
-    Mat result;   // 输出分类结果
-    testData=extractFeature(trainImgName);
-    WriteData(testFeatureVector, testData);
+    svm->predict(trainFeatureData, resultTrain);
+    WriteData(predictTrainDataTxt, resultTrain);
     
-    svm->predict(testData, result);
-    WriteData(testDataTxt, result);
+    /*----------------Predict testdata-------------------*/
+    Mat resultTest;   // 输出分类结果
+    testFeatureData=extractFeature(testImgName);
+    WriteData(predictTestFeatureVector, testFeatureData);
     
-    /*------------------confusionMatrix------------------*/
-    labelsTrain.convertTo(labelsTrain, CV_32S);
-    result.convertTo(result, CV_32S);
-    Mat confusionMatrix=Mat::zeros(classifyNum, classifyNum, CV_32S);
-    for (int i=0; i<result.rows; i++) {
-        int trueClassify=labelsTrain.at<int>(0, i);
-        int predictClassify=result.at<int>(0, i);
-        confusionMatrix.at<int>(trueClassify-1,predictClassify-1)++;
-    }
-    string confusionMatrixName="confusionMatrix.txt";
-    WriteData(confusionMatrixName, confusionMatrix);
+    svm->predict(testFeatureData, resultTest);
+    WriteData(predictTestDataTxt, resultTest);
+    
+    
+    /*-------------Traindata Confusion Matrix------------*/
+    Mat confusionMatrixTrain;
+    confusionMatrixTrain=confusionMatrix(labelsTrain, resultTrain, classifyNum);
+    WriteData(confusionMatrixTrainName, confusionMatrixTrain);
+    
+    /*-------------Testdata Confusion Matrix-------------*/
+    Mat confusionMatrixTest;
+    confusionMatrixTest=confusionMatrix(labelsTest, resultTest, classifyNum);
+    WriteData(confusionMatrixTestName, confusionMatrixTest);
     return 0;
 }
