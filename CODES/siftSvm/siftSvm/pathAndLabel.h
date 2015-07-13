@@ -10,8 +10,10 @@
 #define __lbp__pathAndLabel__
 
 #include <opencv2/core.hpp>
+#include <stdlib.h>
 #include <stdio.h>
 #include <fstream>
+#include <iostream>
 
 using namespace cv;
 using namespace std;

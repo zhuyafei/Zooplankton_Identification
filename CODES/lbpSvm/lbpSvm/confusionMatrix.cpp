@@ -8,7 +8,7 @@
 
 #include "confusionMatrix.h"
 
-Mat confusionMatrix(Mat labels, Mat result, int classifyNum)
+Mat confusionMatrix(Mat labels, Mat result, int classifyNum, string confusionMatrixTrainName)
 {
     labels.convertTo(labels, CV_32S);
     result.convertTo(result, CV_32S);
@@ -18,5 +18,6 @@ Mat confusionMatrix(Mat labels, Mat result, int classifyNum)
         int predictClassify=result.at<int>(0, i);
         confusionMatrix.at<int>(trueClassify-1,predictClassify-1)++;
     }
+    WriteData(confusionMatrixTrainName, confusionMatrix);
     return confusionMatrix;
 }

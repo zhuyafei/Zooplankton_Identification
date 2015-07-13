@@ -14,7 +14,7 @@
 		<string>https://github.com/zhuyafei/Zooplankton_Identification.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>tmp/siftSvm/siftSvm.xcodeproj</string>
+	<string>CODES/siftSvm/siftSvm.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A6C130017A75D59FEEA8118474093BCC81CBF3DF</key>

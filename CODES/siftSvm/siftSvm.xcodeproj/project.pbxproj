@@ -107,6 +107,7 @@
 		0572DA2E1B47B9AE0092C40C /* libopencv_xphoto.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0572D9CB1B47B9AE0092C40C /* libopencv_xphoto.3.0.0.dylib */; };
 		0572DA2F1B47B9AE0092C40C /* libopencv_xphoto.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0572D9CC1B47B9AE0092C40C /* libopencv_xphoto.3.0.0.dylib */; };
 		05BD69A21B5283DF001C4DCA /* confusionMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05BD69A01B5283DF001C4DCA /* confusionMatrix.cpp */; };
+		05CDF2CF1B53F32400326072 /* classifierSVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05CDF2CD1B53F32400326072 /* classifierSVM.cpp */; };
 		05E49B341A7C755B002A8C8D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05E49B331A7C755B002A8C8D /* main.cpp */; };
 		05ED7A9F1B4F9CF900CBA32F /* extractFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05ED7A991B4F9CF900CBA32F /* extractFeature.cpp */; };
 		05ED7AA01B4F9CF900CBA32F /* pathAndLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05ED7A9B1B4F9CF900CBA32F /* pathAndLabel.cpp */; };
@@ -227,6 +228,8 @@
 		0572D9CC1B47B9AE0092C40C /* libopencv_xphoto.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_xphoto.3.0.0.dylib; path = /usr/local/lib/libopencv_xphoto.3.0.0.dylib; sourceTree = "<absolute>"; };
 		05BD69A01B5283DF001C4DCA /* confusionMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = confusionMatrix.cpp; sourceTree = "<group>"; };
 		05BD69A11B5283DF001C4DCA /* confusionMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = confusionMatrix.h; sourceTree = "<group>"; };
+		05CDF2CD1B53F32400326072 /* classifierSVM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = classifierSVM.cpp; sourceTree = "<group>"; };
+		05CDF2CE1B53F32400326072 /* classifierSVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = classifierSVM.h; sourceTree = "<group>"; };
 		05E49B301A7C755B002A8C8D /* siftSvm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = siftSvm; sourceTree = BUILT_PRODUCTS_DIR; };
 		05E49B331A7C755B002A8C8D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		05ED7A991B4F9CF900CBA32F /* extractFeature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extractFeature.cpp; sourceTree = "<group>"; };
@@ -473,6 +476,8 @@
 		05E49B321A7C755B002A8C8D /* siftSvm */ = {
 			isa = PBXGroup;
 			children = (
+				05CDF2CD1B53F32400326072 /* classifierSVM.cpp */,
+				05CDF2CE1B53F32400326072 /* classifierSVM.h */,
 				05BD69A01B5283DF001C4DCA /* confusionMatrix.cpp */,
 				05BD69A11B5283DF001C4DCA /* confusionMatrix.h */,
 				05ED7A991B4F9CF900CBA32F /* extractFeature.cpp */,
@@ -543,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				05ED7A9F1B4F9CF900CBA32F /* extractFeature.cpp in Sources */,
+				05CDF2CF1B53F32400326072 /* classifierSVM.cpp in Sources */,
 				05ED7AA01B4F9CF900CBA32F /* pathAndLabel.cpp in Sources */,
 				05BD69A21B5283DF001C4DCA /* confusionMatrix.cpp in Sources */,
 				05E49B341A7C755B002A8C8D /* main.cpp in Sources */,

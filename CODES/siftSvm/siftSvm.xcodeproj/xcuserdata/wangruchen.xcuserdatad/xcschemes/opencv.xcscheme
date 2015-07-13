@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "05E49B2F1A7C755B002A8C8D"
-               BuildableName = "sift"
+               BuildableName = "siftSvm"
                BlueprintName = "siftSvm"
                ReferencedContainer = "container:siftSvm.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05E49B2F1A7C755B002A8C8D"
-            BuildableName = "sift"
+            BuildableName = "siftSvm"
             BlueprintName = "siftSvm"
             ReferencedContainer = "container:siftSvm.xcodeproj">
          </BuildableReference>
@@ -44,7 +44,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/wangruchen/work/github/zhuyafei/Zooplankton_Identification/tmp/siftSvm/siftSvm"
+      customWorkingDirectory = "/Users/wangruchen/work/github/zhuyafei/Zooplankton_Identification/CODES/siftSvm/siftSvm"
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05E49B2F1A7C755B002A8C8D"
-            BuildableName = "sift"
+            BuildableName = "siftSvm"
             BlueprintName = "siftSvm"
             ReferencedContainer = "container:siftSvm.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "05E49B2F1A7C755B002A8C8D"
-            BuildableName = "sift"
+            BuildableName = "siftSvm"
             BlueprintName = "siftSvm"
             ReferencedContainer = "container:siftSvm.xcodeproj">
          </BuildableReference>
