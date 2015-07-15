@@ -883,7 +883,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \label{fig: Test-CM-HOG-SVM-linear}
 \end{figure}
 
-\subsubsection{C-SVC RBF}
+\subsubsection{HOG+C-SVC RBF}
 实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-RBF}：
 \begin{figure}[!ht]
 \centering
@@ -901,10 +901,20 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \end{figure}
 
 \subsection{LBP+SVM}
-SVM核函数也选用了Linear核和RBF核。
-实验中，将图像划分为$16 \times 16$的区域，统计每一个区域内的LBP直方图（直方图的bin设置为256）。
+LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 
-\subsubsection{C-SVC Linear}
+实验中提取LBP特征时，将图像划分为$16 \times 16$的区域，统计每一个区域内的LBP直方图（直方图的bin设置为256）。采用SVM训练分类器，核函数选用了Linear核和RBF核。算法流程如图~\ref{fig:lbp}。
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{lbpChina}
+\caption{LBP+SVM流程图}
+\label{fig:lbp}
+\end{figure}
+
+
+\subsubsection{LBP+C-SVC Linear}
 实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-linear}：
 \begin{figure}[!ht]
 \centering
@@ -921,7 +931,7 @@ SVM核函数也选用了Linear核和RBF核。
 \label{fig: Test-CM-LBP-SVM-linear}
 \end{figure}
 
-\subsubsection{C-SVC RBF}
+\subsubsection{LBP+C-SVC RBF}
 实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-RBF}：
 \begin{figure}[!ht]
 \centering
@@ -931,6 +941,16 @@ SVM核函数也选用了Linear核和RBF核。
 \end{figure}
 
 \subsection{SIFT+BoW+SVM}
+代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
+
+Bag of word对图像进行描述的步骤如下：
+\begin{enumerate}
+\item 首先，利用SIFT算法从所有类别的图像中提取特征。
+\item 然后，采用K-means算法进行对第一步提取的所有特征进行聚类（自己设定聚类中心的个数K，实验中设定为50），构造单词表（单词表是由K类的聚类中心组成）。
+\item 通过统计单词表中每一类特征在图像中出现的次数（根据图像中特征到单词表聚类中心的距离判断其类别），得到一个K维向量，该向量就是对该图片特征的描述。
+\end{enumerate}
+
+采用bag of word进行分类的算法流程如图~\ref{fig:bow}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{bowChina}
