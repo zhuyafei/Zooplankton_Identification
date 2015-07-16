@@ -880,7 +880,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM-Linear}
-\caption{混淆矩阵（训练集与测试集相同）}
+\caption{HOG+C-SVC Linear混淆矩阵（训练集与测试集相同）}
 \label{fig: Train-CM-HOG-SVM-Linear}
 \end{figure}
 
@@ -888,7 +888,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM-linear}
-\caption{混淆矩阵（训练集与测试集不同）}
+\caption{HOG+C-SVC Linear混淆矩阵（训练集与测试集不同）}
 \label{fig: Test-CM-HOG-SVM-linear}
 \end{figure}
 
@@ -897,7 +897,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM-RBF}
-\caption{混淆矩阵（训练集与测试集相同）}
+\caption{HOG+C-SVC RBF混淆矩阵（训练集与测试集相同）}
 \label{fig: Train-CM-HOG-SVM-RBF}
 \end{figure}
 
@@ -905,7 +905,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM-RBF}
-\caption{混淆矩阵（训练集与测试集不同）}
+\caption{HOG+C-SVC RBF混淆矩阵（训练集与测试集不同）}
 \label{fig: Test-CM-HOG-SVM-RBF}
 \end{figure}
 
@@ -928,7 +928,7 @@ LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM-linear}
-\caption{混淆矩阵（训练集与测试集相同）}
+\caption{LBP+C-SVC Linear混淆矩阵（训练集与测试集相同）}
 \label{fig: Train-CM-LBP-SVM-linear}
 \end{figure}
 
@@ -936,7 +936,7 @@ LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Test-CM-LBP-SVM-linear}
-\caption{混淆矩阵（训练集与测试集不同）}
+\caption{LBP+C-SVC Linear混淆矩阵（训练集与测试集不同）}
 \label{fig: Test-CM-LBP-SVM-linear}
 \end{figure}
 
@@ -945,7 +945,7 @@ LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM-RBF}
-\caption{混淆矩阵（训练集与测试集相同）}
+\caption{LBP+C-SVC RBF混淆矩阵（训练集与测试集相同）}
 \label{fig: Train-CM-LBP-SVM-RBF}
 \end{figure}
 
@@ -967,6 +967,21 @@ Bag of word对图像进行描述的步骤如下：
 \label{fig:bow}
 \end{figure}
 
+\subsection{BoF+SVM}
+BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-classification-using-bag-of-features.html#zmw57dd0e714}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Train-CM-BoF-SVM-Linear}
+\caption{BoF+SVM混淆矩阵（训练集与测试集相同）}
+\label{fig:Train-CM-BoF-SVM-Linear}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Test-CM-BoF-SVM-Linear}
+\caption{BoF+SVM混淆矩阵（训练集与测试集不同）}
+\label{fig:Test-CM-BoF-SVM-Linear}
+\end{figure}
 
 \subsection{实验总结}
 
