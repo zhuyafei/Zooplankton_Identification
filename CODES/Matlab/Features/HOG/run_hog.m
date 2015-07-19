@@ -10,7 +10,7 @@ fid = fopen('Train-Features-LBP.txt','w');
 for i = 1:TrainingSetNum
     img = single(imread(TrainingSetInfo.textdata{i, 1}));
     img = imresize(img, [256 256]);
-    lbpmatrix = vl_lbp(img, 32);
+    lbpmatrix = vl_hog(img, 32);
     lbpvector = lbpmatrix(:)';
     for j = 1:length(lbpvector)
         fprintf(fid, '%g\t', lbpvector(j));
@@ -37,7 +37,7 @@ fclose(fid);
 % for i = 1:TrainingSetNum
 %     img = single(imread(TrainingSetInfo.textdata{i, 1}));
 %     img = imresize(img, [256 256]);
-%     lbpmatrix = vl_lbp(img, 32);
+%     lbpmatrix = vl_hog(img, 32);
 %     lbpvector = lbpmatrix(:)';
 %     fprintf(fid, '%g\t', TrainingSetInfo.data(i));
 %     for j = 1:length(lbpvector)
@@ -53,7 +53,7 @@ fclose(fid);
 % for i = 1:TestSetNum
 %     img = single(imread(TestSetInfo.textdata{i, 1}));
 %     img = imresize(img, [256 256]);
-%     lbpmatrix = vl_lbp(img, 32);
+%     lbpmatrix = vl_hog(img, 32);
 %     lbpvector = lbpmatrix(:)';
 %     fprintf(fid, '%g\t', TestSetInfo.data(i));
 %     for j = 1:length(lbpvector)
