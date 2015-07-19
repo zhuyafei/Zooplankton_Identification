@@ -892,6 +892,26 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \label{fig: Test-CM-HOG-SVM-linear}
 \end{figure}
 
+实验调整HOG参数通过交叉验证得到的混淆矩阵如图~\ref{fig:HOG-CV-CM}。
+
+\begin{figure}[h]
+\centering
+\subfigure[图像256*256块128*128步长64*64单元64*64]{
+\includegraphics[width=1.0\linewidth]{图像256*256块128*128步长64*64单元64*64}
+}
+\subfigure[图像256*256块64*64步长32*32单元32*32]{
+\includegraphics[width=1.0\linewidth]{图像256*256块64*64步长32*32单元32*32}
+}
+\subfigure[图像256*256块32*32步长16*16单元16*16]{
+\includegraphics[width=1.0\linewidth]{图像256*256块32*32步长16*16单元16*16}
+}
+\subfigure[图像256*256块16*16步长8*8单元8*8]{
+\includegraphics[width=1.0\linewidth]{图像256*256块16*16步长8*8单元8*8}
+}
+\label{fig:HOG-CV-CM}
+\caption{The experimental results.}
+\end{figure}
+
 \subsubsection{HOG+C-SVC RBF}
 实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-RBF}：
 \begin{figure}[!ht]
@@ -1005,7 +1025,11 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
     \item 调试交叉验证的程序。
 \end{enumerate}
 
-20150720$\sim$20150724 仍然用三个经典特征（HOG、SIFT、LBP），分类器换为随机森林和ELM进行实验。
+20150720$\sim$20150724 这周工作：
+\begin{enumerate}
+\item 继续调整三种经典特征（HOG, SIFT, LBP）的参数，分析实验结果。
+\item 用inner-distance shape context进行实验。
+\end{enumerate}
 
 在回家之前，初步实现一套浮游动物分类系统。
 
