@@ -290,12 +290,12 @@ SIFT（Scale invariant feature transform，尺度不变特征变换）是一种�
             \label{fig:eight}
         \end{figure}
         
-描述子采用$4\times4\times8=128$维向量表征，综合效果最优。
+描述子采用$4\times4\times8=128$维向量表征，综合效果最优，如图~\ref{fig: 128dimension}。
         \begin{figure}
             \centering
             \includegraphics[width=0.5\linewidth]{sift2}
-%            \caption{矩形区间和环形区间}
-%            \label{fig:shape}
+           \caption{描述子用128维向量表征}
+            \label{fig: 128dimension}
         \end{figure}
 
 \item 关键点描述子产生。
@@ -845,9 +845,11 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
     \label{fig:TechnicalRoute}
     \end{figure}
 
-\section{实验}
+\section{实验与分析}
 
 \subsection{HOG+SVM}
+
+\subsubsection{理论}
 
 算法流程如图~\ref{fig: HOG-flowchart}：
 
@@ -858,15 +860,11 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
 \label{fig: HOG-flowchart}
 \end{figure}
 
-\subsubsection{HOG}
-
 OpenCV提取HOG特征所参考的网址：\url{http://docs.opencv.org/3.0-rc1/d5/d33/structcv_1_1HOGDescriptor.html}。
 
 HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内block的大小、block滑动的步长以及cell的大小。其中滑动窗口所包含的区域即我们需要提取HOG特征的区域。
 
-与行人检测不同，在浮游动物分类问题中，没有复杂的背景，所以不需要用窗口进行滑动，判断哪个窗口中有目标，只需将整幅图像看成一个窗口，判断该窗口中的目标属于哪个类别。在本实验中，将图像resize为$64 \times 64$，以整幅图像作为一个窗口提取HOG特征，其中块（block）选用$16 \times 16$，block滑动的步长选用$8 \times 8$，单元（cell）选用$8 \times 8$。则对于一幅图像，所提取的HOG特征向量维数为$(\dfrac{64-16}{8}+1)\times (\dfrac{64-16}{8}+1) \times 4\times 9=1764$维。每个block中的特征向量是对其中的4个cell按从上到下，从左到右的顺序将9维特征向量连起来得到的。而整个窗口中的特征又是对其中的所有block按从上到下，从左到右的顺序将特征连起来得到的。
-
-\subsubsection{SVM}
+与行人检测不同，在浮游动物分类问题中，没有复杂的背景，所以不需要用窗口进行滑动，判断哪个窗口中有目标，只需将整幅图像看成一个窗口，判断该窗口中的目标属于哪个类别。
 
 在实验中，针对SVM核函数选用了Linear核和RBF核。
 
@@ -875,8 +873,14 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \item RBF核：主要用于线性不可分的情形。参数多，分类结果非常依赖于参数。
 \end{itemize}
 
-\subsubsection{HOG+C-SVC Linear}
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-Linear}：
+\subsubsection{实验}
+
+\begin{enumerate}
+\item C++版
+
+将图像resize为$64 \times 64$，以整幅图像作为一个窗口提取HOG特征，其中块（block）选用$16 \times 16$，block滑动的步长选用$8 \times 8$，单元（cell）选用$8 \times 8$。则对于一幅图像，所提取的HOG特征向量维数为$(\dfrac{64-16}{8}+1)\times (\dfrac{64-16}{8}+1) \times 4\times 9=1764$维。每个block中的特征向量是对其中的4个cell按从上到下，从左到右的顺序将9维特征向量连起来得到的。而整个窗口中的特征又是对其中的所有block按从上到下，从左到右的顺序将特征连起来得到的。
+
+SVM核函数选用Linear核，训练集与测试集相同时得到的混淆矩阵如图~\ref{fig: Train-CM-HOG-SVM-Linear}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM-Linear}
@@ -884,7 +888,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \label{fig: Train-CM-HOG-SVM-Linear}
 \end{figure}
 
-对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM-linear}：
+SVM核函数选用Linear核，训练集与测试集不同时得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM-linear}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM-linear}
@@ -894,26 +898,25 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 
 实验调整HOG参数通过交叉验证得到的混淆矩阵如图~\ref{fig:HOG-CV-CM}。
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \subfigure[图像256*256块128*128步长64*64单元64*64]{
-\includegraphics[width=1.0\linewidth]{图像256*256块128*128步长64*64单元64*64}
+\includegraphics[width=1.0\linewidth]{图像256*256块128*128步长64*64单元64*64.png}
 }
 \subfigure[图像256*256块64*64步长32*32单元32*32]{
-\includegraphics[width=1.0\linewidth]{图像256*256块64*64步长32*32单元32*32}
+\includegraphics[width=1.0\linewidth]{图像256*256块64*64步长32*32单元32*32.png}
 }
 \subfigure[图像256*256块32*32步长16*16单元16*16]{
-\includegraphics[width=1.0\linewidth]{图像256*256块32*32步长16*16单元16*16}
+\includegraphics[width=1.0\linewidth]{图像256*256块32*32步长16*16单元16*16.png}
 }
 \subfigure[图像256*256块16*16步长8*8单元8*8]{
-\includegraphics[width=1.0\linewidth]{图像256*256块16*16步长8*8单元8*8}
+\includegraphics[width=1.0\linewidth]{图像256*256块16*16步长8*8单元8*8.png}
 }
-\label{fig:HOG-CV-CM}
 \caption{The experimental results.}
+\label{fig:HOG-CV-CM}
 \end{figure}
 
-\subsubsection{HOG+C-SVC RBF}
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-HOG-SVM-RBF}：
+SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵如图~\ref{fig: Train-CM-HOG-SVM-RBF}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-HOG-SVM-RBF}
@@ -921,7 +924,7 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \label{fig: Train-CM-HOG-SVM-RBF}
 \end{figure}
 
-对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM-RBF}：
+SVM核函数选用RBF核，训练集与测试集不同时得到的混淆矩阵如图~\ref{fig: Test-CM-HOG-SVM-RBF}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Test-CM-HOG-SVM-RBF}
@@ -929,11 +932,101 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 \label{fig: Test-CM-HOG-SVM-RBF}
 \end{figure}
 
+\item Matlab版
+
+VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用法为hog = vl\_hog(img, cellSize)，得到的hog特征是一个三维矩阵，其中三维矩阵的列和行分别为图像的列和行被cellSize所分的份数，第三维表示每一份的特征向量。
+
+分类器SVM用的是LibSVM。
+
+将所有图像resize为$256 \times 256$，cellSize取128时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-128-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-128-256}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128}
+\label{fig: HOG-SVM-2-folds-5-repetitions-128-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取64时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-64-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-64-256}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64}
+\label{fig: HOG-SVM-2-folds-5-repetitions-64-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-32-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
+\label{fig: HOG-SVM-2-folds-5-repetitions-32-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-16-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-256}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16}
+\label{fig: HOG-SVM-2-folds-5-repetitions-16-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-8-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-8-256}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取8}
+\label{fig: HOG-SVM-2-folds-5-repetitions-8-256}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-32-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-64}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\label{fig: HOG-SVM-2-folds-5-repetitions-32-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-16-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-64}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\label{fig: HOG-SVM-2-folds-5-repetitions-16-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-8-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-8-64}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\label{fig: HOG-SVM-2-folds-5-repetitions-8-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-4-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-4-64}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\label{fig: HOG-SVM-2-folds-5-repetitions-4-64}
+\end{figure}
+
+\end{enumerate}
+
+\subsubsection{分析}
+
+以上的实验分为C和Matlab两个版本，两者跑出来的结果差异很大，总体来说，Matlab版的代码跑出来的结果相对较好。Matlab下都是将LibSVM的参数固定，然后调整vl\_hog的参数并进行评价的结果。可以看到，当imgSize为64，cellSize为16时，交叉验证的结果最佳。
+
 \subsection{LBP+SVM}
+
+\subsubsection{实验}
+
+\begin{enumerate}
+
+\item C++版
+
 LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 
 实验中提取LBP特征时，将图像划分为$16 \times 16$的区域，统计每一个区域内的LBP直方图（直方图的bin设置为256）。采用SVM训练分类器，核函数选用了Linear核和RBF核。算法流程如图~\ref{fig:lbp}。
-
 
 \begin{figure}[!ht]
 \centering
@@ -942,9 +1035,7 @@ LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 \label{fig:lbp}
 \end{figure}
 
-
-\subsubsection{LBP+C-SVC Linear}
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-linear}：
+SVM核函数选用linear核，训练集与测试集相同时得到的混淆矩阵如图~\ref{fig: Train-CM-LBP-SVM-linear}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM-linear}
@@ -952,7 +1043,7 @@ LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 \label{fig: Train-CM-LBP-SVM-linear}
 \end{figure}
 
-对测试集进行预测得到的混淆矩阵如图~\ref{fig: Test-CM-LBP-SVM-linear}：
+SVM核函数选用linear核，训练集与测试集不同时得到的混淆矩阵如图~\ref{fig: Test-CM-LBP-SVM-linear}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Test-CM-LBP-SVM-linear}
@@ -960,14 +1051,81 @@ LBP特征提取参考：\url{https://github.com/bytefish/opencv.git}。
 \label{fig: Test-CM-LBP-SVM-linear}
 \end{figure}
 
-\subsubsection{LBP+C-SVC RBF}
-实验得到的\textbf{re-substitution Confusion Matrix}（自身验证自身）如图~\ref{fig: Train-CM-LBP-SVM-RBF}：
+SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵如图~\ref{fig: Train-CM-LBP-SVM-RBF}：
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-LBP-SVM-RBF}
 \caption{LBP+C-SVC RBF混淆矩阵（训练集与测试集相同）}
 \label{fig: Train-CM-LBP-SVM-RBF}
 \end{figure}
+
+\item Matlab版
+
+将所有图像resize为$256 \times 256$，cellSize取128时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-128-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-128-256}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128}
+\label{fig: LBP-SVM-2-folds-5-repetitions-128-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取64时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-64-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-64-256}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64}
+\label{fig: LBP-SVM-2-folds-5-repetitions-64-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-32-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
+\label{fig: LBP-SVM-2-folds-5-repetitions-32-256}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-16-256}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-256}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16}
+\label{fig: LBP-SVM-2-folds-5-repetitions-16-256}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-32-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-64}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\label{fig: LBP-SVM-2-folds-5-repetitions-32-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-16-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-64}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\label{fig: LBP-SVM-2-folds-5-repetitions-16-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-8-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-8-64}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\label{fig: LBP-SVM-2-folds-5-repetitions-8-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-4-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-4-64}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\label{fig: LBP-SVM-2-folds-5-repetitions-4-64}
+\end{figure}
+
+\end{enumerate}
 
 \subsection{SIFT+BoW+SVM}
 代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
@@ -1002,6 +1160,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \caption{BoF+SVM混淆矩阵（训练集与测试集不同）}
 \label{fig:Test-CM-BoF-SVM-Linear}
 \end{figure}
+
 
 \subsection{实验总结}
 
