@@ -1,0 +1,13 @@
+./square/Training_Set/Appendicularia/jb19700101_1_35.png	Appendicularia	1
+./square/Training_Set/Bubble/jb19820512_1_115.png	Bubble	2
+./square/Training_Set/Chaetognatha/jb19700101_1_1.png	Chaetognatha	3
+./square/Training_Set/CladoceraPenilia/jb19700211_1_168.png	CladoceraPenilia	4
+./square/Training_Set/Copepoda/jb19700101_1_2.png	Copepoda	5
+./square/Training_Set/Decapoda/jb19700211_1_66.png	Decapoda	6
+./square/Training_Set/Doliolida/jb19820707_1_319.png	Doliolida	7
+./square/Training_Set/Egg/jb19700101_1_63.png	Egg	8
+./square/Training_Set/Fiber/jb19700101_1_6.png	Fiber	9
+./square/Training_Set/Gelatinous/jb19700101_1_42.png	Gelatinous	10
+./square/Training_Set/Multiple/jb19700101_1_5.png	Multiple	11
+./square/Training_Set/Nonbio/jb19700101_1_3.png	Nonbio	12
+./square/Training_Set/Pteropoda/jb19700603_1_6.png	Pteropoda	13
