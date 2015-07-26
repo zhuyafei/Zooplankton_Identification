@@ -1162,6 +1162,78 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \end{figure}
 
 
+\subsection{HOG+RandomForest}
+
+这里的HOG特征\footnote{\url{http://www.vlfeat.org}}和随机森林分类器代码\footnote{\url{https://code.google.com/p/randomforest-matlab/}}都是Matlab的。随机森林的参数为100颗树，其它都保持默认值。
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-RF-2-folds-5-repetitions-32-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-RF-2-folds-5-repetitions-32-64}
+\caption{HOG+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\label{fig: HOG-RF-2-folds-5-repetitions-32-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-RF-2-folds-5-repetitions-16-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-RF-2-folds-5-repetitions-16-64}
+\caption{HOG+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\label{fig: HOG-RF-2-folds-5-repetitions-16-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-RF-2-folds-5-repetitions-8-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-RF-2-folds-5-repetitions-8-64}
+\caption{HOG+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\label{fig: HOG-RF-2-folds-5-repetitions-8-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-RF-2-folds-5-repetitions-4-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-RF-2-folds-5-repetitions-4-64}
+\caption{HOG+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\label{fig: HOG-RF-2-folds-5-repetitions-4-64}
+\end{figure}
+
+\subsection{LBP+RandomForest}
+
+这里的LBP特征\footnote{\url{http://www.vlfeat.org}}和随机森林分类器代码\footnote{\url{https://code.google.com/p/randomforest-matlab/}}都是Matlab的。随机森林的参数为100颗树，其它都保持默认值。
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-RF-2-folds-5-repetitions-32-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-RF-2-folds-5-repetitions-32-64}
+\caption{LBP+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\label{fig: LBP-RF-2-folds-5-repetitions-32-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-RF-2-folds-5-repetitions-16-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-RF-2-folds-5-repetitions-16-64}
+\caption{LBP+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\label{fig: LBP-RF-2-folds-5-repetitions-16-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-RF-2-folds-5-repetitions-8-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-RF-2-folds-5-repetitions-8-64}
+\caption{LBP+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\label{fig: LBP-RF-2-folds-5-repetitions-8-64}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-RF-2-folds-5-repetitions-4-64}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-RF-2-folds-5-repetitions-4-64}
+\caption{LBP+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\label{fig: LBP-RF-2-folds-5-repetitions-4-64}
+\end{figure}
+
 \subsection{实验总结}
 
 \subsubsection{遇到的问题}
