@@ -1014,7 +1014,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 
 \subsubsection{分析}
 
-以上的实验分为C和Matlab两个版本，两者跑出来的结果差异很大，总体来说，Matlab版的代码跑出来的结果相对较好。Matlab下都是将LibSVM的参数固定，然后调整vl\_hog的参数并进行评价的结果。可以看到，imgSize固定为256时，当cellSize为64时，交叉验证的结果最佳，分类准确率约为0.561；imgSize固定为64时，当cellSize为16时，交叉验证的结果最佳，分类准确率约为0.568。两种最佳分类情况下的特征维数都为$4\times 4\times 31=496$维。在Bubble和Egg两类上的分类准确率最高。
+以上的实验分为C和Matlab两个版本，两者跑出来的结果差异很大，总体来说，Matlab版的代码跑出来的结果相对较好。Matlab下都是将LibSVM的参数固定，然后调整vl\_hog的参数并进行评价的结果。可以看到，imgSize固定为256时，当HOG特征的参数cellSize为64时，交叉验证的结果最佳，分类准确率约为0.561；imgSize固定为64时，当cellSize为16时，交叉验证的结果最佳，分类准确率约为0.568。两种最佳分类情况下的特征维数都为$4\times 4\times 31=496$维。在Bubble和Egg两类上的分类准确率最高。
 
 \subsection{LBP+SVM}
 
@@ -1133,7 +1133,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有LBP特征的计算。用�
 
 \subsubsection{分析}
 
-imgSize固定为256时，当cellSize为32时，交叉验证的结果最佳，分类准确率约为0.64。imgSize固定为64时，当cellSize为8时，交叉验证的结果最佳，分类准确率约为0.59。两种最佳分类情况下的特征维数是一样的，都是$8\times 8 \times 8\times 58=3712$维。所以说对图像进行resize对LBP特征的分类效果是有影响的。在Bubble、Chaetognatha和Egg类上的分类准确率最高。
+imgSize固定为256时，当LBP特征的参数cellSize为32时，交叉验证的结果最佳，分类准确率约为0.64。imgSize固定为64时，当cellSize为8时，交叉验证的结果最佳，分类准确率约为0.59。两种最佳分类情况下的特征维数是一样的，都是$8\times 8 \times 8\times 58=3712$维。所以说对图像进行resize对LBP特征的分类效果是有影响的。在Bubble、Chaetognatha和Egg类上的分类准确率最高。
 
 \subsection{SIFT+BoW+SVM}
 代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
@@ -1172,6 +1172,8 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 
 \subsection{HOG+RandomForest}
 
+\subsubsection{实验}
+
 这里的HOG特征\footnote{\url{http://www.vlfeat.org}}和随机森林分类器代码\footnote{\url{https://code.google.com/p/randomforest-matlab/}}都是Matlab的。随机森林的参数为100颗树，其它都保持默认值。
 
 将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-RF-2-folds-5-repetitions-32-64}。
@@ -1206,7 +1208,13 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \label{fig: HOG-RF-2-folds-5-repetitions-4-64}
 \end{figure}
 
+\subsubsection{分析}
+
+固定imgSize为64时，当HOG特征的参数cellSize取32时，交叉验证的结果最佳，分类准确率约为0.4987。并且HOG特征向量维数越低，分类准确率越高。在Bubble和Nonbio类上分类准确率最高。
+
 \subsection{LBP+RandomForest}
+
+\subsubsection{实验}
 
 这里的LBP特征\footnote{\url{http://www.vlfeat.org}}和随机森林分类器代码\footnote{\url{https://code.google.com/p/randomforest-matlab/}}都是Matlab的。随机森林的参数为100颗树，其它都保持默认值。
 
@@ -1241,6 +1249,10 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \caption{LBP+RandomForest交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
 \label{fig: LBP-RF-2-folds-5-repetitions-4-64}
 \end{figure}
+
+\subsubsection{分析}
+
+固定imgSize为64时，当LBP特征的参数cellSize取32时，交叉验证的结果最佳，分类准确率约为0.442。并且LBP特征向量维数越低，分类准确率越高。在Bubble和Nonbio类上分类准确率最高。
 
 %\subsection{实验总结}
 %
