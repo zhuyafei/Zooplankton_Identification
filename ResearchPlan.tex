@@ -747,16 +747,16 @@ SVM（Support Vector Machine，支持向量机）是一种有监督的统计学�
 
 {\color{blue}代码}：SVMlight\footnote{\url{http://svmlight.joachims.org/}}和LibSVM\footnote{\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm}}
 
-SVM是一种典型的两类分类器，即它只回答属于正类还是负类的问题。当遇到多类别的时候，一般采取如下两种策略：
-\begin{itemize}
-    \item 一对多法：训练时依次把某个类别的样本归为一类，其他剩余的样本归为另一类，这样$k$个类别的样本就构造出了$k$个SVM。分类时将未知样本分类为具有最大分类函数值的那类。
-    
-    比如我们有5个类别，第一次就把类别1的样本定为正样本，其余2，3，4，5的样本合起来定为负样本，这样得到一个两类分类器，它能够指出一篇文章是还是不是第1类的；第二次我们把类别2 的样本定为正样本，把1，3，4，5的样本合起来定为负样本，得到一个分类器，如此下去，我们可以得到5个这样的两类分类器（总是和类别的数目一致）。到了有文章需要分类的时候，我们就拿着这篇文章挨个分类器的问：是属于你的么？是属于你的么？哪个分类器点头说是了，文章的类别就确定了。这种方法的好处是每个优化问题的规模比较小，而且分类的时候速度很快（只需要调用5个分类器就知道了结果）。但有时也会出现两种很尴尬的情况，例如拿一篇文章问了一圈，每一个分类器都说它是属于它那一类的，或者每一个分类器都说它不是它那一类的，前者叫分类重叠现象，后者叫不可分类现象。分类重叠倒还好办，随便选一个结果都不至于太离谱，或者看看这篇文章到各个超平面的距离，哪个远就判给哪个。不可分类现象就着实难办了，只能把它分给第6个类别了。更要命的是，本来各个类别的样本数目是差不多的，但“其余”的那一类样本数总是要数倍于正类（因为它是除正类以外其他类别的样本之和嘛），这就人为的造成了上一节所说的“数据集偏斜”问题。
-    \item 一对一法：其做法是在任意两类样本之间设计一个SVM，因此$k$个类别的样本就需要设计$\frac{k(k-1)}{2}$个SVM。当对一个未知样本进行分类时，最后得票最多的类别即为该未知样本的类别。LibSVM中的多类分类就是根据这个方法实现的。
-    
-    每次选一个类的样本作正类样本，而负类样本则变成只选一个类，这就避免了偏斜。因此过程就是算出这样一些分类器，第一个只回答“是第1类还是第2类”，第二个只回答“是第1类还是第3类”，第三个只回答“是第1类还是第4类”，如此下去，你也可以马上得出，这样的分类器应该有$\frac{5\times 4}{2}=10$个（通式是，如果有k个类别，则总的两类分类器数目为$\frac{k(k-1)}{2}$）。虽然分类器的数目多了，但是在训练阶段（也就是算出这些分类器的分类平面时）所用的总时间却比“一类对其余”方法少很多，在真正用来分类的时候，把一篇文章扔给所有分类器，第一个分类器会投票说它是“1”或者“2”，第二个会说它是“1”或者“3”，让每一个都投上自己的一票，最后统计票数，如果类别“1”得票最多，就判这篇文章属于第1类。这种方法显然也会有分类重叠的现象，但不会有不可分类现象，因为总不可能所有类别的票数都是0。看起来够好么？其实不然，想想分类一篇文章，我们调用了多少个分类器？10个，这还是类别数为5的时候，类别数如果是1000，要调用的分类器数目会上升至约500,000个（类别数的平方量级）。
-    \item 层次支持向量机：还是像一对一方法那样来训练。在分类时可以先问分类器“1对5”（意思是它能够回答“是第1类还是第5类”），如果它回答5，我们就再问“2对5”这个分类器，如果它还说是“5”，我们就继续问下去，就可以得到分类结果。好处在哪？我们其实只调用了4个分类器（如果类别数是k，则只调用k-1个），分类速度飞快，且没有分类重叠和不可分类现象！缺点在哪？假如最一开始的分类器回答错误（明明是类别1的文章，它说成了5），那么后面的分类器是无论如何也无法纠正它的错误的（因为后面的分类器压根没有出现“1”这个类别标签），其实对下面每一层的分类器都存在这种错误向下累积的现象。
-    \end{itemize}
+SVM是一种典型的两类分类器，即它只回答属于正类还是负类的问题。当遇到多类别的时候，一般采取两种策略\footnote{\url{http://www.blogjava.net/zhenandaci/archive/2009/03/26/262113.html}}：一对多法和一对一法。
+%\begin{itemize}
+%    \item 一对多法：训练时依次把某个类别的样本归为一类，其他剩余的样本归为另一类，这样$k$个类别的样本就构造出了$k$个SVM。分类时将未知样本分类为具有最大分类函数值的那类。
+%    
+%    比如我们有5个类别，第一次就把类别1的样本定为正样本，其余2，3，4，5的样本合起来定为负样本，这样得到一个两类分类器，它能够指出一篇文章是还是不是第1类的；第二次我们把类别2 的样本定为正样本，把1，3，4，5的样本合起来定为负样本，得到一个分类器，如此下去，我们可以得到5个这样的两类分类器（总是和类别的数目一致）。到了有文章需要分类的时候，我们就拿着这篇文章挨个分类器的问：是属于你的么？是属于你的么？哪个分类器点头说是了，文章的类别就确定了。这种方法的好处是每个优化问题的规模比较小，而且分类的时候速度很快（只需要调用5个分类器就知道了结果）。但有时也会出现两种很尴尬的情况，例如拿一篇文章问了一圈，每一个分类器都说它是属于它那一类的，或者每一个分类器都说它不是它那一类的，前者叫分类重叠现象，后者叫不可分类现象。分类重叠倒还好办，随便选一个结果都不至于太离谱，或者看看这篇文章到各个超平面的距离，哪个远就判给哪个。不可分类现象就着实难办了，只能把它分给第6个类别了。更要命的是，本来各个类别的样本数目是差不多的，但“其余”的那一类样本数总是要数倍于正类（因为它是除正类以外其他类别的样本之和嘛），这就人为的造成了上一节所说的“数据集偏斜”问题。
+%    \item 一对一法：其做法是在任意两类样本之间设计一个SVM，因此$k$个类别的样本就需要设计$\frac{k(k-1)}{2}$个SVM。当对一个未知样本进行分类时，最后得票最多的类别即为该未知样本的类别。LibSVM中的多类分类就是根据这个方法实现的。
+%    
+%    每次选一个类的样本作正类样本，而负类样本则变成只选一个类，这就避免了偏斜。因此过程就是算出这样一些分类器，第一个只回答“是第1类还是第2类”，第二个只回答“是第1类还是第3类”，第三个只回答“是第1类还是第4类”，如此下去，你也可以马上得出，这样的分类器应该有$\frac{5\times 4}{2}=10$个（通式是，如果有k个类别，则总的两类分类器数目为$\frac{k(k-1)}{2}$）。虽然分类器的数目多了，但是在训练阶段（也就是算出这些分类器的分类平面时）所用的总时间却比“一类对其余”方法少很多，在真正用来分类的时候，把一篇文章扔给所有分类器，第一个分类器会投票说它是“1”或者“2”，第二个会说它是“1”或者“3”，让每一个都投上自己的一票，最后统计票数，如果类别“1”得票最多，就判这篇文章属于第1类。这种方法显然也会有分类重叠的现象，但不会有不可分类现象，因为总不可能所有类别的票数都是0。看起来够好么？其实不然，想想分类一篇文章，我们调用了多少个分类器？10个，这还是类别数为5的时候，类别数如果是1000，要调用的分类器数目会上升至约500,000个（类别数的平方量级）。
+%    \item 层次支持向量机：还是像一对一方法那样来训练。在分类时可以先问分类器“1对5”（意思是它能够回答“是第1类还是第5类”），如果它回答5，我们就再问“2对5”这个分类器，如果它还说是“5”，我们就继续问下去，就可以得到分类结果。好处在哪？我们其实只调用了4个分类器（如果类别数是k，则只调用k-1个），分类速度飞快，且没有分类重叠和不可分类现象！缺点在哪？假如最一开始的分类器回答错误（明明是类别1的文章，它说成了5），那么后面的分类器是无论如何也无法纠正它的错误的（因为后面的分类器压根没有出现“1”这个类别标签），其实对下面每一层的分类器都存在这种错误向下累积的现象。
+%    \end{itemize}
 
 \subsection{K-means}
 
@@ -934,11 +934,11 @@ SVM核函数选用RBF核，训练集与测试集不同时得到的混淆矩阵�
 
 \item Matlab版
 
-VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用法为hog = vl\_hog(img, cellSize)，得到的hog特征是一个三维矩阵，其中三维矩阵的列和行分别为图像的列和行被cellSize所分的份数，第三维表示每一份的特征向量。
+VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用法为hog = vl\_hog(img, cellSize)，得到的hog特征是一个三维矩阵，其中三维矩阵的列和行分别为图像的列和行被cellSize所分的份数，第三维表示每一份的特征向量，为31维。
 
 分类器SVM用的是LibSVM。
 
-将所有图像resize为$256 \times 256$，cellSize取128时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-128-256}。
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取128时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-128-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-128-256}
@@ -946,7 +946,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-128-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取64时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-64-256}。
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取64时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-64-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-64-256}
@@ -954,7 +954,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-64-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-32-256}。
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-32-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256}
@@ -962,7 +962,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-32-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-16-256}。
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-16-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-256}
@@ -970,7 +970,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-16-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-8-256}。
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-8-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-8-256}
@@ -978,7 +978,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-8-256}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-32-64}。
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-32-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-64}
@@ -986,7 +986,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-32-64}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-16-64}。
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-16-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-64}
@@ -994,7 +994,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-16-64}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-8-64}。
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-8-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-8-64}
@@ -1002,7 +1002,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 \label{fig: HOG-SVM-2-folds-5-repetitions-8-64}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-4-64}。
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-SVM-2-folds-5-repetitions-4-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-4-64}
@@ -1014,7 +1014,7 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有HOG特征的计算。用�
 
 \subsubsection{分析}
 
-以上的实验分为C和Matlab两个版本，两者跑出来的结果差异很大，总体来说，Matlab版的代码跑出来的结果相对较好。Matlab下都是将LibSVM的参数固定，然后调整vl\_hog的参数并进行评价的结果。可以看到，当imgSize为64，cellSize为16时，交叉验证的结果最佳。
+以上的实验分为C和Matlab两个版本，两者跑出来的结果差异很大，总体来说，Matlab版的代码跑出来的结果相对较好。Matlab下都是将LibSVM的参数固定，然后调整vl\_hog的参数并进行评价的结果。可以看到，imgSize固定为256时，当cellSize为64时，交叉验证的结果最佳，分类准确率约为0.561；imgSize固定为64时，当cellSize为16时，交叉验证的结果最佳，分类准确率约为0.568。两种最佳分类情况下的特征维数都为$4\times 4\times 31=496$维。在Bubble和Egg两类上的分类准确率最高。
 
 \subsection{LBP+SVM}
 
@@ -1061,7 +1061,11 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 
 \item Matlab版
 
-将所有图像resize为$256 \times 256$，cellSize取128时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-128-256}。
+VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有LBP特征的计算。用法为lbp = vl\_lbp(img, cellSize)，得到的lbp特征是一个三维矩阵，其中三维矩阵的列和行分别为图像的列和行被cellSize所分的份数，第三维表示每一份的特征向量，为58维。
+
+分类器SVM用的是LibSVM。
+
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取128时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-128-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-128-256}
@@ -1069,7 +1073,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-128-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取64时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-64-256}。
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取64时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-64-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-64-256}
@@ -1077,7 +1081,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-64-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-32-256}。
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-32-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256}
@@ -1085,7 +1089,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-32-256}
 \end{figure}
 
-将所有图像resize为$256 \times 256$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-16-256}。
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-16-256}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-256}
@@ -1093,7 +1097,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-16-256}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-32-64}。
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-32-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-64}
@@ -1101,7 +1105,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-32-64}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-16-64}。
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取16时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-16-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-64}
@@ -1109,7 +1113,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-16-64}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-8-64}。
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取8时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-8-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-8-64}
@@ -1117,7 +1121,7 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \label{fig: LBP-SVM-2-folds-5-repetitions-8-64}
 \end{figure}
 
-将所有图像resize为$64 \times 64$，cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-4-64}。
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取4时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: LBP-SVM-2-folds-5-repetitions-4-64}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-4-64}
@@ -1126,6 +1130,10 @@ SVM核函数选用RBF核，训练集与测试集相同时得到的混淆矩阵�
 \end{figure}
 
 \end{enumerate}
+
+\subsubsection{分析}
+
+imgSize固定为256时，当cellSize为32时，交叉验证的结果最佳，分类准确率约为0.64。imgSize固定为64时，当cellSize为8时，交叉验证的结果最佳，分类准确率约为0.59。两种最佳分类情况下的特征维数是一样的，都是$8\times 8 \times 8\times 58=3712$维。所以说对图像进行resize对LBP特征的分类效果是有影响的。在Bubble、Chaetognatha和Egg类上的分类准确率最高。
 
 \subsection{SIFT+BoW+SVM}
 代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
@@ -1234,35 +1242,35 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \label{fig: LBP-RF-2-folds-5-repetitions-4-64}
 \end{figure}
 
-\subsection{实验总结}
-
-\subsubsection{遇到的问题}
-\begin{enumerate}
-    \item SIFT实验结果不对，几乎全都分类错误。
-    \item 交叉验证代码没有找到，找到的交叉验证代码都不是MATLAB和C的，没有跑通。
-    \item 没有来得及调参数，对参数的影响效果也不是很了解。
-    \item 用测试集跑出来的实验结果在Multiple和Nonbio类上效果最差，Bubble和Egg上效果最好。
-\end{enumerate}
-
-\subsubsection{方案}
-
-20150706$\sim$20150710 用三个经典特征（HOG, SIFT, LBP）和SVM分类器分别完成对浮游动物的分类，并对分类结果进行评价分析。
-
-20150713$\sim$20150717 根据我们上周遇到的问题，决定在这周对这些问题进行进一步研究：
-\begin{enumerate}
-    \item 用MATLAB版的SIFT和bag of word进行实验。
-    \item 调整特征以及SVM分类器的参数，分析对效果的影响；用交叉验证对SVM进行优化，分析效果。
-    \item 打算索要完整的20类浮游动物的数据集。
-    \item 调试交叉验证的程序。
-\end{enumerate}
-
-20150720$\sim$20150724 这周工作：
-\begin{enumerate}
-\item 继续调整三种经典特征（HOG, SIFT, LBP）的参数，分析实验结果。
-\item 用inner-distance shape context进行实验。
-\end{enumerate}
-
-在回家之前，初步实现一套浮游动物分类系统。
+%\subsection{实验总结}
+%
+%\subsubsection{遇到的问题}
+%\begin{enumerate}
+%    \item SIFT实验结果不对，几乎全都分类错误。
+%    \item 交叉验证代码没有找到，找到的交叉验证代码都不是MATLAB和C的，没有跑通。
+%    \item 没有来得及调参数，对参数的影响效果也不是很了解。
+%    \item 用测试集跑出来的实验结果在Multiple和Nonbio类上效果最差，Bubble和Egg上效果最好。
+%\end{enumerate}
+%
+%\subsubsection{方案}
+%
+%20150706$\sim$20150710 用三个经典特征（HOG, SIFT, LBP）和SVM分类器分别完成对浮游动物的分类，并对分类结果进行评价分析。
+%
+%20150713$\sim$20150717 根据我们上周遇到的问题，决定在这周对这些问题进行进一步研究：
+%\begin{enumerate}
+%    \item 用MATLAB版的SIFT和bag of word进行实验。
+%    \item 调整特征以及SVM分类器的参数，分析对效果的影响；用交叉验证对SVM进行优化，分析效果。
+%    \item 打算索要完整的20类浮游动物的数据集。
+%    \item 调试交叉验证的程序。
+%\end{enumerate}
+%
+%20150720$\sim$20150724 这周工作：
+%\begin{enumerate}
+%\item 继续调整三种经典特征（HOG, SIFT, LBP）的参数，分析实验结果。
+%\item 用inner-distance shape context进行实验。
+%\end{enumerate}
+%
+%在回家之前，初步实现一套浮游动物分类系统。
 
 \bibliographystyle{plain}
 
