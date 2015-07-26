@@ -866,19 +866,19 @@ HOG检测滑动窗口内部的参数包括：检测窗口的大小、窗口内bl
 
 与行人检测不同，在浮游动物分类问题中，没有复杂的背景，所以不需要用窗口进行滑动，判断哪个窗口中有目标，只需将整幅图像看成一个窗口，判断该窗口中的目标属于哪个类别。
 
-在实验中，针对SVM核函数选用了Linear核和RBF核。
-
-\begin{itemize} 
-\item Linear核：主要用于线性可分的情形。参数少，速度快，对于一般数据，分类效果已经很理想了。
-\item RBF核：主要用于线性不可分的情形。参数多，分类结果非常依赖于参数。
-\end{itemize}
-
 \subsubsection{实验}
 
 \begin{enumerate}
 \item C++版
 
 将图像resize为$64 \times 64$，以整幅图像作为一个窗口提取HOG特征，其中块（block）选用$16 \times 16$，block滑动的步长选用$8 \times 8$，单元（cell）选用$8 \times 8$。则对于一幅图像，所提取的HOG特征向量维数为$(\dfrac{64-16}{8}+1)\times (\dfrac{64-16}{8}+1) \times 4\times 9=1764$维。每个block中的特征向量是对其中的4个cell按从上到下，从左到右的顺序将9维特征向量连起来得到的。而整个窗口中的特征又是对其中的所有block按从上到下，从左到右的顺序将特征连起来得到的。
+
+在实验中，针对SVM核函数选用了Linear核和RBF核。
+
+\begin{itemize} 
+\item Linear核：主要用于线性可分的情形。参数少，速度快，对于一般数据，分类效果已经很理想了。
+\item RBF核：主要用于线性不可分的情形。参数多，分类结果非常依赖于参数。
+\end{itemize}
 
 SVM核函数选用Linear核，训练集与测试集相同时得到的混淆矩阵如图~\ref{fig: Train-CM-HOG-SVM-Linear}：
 \begin{figure}[!ht]
