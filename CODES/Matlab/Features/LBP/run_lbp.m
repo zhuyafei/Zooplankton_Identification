@@ -5,12 +5,13 @@ TestSetInfo = importdata('Test_Set.txt');
 TrainingSetNum = length(TrainingSetInfo.data);
 TestSetNum = length(TestSetInfo.data);
 cellSize = 32;
+imgSize = 256;
 
 %% For random dividing - cross validation
 fid = fopen('Train-Features-LBP.txt','w');
 for i = 1:TrainingSetNum
     img = single(imread(TrainingSetInfo.textdata{i, 1}));
-    img = imresize(img, [256 256]);
+    img = imresize(img, [imgSize imgSize]);
     lbpmatrix = vl_lbp(img, cellSize);
     lbpvector = lbpmatrix(:)';
     for j = 1:length(lbpvector)
@@ -23,7 +24,7 @@ fclose(fid);
 fid = fopen('Test-Features-LBP.txt','w');
 for i = 1:TestSetNum
     img = single(imread(TestSetInfo.textdata{i, 1}));
-    img = imresize(img, [256 256]);
+    img = imresize(img, [imgSize imgSize]);
     lbpmatrix = vl_lbp(img, cellSize);
     lbpvector = lbpmatrix(:)';
     for j = 1:length(lbpvector)
