@@ -880,7 +880,7 @@ GASEN~\cite{zhou2002ensembling}（基于遗传算法的选择性集成学习算�
     \label{fig:TechnicalRoute}
     \end{figure}
 
-\section{实验与分析}
+\section{实验与分析（去噪前）}
 
 \subsection{HOG+SVM}
 
@@ -1245,7 +1245,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 
 \subsubsection{分析}
 
-固定imgSize为64时，当HOG特征的参数cellSize取32时，交叉验证的结果最佳，分类准确率约为0.4987。并且HOG特征向量维数越低，分类准确率越高。在Bubble和Nonbio类上分类准确率最高。
+固定imgSize为64时，当HOG特征的参数cellSize取32时，交叉验证的结果最佳，分类准确率约为0.4987。并且HOG特征向量维数越低，分类准确率越高。因此我们猜测随机森林适合处理相关度较小的特征。在Bubble和Nonbio类上分类准确率最高。
 
 \subsection{LBP+RandomForest}
 
@@ -1288,6 +1288,176 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \subsubsection{分析}
 
 固定imgSize为64时，当LBP特征的参数cellSize取32时，交叉验证的结果最佳，分类准确率约为0.442。并且LBP特征向量维数越低，分类准确率越高。在Bubble和Nonbio类上分类准确率最高。
+
+
+\section{实验与分析（去噪后）}
+
+\subsection{去噪方法}
+    去除图像中噪声的过程如下：
+    \begin{enumerate}
+        \item 将图像反色。
+        \begin{itemize}
+            \item 由于图像原来是白底
+        \end{itemize}
+        \item 然后将图像二值化，阈值设为10。
+        \begin{itemize}
+            \item 设置阈值为了去掉图像中灰度较浅的杂质，但由于部分浮游动物图像颜色较浅，二值化的阈值不能设置太大。
+        \end{itemize}
+        \item 去掉得到二值图中小于10个像素的连通区域，去除孤立的噪声点。
+        \item 然后先进行一次闭运算，一次开运算，再进行一次闭运算。
+        \begin{itemize}
+            \item 闭运算：填充物体内部的小空洞，连接邻近物体。
+            \item 开运算：消除小物体，平滑较大物体的边界。
+        \end{itemize}
+        先后进行两次闭运算是由于图像质量不佳，进行开运算会导致图像中部分浮游动物容易发生断裂（如：Appendicularia），进行闭运算可以将物体中断裂的部分连接。进行开运算，可以消除图像中的噪声，同时平滑图像中物体的边界。
+        \item 保留二值图中最大的连通区域。
+        \begin{itemize}
+            \item 由于部分图像中可能存在着较大的噪声点无法去除，保存最大的连通区域就是浮游动物目标。
+        \end{itemize}
+        \item 将最终得到的二值图与反色后的图像相乘，然后再进行反色，就得到最终的去噪处理结果。
+    \end{enumerate}        
+
+\subsection{HOG+SVM}
+
+\subsubsection{实验结果}
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取32时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-64-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\label{fig:HOG-SVM-2-folds-5-repetitions-32-64-noNoise}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取16时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-16-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-64-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\label{fig:HOG-SVM-2-folds-5-repetitions-16-64-noNoise}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取8时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-8-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-8-64-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\label{fig:HOG-SVM-2-folds-5-repetitions-8-64-noNoise}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取4时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-4-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-4-64-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\label{fig:HOG-SVM-2-folds-5-repetitions-4-64-noNoise}
+\end{figure}
+
+\subsubsection{分析}
+去噪前后的实验结果对比如图~\ref{fig:HOG-compare}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.35\linewidth]{HOG-compare}
+\caption{图像去噪前后采用HOG特征进行分类的实验结果}
+\label{fig:HOG-compare}
+\end{figure}
+
+
+\subsection{LBP+SVM}
+
+\subsubsection{实验结果}
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取32时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-64-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\label{fig:LBP-SVM-2-folds-5-repetitions-32-64-noNoise}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取16时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-16-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-64-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\label{fig:LBP-SVM-2-folds-5-repetitions-16-64-noNoise}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取8时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-8-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-8-64-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\label{fig:LBP-SVM-2-folds-5-repetitions-8-64-noNoise}
+\end{figure}
+
+将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取4时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-4-64-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-4-64-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\label{fig:LBP-SVM-2-folds-5-repetitions-4-64-noNoise}
+\end{figure}
+
+\subsubsection{分析}
+去噪前后的实验结果对比如图~\ref{fig:LBP-compare}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.35\linewidth]{LBP-compare}
+\caption{图像去噪前后采用LBP特征进行分类的实验结果}
+\label{fig:LBP-compare}
+\end{figure}
+
+\subsection{去噪还存在的问题}
+\begin{enumerate}
+    \item 部分图像中物体边缘上存在着颜色较淡的噪声不能去除。（Pteropoda类，如图~\ref{fig:Pteropoda}）
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.2\linewidth]{Pteropoda_jb19820512_1_510}
+        \caption{Pteropoda类中经过去噪后的图像}
+        \label{fig:Pteropoda}
+    \end{figure}
+    \item 在取最大连通区域过程中，物体面积可能会比噪声小，导致目标物体被去除。（在Fiber类中出现错较多，如图~\ref{fig:Fiber}）
+    \begin{figure}[!ht]
+        \centering
+        \subfigure[去噪后的图像]{
+        \includegraphics[width=0.2\linewidth]{Fiber_jb19700101_1_197_lian}
+        }
+        \subfigure[去噪前的图像]{
+        \includegraphics[width=0.2\linewidth]{Fiber_jb19700101_1_197}
+        }
+        \caption{Fiber类中去噪前后的图像}
+        \label{fig:Fiber}
+    \end{figure}
+    \item 由于图像质量不佳，并且有些物体连接处较细，在进行开运算过程中物体会发生断裂。（在Fiber、Egg中出现较多，如图~\ref{fig:Fiber-Egg}）
+        \begin{figure}[!ht]
+        \centering
+        \subfigure[Fiber类去噪后的图像]{
+        \includegraphics[width=0.2\linewidth]{Fiber_jb19700101_1_229_lian}
+        }
+        \subfigure[Fiber类去噪前的图像]{
+        \includegraphics[width=0.2\linewidth]{Fiber_jb19700101_1_229}
+        }
+        \subfigure[Egg类去噪后的图像]{
+        \includegraphics[width=0.2\linewidth]{Egg_jb19700101_1_100_lian}
+        }
+        \subfigure[Egg类去噪前的图像]{
+        \includegraphics[width=0.2\linewidth]{Egg_jb19700101_1_100}
+        }
+        \caption{Fiber和Egg类中去噪前后的图像}
+        \label{fig:Fiber-Egg}
+    \end{figure}
+    \item Gelation类浮游动物自身颜色较浅，原有的图像中其结构就不是特别完整，因此在去噪过程中很容易发生部分结构丢失，如图~\ref{fig:Doliolida}。
+    \begin{figure}[!ht]
+        \centering
+        \subfigure[去噪后的图像]{
+        \includegraphics[width=0.2\linewidth]{Doliolida_jb19820707_1_349_lian}
+        }
+        \subfigure[去噪前的图像]{
+        \includegraphics[width=0.2\linewidth]{Doliolida_jb19820707_1_349}
+        }
+        \caption{Doliolida类中去噪前后的图像}
+        \label{fig:Doliolida}
+    \end{figure}
+\end{enumerate}
 
 %\subsection{实验总结}
 %
