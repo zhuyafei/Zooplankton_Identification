@@ -1352,11 +1352,43 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \label{fig:HOG-SVM-2-folds-5-repetitions-4-64-noNoise}
 \end{figure}
 
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取128时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-128-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-128-256-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128}
+\label{fig:HOG-SVM-2-folds-5-repetitions-128-256-noNoise}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取64时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-64-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-64-256-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64}
+\label{fig:HOG-SVM-2-folds-5-repetitions-64-256-noNoise}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取32时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
+\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-noNoise}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，HOG特征的参数cellSize取16时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-16-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-256-noNoise}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16}
+\label{fig:HOG-SVM-2-folds-5-repetitions-16-256-noNoise}
+\end{figure}
+
 \subsubsection{分析}
 去噪前后的实验结果对比如图~\ref{fig:HOG-compare}。
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.35\linewidth]{HOG-compare}
+\includegraphics[width=0.45\linewidth]{HOG-compare}
 \caption{图像去噪前后采用HOG特征进行分类的实验结果}
 \label{fig:HOG-compare}
 \end{figure}
@@ -1397,11 +1429,43 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \label{fig:LBP-SVM-2-folds-5-repetitions-4-64-noNoise}
 \end{figure}
 
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取128时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-128-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-128-256-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128}
+\label{fig:LBP-SVM-2-folds-5-repetitions-128-256-noNoise}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取64时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-64-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-64-256-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64}
+\label{fig:LBP-SVM-2-folds-5-repetitions-64-256-noNoise}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取32时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
+\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-noNoise}
+\end{figure}
+
+将所有图像resize为$256 \times 256$，LBP特征的参数cellSize取16时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-16-256-noNoise}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-256-noNoise}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16}
+\label{fig:LBP-SVM-2-folds-5-repetitions-16-256-noNoise}
+\end{figure}
+
 \subsubsection{分析}
 去噪前后的实验结果对比如图~\ref{fig:LBP-compare}。
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.35\linewidth]{LBP-compare}
+\includegraphics[width=0.45\linewidth]{LBP-compare}
 \caption{图像去噪前后采用LBP特征进行分类的实验结果}
 \label{fig:LBP-compare}
 \end{figure}
