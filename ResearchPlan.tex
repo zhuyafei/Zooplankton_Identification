@@ -1469,6 +1469,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \caption{图像去噪前后采用LBP特征进行分类的实验结果}
 \label{fig:LBP-compare}
 \end{figure}
+图像大小为$256 \times 256$，cellSize为32时，交叉验证结果最好，分类准确率为0.655998。图像大小为$64 \times 64$，cellSize为8时，交叉验证结果较好，分类准确率为0.635928。
 
 \subsection{去噪还存在的问题}
 \begin{enumerate}
@@ -1479,7 +1480,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
         \caption{Pteropoda类中经过去噪后的图像}
         \label{fig:Pteropoda}
     \end{figure}
-    \item 在取最大连通区域过程中，物体面积可能会比噪声小，导致目标物体被去除。（在Fiber类中出现错较多，如图~\ref{fig:Fiber}）
+    \item 在取最大连通区域过程中，物体面积可能会比噪声小，导致目标物体被去除（在Fiber类中出现错较多，如图~\ref{fig:Fiber}）。由于开运算和图像质量的原因，物体的发生断裂，在取最大连通区域的过程中，物体部分丢失。
     \begin{figure}[!ht]
         \centering
         \subfigure[去噪后的图像]{
