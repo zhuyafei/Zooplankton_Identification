@@ -1392,6 +1392,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \caption{图像去噪前后采用HOG特征进行分类的实验结果}
 \label{fig:HOG-compare}
 \end{figure}
+实验结果显示，去噪之后的实验结果总体要比去噪之前的效果要好。其中交叉验证效果较好的情况和去噪之前的一样：imgSize为256时，HOG特征的参数cellSize为32；imgSize为64时，特征的参数cellSize为8。两种最佳分类情况的特征维数是一样的，都是$4\times 4\times 31=496$。
 
 
 \subsection{LBP+SVM}
@@ -1469,7 +1470,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \caption{图像去噪前后采用LBP特征进行分类的实验结果}
 \label{fig:LBP-compare}
 \end{figure}
-图像大小为$256 \times 256$，cellSize为32时，交叉验证结果最好，分类准确率为0.655998。图像大小为$64 \times 64$，cellSize为8时，交叉验证结果较好，分类准确率为0.635928。
+实验结果显示，去噪之后的实验结果总体要比去噪之前的效果要好。其中交叉验证效果较好的情况和去噪之前的一样：imgSize为256时，LBP特征的参数cellSize为32；imgSize为64时，特征的参数cellSize为8。两种最佳分类情况的特征维数是一样的，都是$8 \times 8 \times 8 \times 58 = 3712$。
 
 \subsection{去噪还存在的问题}
 \begin{enumerate}
