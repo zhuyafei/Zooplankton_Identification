@@ -45,7 +45,7 @@ hists = cat(2, hists{:}) ;
 %                                                  Compute feature map
 % --------------------------------------------------------------------
 
-psix = vl_homkermap(hists, 1, 'kchi2', 'gamma', .5) ;
+psix = double(vl_homkermap(hists, 1, 'kchi2', 'gamma', .5));
 psix = psix';
 save Train-Features-SIFT.mat psix
 
