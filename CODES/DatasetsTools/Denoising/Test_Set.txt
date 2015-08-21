@@ -1,0 +1,13 @@
+./square/Test_Set/Appendicularia/jb19840104_1_153.png	Appendicularia	1
+./square/Test_Set/Bubble/jb19700603_1_414.png	Bubble	2
+./square/Test_Set/Chaetognatha/jb19701202_1_808.png	Chaetognatha	3
+./square/Test_Set/CladoceraPenilia/jb19701202_1_609.png	CladoceraPenilia	4
+./square/Test_Set/Copepoda/jb19840104_2_2.png	Copepoda	5
+./square/Test_Set/Decapoda/jb19840104_1_31.png	Decapoda	6
+./square/Test_Set/Doliolida/jb19800730_2_119.png	Doliolida	7
+./square/Test_Set/Egg/jb19840104_2_69.png	Egg	8
+./square/Test_Set/Fiber/jb19840104_1_12.png	Fiber	9
+./square/Test_Set/Gelatinous/jb19840104_1_47.png	Gelatinous	10
+./square/Test_Set/Multiple/jb19840104_1_128.png	Multiple	11
+./square/Test_Set/Nonbio/jb19840104_2_3.png	Nonbio	12
+./square/Test_Set/Pteropoda/jb19840104_2_387.png	Pteropoda	13
