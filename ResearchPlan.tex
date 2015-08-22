@@ -1291,40 +1291,100 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 
 
 \section{实验与分析（去噪后）}
+为了对比不同强度的去噪对分类结果的影响，我们采用不同去噪方法进行实验。去噪实验可以根据去噪的强度不同，分为不同的去噪等级（从简单到复杂）。
 
-\subsection{去噪方法}
-    去除图像中噪声的过程如下：
-    \begin{enumerate}
-        \item 将图像反色。
-        \begin{itemize}
-            \item 由于图像原来是白底
-        \end{itemize}
-        \item 然后将图像二值化，阈值设为10。
-        \begin{itemize}
-            \item 设置阈值为了去掉图像中灰度较浅的杂质，但由于部分浮游动物图像颜色较浅，二值化的阈值不能设置太大。
-        \end{itemize}
-        \item 去掉得到二值图中小于10个像素的连通区域，去除孤立的噪声点。
-        \item 然后先进行一次闭运算，一次开运算，再进行一次闭运算。
-        \begin{itemize}
-            \item 闭运算：填充物体内部的小空洞，连接邻近物体。
-            \item 开运算：消除小物体，平滑较大物体的边界。
-        \end{itemize}
-        先后进行两次闭运算是由于图像质量不佳，进行开运算会导致图像中部分浮游动物容易发生断裂（如：Appendicularia），进行闭运算可以将物体中断裂的部分连接。进行开运算，可以消除图像中的噪声，同时平滑图像中物体的边界。
-        \item 保留二值图中最大的连通区域。
-        \begin{itemize}
-            \item 由于部分图像中可能存在着较大的噪声点无法去除，保存最大的连通区域就是浮游动物目标。
-        \end{itemize}
-        \item 将最终得到的二值图与反色后的图像相乘，然后再进行反色，就得到最终的去噪处理结果。
-    \end{enumerate}        
+\subsection{实验一}
+去噪过程：1、将图像imresize为$256 \times 256$；2、二值化，去掉连通区域小于10的噪声。该去噪强度较低，是较为简单的去噪方法。
 
-\subsection{HOG+SVM}
+%\subsubsection{实验结果}
+HOG特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-1}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-1}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
+\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-1}
+\end{figure}
+
+LBP特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-1}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-1}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
+\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-1}
+\end{figure}
+
+\subsection{实验二}
+去噪过程：1、将图像imresize为$256 \times 256$；2、二值化，去掉连通区域小于10的噪声；3、然后进行闭-开-闭运算。该方法去噪强度中等。
+
+%\subsubsection{实验结果}
+HOG特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-3}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-3}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
+\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-3}
+\end{figure}
+
+LBP特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-3}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-3}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
+\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-3}
+\end{figure}
+
+\subsection{实验三}
+去噪过程：1、将图像imresize为$256 \times 256$；2、二值化，去掉连通区域小于10的噪声；3、然后进行闭-开-闭运算；4、取最大连通区域。该方法去噪强度较强，去噪过程相对于实验一、二较为复杂。
+
+%\subsubsection{实验结果}
+HOG特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-2}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-2}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
+\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-2}
+\end{figure}
+
+LBP特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-2}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-2}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
+\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-2}
+\end{figure}
+
+\subsection{实验四}
+    去噪声过程：1、将图像二值化，阈值设为10；2、去掉得到二值图中小于10个像素的连通区域；3、然后进行闭-开-闭运算；4、保留二值图中最大的连通区域。该方法在所有去噪实验中，去噪强度最强。
+%    \begin{enumerate}
+%        \item 将图像反色。
+%        \begin{itemize}
+%            \item 由于图像原来是白底
+%        \end{itemize}
+%        \item 然后将图像二值化，阈值设为10。
+%        \begin{itemize}
+%            \item 设置阈值为了去掉图像中灰度较浅的杂质，但由于部分浮游动物图像颜色较浅，二值化的阈值不能设置太大。
+%        \end{itemize}
+%        \item 去掉得到二值图中小于10个像素的连通区域，去除孤立的噪声点。
+%        \item 然后先进行一次闭运算，一次开运算，再进行一次闭运算。
+%        \begin{itemize}
+%            \item 闭运算：填充物体内部的小空洞，连接邻近物体。
+%            \item 开运算：消除小物体，平滑较大物体的边界。
+%        \end{itemize}
+%        先后进行两次闭运算是由于图像质量不佳，进行开运算会导致图像中部分浮游动物容易发生断裂（如：Appendicularia），进行闭运算可以将物体中断裂的部分连接。进行开运算，可以消除图像中的噪声，同时平滑图像中物体的边界。
+%        \item 保留二值图中最大的连通区域。
+%        \begin{itemize}
+%            \item 由于部分图像中可能存在着较大的噪声点无法去除，保存最大的连通区域就是浮游动物目标。
+%        \end{itemize}
+%        \item 将最终得到的二值图与反色后的图像相乘，然后再进行反色，就得到最终的去噪处理结果。
+%    \end{enumerate}        
+
 
 \subsubsection{实验结果}
 将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取32时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-64-noNoise}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-64-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-32-64-noNoise}
 \end{figure}
 
@@ -1332,7 +1392,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-64-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-16-64-noNoise}
 \end{figure}
 
@@ -1340,7 +1400,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-8-64-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-8-64-noNoise}
 \end{figure}
 
@@ -1348,7 +1408,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-4-64-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-4-64-noNoise}
 \end{figure}
 
@@ -1356,7 +1416,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-128-256-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-128-256-noNoise}
 \end{figure}
 
@@ -1364,7 +1424,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-64-256-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-64-256-noNoise}
 \end{figure}
 
@@ -1372,7 +1432,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-32-256-noNoise}
 \end{figure}
 
@@ -1380,29 +1440,16 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-16-256-noNoise}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16}
+\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16（去噪后）}
 \label{fig:HOG-SVM-2-folds-5-repetitions-16-256-noNoise}
 \end{figure}
 
-\subsubsection{分析}
-去噪前后的实验结果对比如图~\ref{fig:HOG-compare}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.45\linewidth]{HOG-compare}
-\caption{图像去噪前后采用HOG特征进行分类的实验结果}
-\label{fig:HOG-compare}
-\end{figure}
-实验结果显示，去噪之后的实验结果总体要比去噪之前的效果要好。其中交叉验证效果较好的情况和去噪之前的一样：imgSize为256时，HOG特征的参数cellSize为32；imgSize为64时，特征的参数cellSize为8。两种最佳分类情况的特征维数是一样的，都是$4\times 4\times 31=496$。
 
-
-\subsection{LBP+SVM}
-
-\subsubsection{实验结果}
 将所有图像resize为$64 \times 64$，LBP特征的参数cellSize取32时对分类结果进行交叉验证(folds=2, repetitions=5)所得到的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-64-noNoise}。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-64-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取32（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-32-64-noNoise}
 \end{figure}
 
@@ -1410,7 +1457,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-64-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取16（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-16-64-noNoise}
 \end{figure}
 
@@ -1418,7 +1465,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-8-64-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取8（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-8-64-noNoise}
 \end{figure}
 
@@ -1426,7 +1473,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-4-64-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取64，cellSize取4（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-4-64-noNoise}
 \end{figure}
 
@@ -1434,7 +1481,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-128-256-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取128（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-128-256-noNoise}
 \end{figure}
 
@@ -1442,7 +1489,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-64-256-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取64（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-64-256-noNoise}
 \end{figure}
 
@@ -1450,7 +1497,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-32-256-noNoise}
 \end{figure}
 
@@ -1458,21 +1505,27 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-16-256-noNoise}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16}
+\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取16（去噪后）}
 \label{fig:LBP-SVM-2-folds-5-repetitions-16-256-noNoise}
 \end{figure}
 
-\subsubsection{分析}
-去噪前后的实验结果对比如图~\ref{fig:LBP-compare}。
+\subsubsection{实验结果对比}
+去噪前后采用HOG、LBP特征进行分类的实验结果对比如图~\ref{fig:HOG-compare}和~\ref{fig:LBP-compare}。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.45\linewidth]{HOG-compare}
+\caption{图像去噪前后采用HOG特征进行分类的实验结果}
+\label{fig:HOG-compare}
+\end{figure}
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.45\linewidth]{LBP-compare}
 \caption{图像去噪前后采用LBP特征进行分类的实验结果}
 \label{fig:LBP-compare}
 \end{figure}
-实验结果显示，去噪之后的实验结果总体要比去噪之前的效果要好。其中交叉验证效果较好的情况和去噪之前的一样：imgSize为256时，LBP特征的参数cellSize为32；imgSize为64时，特征的参数cellSize为8。两种最佳分类情况的特征维数是一样的，都是$8 \times 8 \times 8 \times 58 = 3712$。
+实验结果显示，去噪之后的实验结果总体要比去噪之前的效果要好。其中交叉验证效果较好的情况和去噪之前的一样：imgSize为256时，HOG和LBP特征的参数cellSize都为32；imgSize为64时，HOG和LBP特征的参数cellSize都为8。HOG和LBP最佳分类情况的特征维数为$4\times 4\times 31=496$和$8 \times 8 \times 8 \times 58 = 3712$。
 
-\subsection{去噪还存在的问题}
+\subsubsection{该去噪方法存在的问题}
 \begin{enumerate}
     \item 部分图像中物体边缘上存在着颜色较淡的噪声不能去除。（Pteropoda类，如图~\ref{fig:Pteropoda}）
     \begin{figure}[!ht]
@@ -1525,71 +1578,10 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
     \end{figure}
 \end{enumerate}
 
-\subsection{更改去噪方法做的一些实验}
-
-\subsubsection{实验一}
-去噪过程：1、将图像imresize为$256 \times 256$。2、二值化，去掉连通区域小于10的噪声。
-
-HOG特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-1}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-1}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
-\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-1}
-\end{figure}
-
-LBP特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-1}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-1}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
-\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-1}
-\end{figure}
-
-\subsubsection{实验二}
-去噪过程：1、将图像imresize为$256 \times 256$。2、二值化，然后进行闭-开-闭运算。3、取最大连通区域。
-
-HOG特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-2}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-2}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
-\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-2}
-\end{figure}
-
-LBP特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-2}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-2}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
-\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-2}
-\end{figure}
-
-\subsubsection{实验三}
-去噪过程：1、将图像imresize为$256 \times 256$。2、二值化，然后进行闭-开-闭运算。
-
-HOG特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:HOG-SVM-2-folds-5-repetitions-32-256-3}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{HOG-SVM-2-folds-5-repetitions-32-256-3}
-\caption{HOG+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
-\label{fig:HOG-SVM-2-folds-5-repetitions-32-256-3}
-\end{figure}
-
-LBP特征的参数cellSize取32时对分类结果进行交叉验证所得的混淆矩阵如图~\ref{fig:LBP-SVM-2-folds-5-repetitions-32-256-3}。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{LBP-SVM-2-folds-5-repetitions-32-256-3}
-\caption{LBP+SVM交叉验证，folds取2，repetitions取5，imgSize取256，cellSize取32}
-\label{fig:LBP-SVM-2-folds-5-repetitions-32-256-3}
-\end{figure}
-
-\subsubsection{以上做过的实验分析}
+\subsection{去噪实验分析}
 \begin{itemize}
-\item 先将图像imresize再进行去噪的实验效果要比先去噪再imresize的实验结果要好。
-\item 保留最大连通区域虽然可以去除除了目标以外的噪声，但也会造成目标部分丢失，不利于分类准确率的提高。
-\item 由于浮游动物不同种类特征不同，在去噪过程中不容易找到一个适用于所有种类图像的去噪方法。
-\item 要根据不同的特征描述方法设计不同的去噪方法。
+\item 由于浮游动物不同种类特征不同，在去噪的过程中也会导致图像中目标信息的丢失。去噪强度越大，部分种类的浮游动物信息丢失会变的严重。因此不是去噪强度越大越好。
+\item 先将图像imresize再进行去噪的实验效果要比先去噪再imresize的实验结果要好。可能是由于imresize将图像中目标和噪声放大，再用同样的方法进行去噪，实际的去噪强度减弱。因此图像中目标信息丢失也比较少，所以去噪效果要好一些。
 \end{itemize}
 
 %\subsection{实验总结}
