@@ -1171,8 +1171,8 @@ VLFeat\footnote{\url{http://www.vlfeat.org/}}库中有LBP特征的计算。用�
 imgSize固定为256时，当LBP特征的参数cellSize为32时，交叉验证的结果最佳，分类准确率约为0.64。imgSize固定为64时，当cellSize为8时，交叉验证的结果最佳，分类准确率约为0.59。两种最佳分类情况下的特征维数是一样的，都是$8\times 8 \times 8\times 58=3712$维。所以说对图像进行resize对LBP特征的分类效果是有影响的。在Bubble、Chaetognatha和Egg类上的分类准确率最高。
 
 \subsection{SIFT+BoW+SVM}
-代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
 
+\subsubsection{理论}
 Bag of word对图像进行描述的步骤如下：
 \begin{enumerate}
 \item 首先，利用SIFT算法从所有类别的图像中提取特征。
@@ -1188,7 +1188,16 @@ Bag of word对图像进行描述的步骤如下：
 \label{fig:bow}
 \end{figure}
 
-\subsection{BoF+SVM}
+\subsubsection{实验}
+
+\begin{enumerate}
+
+\item C++版
+
+代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
+
+\item Matlab版
+
 BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-classification-using-bag-of-features.html#zmw57dd0e714}。
 \begin{figure}[!ht]
 \centering
@@ -1204,6 +1213,7 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \label{fig:Test-CM-BoF-SVM-Linear}
 \end{figure}
 
+\end{enumerate}
 
 \subsection{HOG+RandomForest}
 
