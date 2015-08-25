@@ -2,7 +2,7 @@
 
 采用交叉验证的方法来评价分类器的性能好坏，所选用的数据集中的类别如图~\ref{fig: ratio}所示，其中有10个是浮游动物类，包括Appendicularia（被囊类）、Chaetognatha（毛颚类）、CladoceraPenilia（枝角类喙）、Copepoda（桡足类）、Decapoda（十足类）、Doliolida（海樽类）、Egg（蛋类）、Pteropoda（翼足类）、Gelatinous（凝胶纤维）、Multiple。3个非浮游动物类：Nonbio（非生物类）、Bubble（气泡）、Fiber（纤维）。将该数据集随机均分为$n$份，其中每个子集数据分别做一次验证集，其余的$n-1$组子集数据作为训练集，这样会得到$n$个模型，用这$n$个模型最终的验证集的分类准确率的平均数作为此分类器的性能指标。
 
-采用随机森林学习算法，67个特征的评价结果如图~\ref{fig: RandomForest}。
+采用随机森林学习算法，67个特征的评价结果如图~\ref{fig: RandomForest}。对所有种类的Recall值、Precision值求平均，得到的平均的Recall值为0.754，平均的Precision值为0.198。
 
 \begin{figure}[!ht]
 \centering
@@ -11,7 +11,7 @@
 \label{fig: RandomForest}
 \end{figure} 
 
-采用随机森林算法，去掉以下位置特征（XM, YM, BX, BY, Width, Height, Angle, XStart, YStart, XMg5, YMg5, X, Y）的评价结果如图~\ref{fig: withoutposition}，可以看到，与用所有特征相比，去除不必要的位置特征会使评价结果有所提高，对所有种类的Recall值、Precision值求平均（除了Multi类），得到的平均的Recall值为0.799，平均的Precision值为0.161。PID文件中的位置特征大多是ImageJ自带的，是用来生成缩略图所需的参数，在训练分类器时并没有使用。
+采用随机森林算法，去掉以下位置特征（XM, YM, BX, BY, Width, Height, Angle, XStart, YStart, XMg5, YMg5, X, Y）的评价结果如图~\ref{fig: withoutposition}。可以看到，与用所有特征相比，去除不必要的位置特征会使评价结果有所提高，对所有种类的Recall值、Precision值求平均，得到的平均的Recall值为0.763，平均的Precision值为0.188。PID文件中的位置特征大多是ImageJ自带的，是用来生成缩略图所需的参数，在训练分类器时并没有使用。
 
 \begin{figure}[!ht]
 \centering
