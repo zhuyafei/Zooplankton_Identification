@@ -855,7 +855,7 @@ DRFI方法中用到随机森林\footnote{\url{https://code.google.com/p/randomfo
 
 RF\_Class\_C文件夹中需要对.cpp文件进行编译，生成mexmaci64文件，这一步可以通过在终端输入make mex命令实现。但是可能由于我电脑中的fortran版本不行，编译总是出错，目前还没有解决，后来在网页上\footnote{\url{https://code.google.com/p/randomforest-matlab/issues/detail?id=54}}搜到了已编译好的mexmaci64文件，可以直接拿过来用。
 
-tutorial\_ClassRF.m文件列举了10个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
+tutorial\_ClassRF.m文件列举了17个例子，展示了用不同的参数跑随机森林学习算法的不同结果。
 
 \subsubsection{Gasen}
 
@@ -1198,7 +1198,12 @@ Bag of word对图像进行描述的步骤如下：
 
 \item Matlab版
 
-BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-classification-using-bag-of-features.html#zmw57dd0e714}。
+\begin{itemize}
+
+\item Matlab2015版自带的bagOfFeatures函数
+
+参考网址\url{http://cn.mathworks.com/help/vision/examples/image-category-classification-using-bag-of-features.html#zmw57dd0e714} ，实验结果如图~\ref{fig:Train-CM-BoF-SVM-Linear}和图~\ref{fig:Test-CM-BoF-SVM-Linear}。
+
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{Train-CM-BoF-SVM-Linear}
@@ -1213,13 +1218,77 @@ BoF代码参考\url{http://cn.mathworks.com/help/vision/examples/image-category-
 \label{fig:Test-CM-BoF-SVM-Linear}
 \end{figure}
 
+\item VLFeat库中（VLRoot/apps/phow\_caltech101.m）有使用SIFT+Bag of Words+SVM的例子
+
+其中，特征采用的是PHOW（dense multi-scale SIFT descriptors），快速visual word dictionary构建采用的是Elkan k-means方法。
+
+使用：[frames, descrs] = vl\_phow(im, varargin)
+
+参数：
+
+Verbose：默认为false，设为true时可以turn on verbose output。
+
+Sizes: 默认为[4 6 8 10]，表示dense SIFT特征提取的尺度，这里的每一个值在VL\_DSIFT( )函数中都被用作bin的大小。
+
+Fast：默认为true，设为false时会关VL\_DSIFT( )函数的快速SIFT特征求取。
+
+Step：默认为2，表示dense SIFT特征提取的网格步长。
+
+Color：默认为'gray'，可以在'gray' (PHOW-gray), 'rgb', 'hsv'和'opponent' (PHOW-color)中选取。
+
+ContrastThreshold：默认为0.005，求取的SIFT特征中低于这个值的都被置为0。输入图像被归一化到[0, 1]，这个值被用来与VL\_DSIFT( )函数所求出的描述子方差进行大小比较。
+
+WindowSize：默认为1.5，表示空间bins单元的高斯窗口大小。
+
+Magnif：默认为6，图像被一个标准差为SIZE/MAGNIF的高斯核来进行滤波。在标准的SIFT描述子中，magnification值为3；这里默认值为6，因为在应用中表现更好。
+
+FloatDescriptors：默认为false，如果设为true，返回的描述子为浮点数形式。
+
+当vl\_phow的参数设置为('Verbose', 2, 'Sizes', 7, 'Step', 5)，vl\_kmeans的numWords设置为100，其它参数设为('verbose', 'algorithm', 'elkan', 'MaxNumIterations', 50)时，交叉验证的结果如图~\ref{fig: SIFT-SVM-2-folds-5-repetitions-100}：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{SIFT-SVM-2-folds-5-repetitions-100}
+\caption{SIFT+SVM交叉验证，folds取2，repetitions取5，numWords取100}
+\label{fig: SIFT-SVM-2-folds-5-repetitions-100}
+\end{figure}
+
+当其它参数不变，numWords设置为200时，交叉验证的结果如图~\ref{fig: SIFT-SVM-2-folds-5-repetitions-200}：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{SIFT-SVM-2-folds-5-repetitions-200}
+\caption{SIFT+SVM交叉验证，folds取2，repetitions取5，numWords取200}
+\label{fig: SIFT-SVM-2-folds-5-repetitions-200}
+\end{figure}
+
+当其它参数不变，numWords设置为300时，交叉验证的结果如图~\ref{fig: SIFT-SVM-2-folds-5-repetitions-300}：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{SIFT-SVM-2-folds-5-repetitions-300}
+\caption{SIFT+SVM交叉验证，folds取2，repetitions取5，numWords取300}
+\label{fig: SIFT-SVM-2-folds-5-repetitions-300}
+\end{figure}
+
+当其它参数不变，numWords设置为600时，交叉验证的结果如图~\ref{fig: SIFT-SVM-2-folds-5-repetitions-600}：
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{SIFT-SVM-2-folds-5-repetitions-600}
+\caption{SIFT+SVM交叉验证，folds取2，repetitions取5，numWords取600}
+\label{fig: SIFT-SVM-2-folds-5-repetitions-600}
+\end{figure}
+
+\end{itemize}
+
 \end{enumerate}
 
 \subsection{HOG+RandomForest}
 
 \subsubsection{实验}
 
-这里的HOG特征\footnote{\url{http://www.vlfeat.org}}和随机森林分类器代码\footnote{\url{https://code.google.com/p/randomforest-matlab/}}都是Matlab的。随机森林的参数为100颗树，其它都保持默认值。
+这里的HOG特征\footnote{\url{http://www.vlfeat.org}}和随机森林分类器\footnote{\url{https://code.google.com/p/randomforest-matlab/}}代码都是Matlab的。随机森林的参数为100颗树，其它都保持默认值。
 
 将所有图像resize为$64 \times 64$，HOG特征的参数cellSize取32时对分类结果进行交叉验证（folds = 2, repetitions = 5）所得到的混淆矩阵如图~\ref{fig: HOG-RF-2-folds-5-repetitions-32-64}。
 \begin{figure}[!ht]
