@@ -1,1 +1,119 @@
-\section{计算机视觉领域常用特征}
+\section{计算机视觉领域形态学常用特征}
+
+\subsection{形状表示}
+
+\subsubsection{多边形近似}
+
+\subsubsection{傅里叶描述子}
+
+\subsubsection{统计矩}
+
+\subsubsection{骨架}
+
+\subsubsection{形状数}
+
+\subsubsection{拓扑描述}
+
+\subsubsection{关系描述}
+
+\subsubsection{主分量描述}
+
+\subsubsection{不变矩}
+
+\subsection{简单描述子}
+
+\subsubsection{边界的周长}
+
+\subsubsection{面积}
+
+\subsubsection{边界的曲率}
+
+\subsection{纹理表示}
+
+\subsubsection{统计方法}
+
+\subsubsection{结构性方法}
+
+\subsubsection{频谱方法}
+
+
+\subsection{形态学特征参数}
+
+\subsubsection{矩形度}
+反映被检测目标的最小外接矩形的充满程度，当目标的形状越接近矩形时，矩形度的值越接近1。
+    \begin{displaymath}
+    R=\frac{A}{WH}
+    \end{displaymath}
+    A为目标的面积，W、H分别为最小外接矩形的宽度和高度。
+
+\subsubsection{体态比}
+为目标最小外接矩形的长与宽的比值。
+    \begin{displaymath}
+    C=\frac{W}{H}
+    \end{displaymath}
+    
+\subsubsection{圆形性}
+用目标区域的所有边界点定义的特征向量。
+    \begin{displaymath}
+    C_{I}=\frac{\mu_{R}}{\sigma_{R}}
+    \end{displaymath}
+    $\mu_{R}$为区域重心到边界点的平均距离，$\sigma_{R}$为从区域重心到边界点的距离的平均方差。
+
+\subsubsection{偏心率}
+定义为目标区域长短主轴的平方根的比值。
+    \begin{displaymath}
+    E=\frac{p}{q}
+    \end{displaymath}
+    设目标区域在XY平面上，区域像素点绕X轴的转动惯量为A，绕Y轴的转动惯量为B，惯性积为C。目标区域的长度分别是p和q。
+    \begin{displaymath}
+    p=\sqrt{\frac{2}{(A+B)+\sqrt{(A-B)^{2}+4C^{2}}}}
+    \end{displaymath}
+    \begin{displaymath}
+    q=\sqrt{\frac{2}{(A+B)-\sqrt{(A-B)^{2}+4C^{2}}}}
+    \end{displaymath}
+    
+\subsubsection{凸率}
+为目标区域面积与目标区域凸包面积之比，该特征包含着描述边界不规则特性的信息。
+    \begin{displaymath}
+    C_{R}=\frac{A}{\sum_{x=1}^{M}\sum_{y=1}^{N}k(x,y)}
+    \end{displaymath}
+    分母为凸包区域的面积。
+    
+\subsubsection{密集度}
+描述目标密集度的量化特征，提供了目标性状的重要信息。在周长确定后，密集度越高，所围成的面积越大。
+    \begin{displaymath}
+    C_{2}=\frac{L^{2}}{4\pi A}
+    \end{displaymath}
+    L为周长。
+    
+\subsubsection{球状性}
+内切圆的直径与外接圆的直径之比。
+    \begin{displaymath}
+    S=\frac{r_{i}}{r_{c}}
+    \end{displaymath}
+    
+\subsubsection{伸长度}
+周长与目标区域最小外接矩形面积之比。
+    \begin{displaymath}
+    P=\frac{L}{WH}
+    \end{displaymath}
+
+\subsubsection{叶状性}
+叶状反映了边界的幅度特征，为区域重心到边界的最短距离与目标区域的最大宽度之比。
+    \begin{displaymath}
+    B=\frac{R_{1}}{W_{max}}
+    \end{displaymath}
+
+
+\begin{itemize}
+\item 周长：轮廓边界的周长。对轮廓边缘上的像素点的统计。
+\item 面积：描述区域大小的特征。对区域内总像素点的统计。
+\item 宽度和高度：最小外接矩形的宽度和高度。
+、宽度和高度。
+
+\item 基于灰度共生矩阵的方法
+\item 灰度-梯度共生矩阵分析法
+\item 灰度行程长度统计法
+\item 小波分析法
+\item 基于Gabor小波变换的纹理分析法
+\end{itemize}
