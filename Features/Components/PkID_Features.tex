@@ -81,3 +81,18 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
     \item[Circexc] $\cfrac{4 \times \pi Area\_exc}{Perim^{2}}$ 去掉目标内部空洞的圆形度。
     \item[CDexc] $\cfrac{\sqrt{(XM-X)^{2}+(YM-Y)^{2}}}{{\sqrt{Area\_exc}}}$ （与PPT中的不同）
 \end{description}
+
+\subsection{实验}
+
+采用以上67个特征，并用随机森林分类器进行训练和分类得到的混淆矩阵如图~\ref{fig: PkID-RF-2-folds-5-repetitions}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RF-2-folds-5-repetitions}
+\caption{PkID-RF交叉验证，folds取2，repetitions取5}
+\label{fig: PkID-RF-2-folds-5-repetitions}
+\end{figure}
+
+
+
+
