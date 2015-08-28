@@ -46,6 +46,7 @@
 \usepackage[pagecolor={EYE}]{pagecolor}
 % tightly-packed lists
 \usepackage{mdwlist}
+\usepackage{verbatim}
 
 \usepackage{../styles/iplouccfg}
 \usepackage{../styles/zhfontcfg}
@@ -210,7 +211,6 @@
 %%---------------------------------------------------------------------
 \maketitle
 \tableofcontents 
-
 
 
 \section{竞赛}
@@ -1194,13 +1194,13 @@ Bag of word对图像进行描述的步骤如下：
 
 \item C++版
 
-代码参考opencv\_contrib中的实例程序bagofwords\_classification.cpp。
+代码参考opencv\_contrib中的实例程序\verb|bagofwords\_classification.cpp|。
 
 \item Matlab版
 
 \begin{itemize}
 
-\item Matlab2015版自带的bagOfFeatures函数
+\item Matlab2015版自带的\verb|bagOfFeatures|函数
 
 参考网址\url{http://cn.mathworks.com/help/vision/examples/image-category-classification-using-bag-of-features.html#zmw57dd0e714} ，实验结果如图~\ref{fig:Train-CM-BoF-SVM-Linear}和图~\ref{fig:Test-CM-BoF-SVM-Linear}。
 
@@ -1218,11 +1218,11 @@ Bag of word对图像进行描述的步骤如下：
 \label{fig:Test-CM-BoF-SVM-Linear}
 \end{figure}
 
-\item VLFeat库中（VLRoot/apps/phow\_caltech101.m）有使用SIFT+Bag of Words+SVM的例子
+\item VLFeat库中（\verb|VLRoot/apps/phow\_caltech101.m|）有使用SIFT+Bag of Words+SVM的例子
 
 其中，特征采用的是PHOW（dense multi-scale SIFT descriptors），快速visual word dictionary构建采用的是Elkan k-means方法。
 
-使用：[frames, descrs] = vl\_phow(im, varargin)
+使用：\verb|[frames, descrs] = vl\_phow(im, varargin)|
 
 参数：
 
@@ -1234,7 +1234,7 @@ Fast：默认为true，设为false时会关VL\_DSIFT( )函数的快速SIFT特征
 
 Step：默认为2，表示dense SIFT特征提取的网格步长。
 
-Color：默认为'gray'，可以在'gray' (PHOW-gray), 'rgb', 'hsv'和'opponent' (PHOW-color)中选取。
+Color：默认为`gray'，可以在`gray' (PHOW-gray), `rgb', `hsv'和`opponent' (PHOW-color)中选取。
 
 ContrastThreshold：默认为0.005，求取的SIFT特征中低于这个值的都被置为0。输入图像被归一化到[0, 1]，这个值被用来与VL\_DSIFT( )函数所求出的描述子方差进行大小比较。
 
@@ -1244,7 +1244,7 @@ Magnif：默认为6，图像被一个标准差为SIZE/MAGNIF的高斯核来进�
 
 FloatDescriptors：默认为false，如果设为true，返回的描述子为浮点数形式。
 
-当vl\_phow的参数设置为('Verbose', 2, 'Sizes', 7, 'Step', 5)，vl\_kmeans的numWords设置为100，其它参数设为('verbose', 'algorithm', 'elkan', 'MaxNumIterations', 50)时，交叉验证的结果如图~\ref{fig: SIFT-SVM-2-folds-5-repetitions-100}：
+当vl\_phow的参数设置为\verb|('Verbose', 2, 'Sizes', 7, 'Step', 5)|，vl\_kmeans的numWords设置为100，其它参数设为\verb|('verbose', 'algorithm', 'elkan', 'MaxNumIterations', 50)|时，交叉验证的结果如图~\ref{fig: SIFT-SVM-2-folds-5-repetitions-100}：
 
 \begin{figure}[!ht]
 \centering
