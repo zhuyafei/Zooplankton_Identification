@@ -41,25 +41,15 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 \begin{description}
     \item[Min] 物体内部所有像素点的最小灰度值 (0 = black)
     \item[Max] 物体内部所有像素点的最大灰度值 (255 = white)
-    \item[Mean] 物体内的平均灰度值；物体中所有像素点的灰度值的总和除以总的像素个数
     \item[IntDen (Integrated density)] 总密度，物体内像素点的灰度值的总和（$IntDen = Area * Mean$）
-    \item[StdDev] 物体内像素的灰度值的标准差
-    \item[Mode] Modal grey value within the object（可能表示灰度的众数）
-    \item[Skew] 灰度直方图的偏度，衡量灰度分布的不对称性。偏度为负就意味着在概率密度函数左侧的尾部比右侧的长，绝大多数的值位于平均值的右侧。偏度为正就意味着在概率密度函数右侧的尾部比左侧的长，绝大多数的值位于平均值的左侧。偏度为零就表示数值相对均匀地分布在平均值的两侧，但不一定意味着其为对称分布。
-    \item[Kurt] 峰度，描述灰度直方图的陡缓程度。 
-    \item[Mean\_exc] 物体内部去掉空洞后的平均灰度值 ($Mean\_exc = IntDen / Area\_exc$)
-    \item[Median] 物体内像素的灰度值的中值
     \item[Slope] 归一化的灰度累计直方图的斜率
     \item[Histcum1] 灰度累计直方图的值为25\%时所对应的灰度值
     \item[Histcum2] 灰度累计直方图的值为50\%时所对应的灰度值
     \item[Histcum3] 灰度累计直方图的值为75\%时所对应的灰度值
-    \item[Range] $Max-Min$ 极差，灰度的范围。
     \item[CentroidsD] $\sqrt{(XM-X)^{2}+(YM-Y)^{2}}$ 目标物体重心和灰度重心之间的距离。
-    \item[CV] $100 \times \cfrac{StdDev}{Mean}$ 变异系数（也称离散系数或相对偏差），是灰度标准偏差与平均值之比，用百分数表示。
-    \item[SR] $100 \times \cfrac{StdDev}{Max-Min}$ 灰度标准差比上极差。
 \end{description}
 
-这类特征描述的是浮游动物的灰度特征，其中Min、Max、StdDev、Range反映了图像中目标的灰度范围，Skew、Kurt、Slope、Histcum1、Histcum2、Histcum3、Mean、IntDen、Mode、Mean\_exc、Median反映了目标整体的灰度变化和集中趋势，CentroidsD、CV、SR还不清楚它们的物理意义。
+%这类特征描述的是浮游动物的灰度特征，其中Min、Max、StdDev、Range反映了图像中目标的灰度范围，Skew、Kurt、Slope、Histcum1、Histcum2、Histcum3、Mean、IntDen、Mode、Mean\_exc、Median反映了目标整体的灰度变化和集中趋势，CentroidsD、CV、SR还不清楚它们的物理意义。
 
 根据是同类浮游动物的灰度特征（灰度的范围和整体灰度变换趋势）应该是相似的，但观察图像发现并不是所有同类浮游动物的灰度都是相似的，例如Gelatinous类中有的个体灰度跨度较小，整体灰度都较浅，而有的个体灰度跨度较大；同时由于拍摄时光线的原因，会造成同类浮游动物中个体灰度的深浅不一。
 
@@ -77,6 +67,21 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 \end{description}
 
 这类特征描述的是浮游动物的灰度特征，根据的是不同种类浮游动物的形状不同。存在的问题是有不同种类的浮游动物形状相似，例如Appendicularia和Chaetognatha，Bubble和Egg；也有同种浮游动物形状不同，例如Decapoda、Gelatinous。
+
+\subsection{生物统计特征}
+
+\begin{description}
+    \item[Mean] 物体内的平均灰度值；物体中所有像素点的灰度值的总和除以总的像素个数    
+    \item[Range] $Max-Min$ 极差，灰度的范围。    
+    \item[CV] $100 \times \cfrac{StdDev}{Mean}$ 变异系数（也称离散系数或相对偏差），是灰度标准偏差与平均值之比，用百分数表示。
+    \item[SR] $100 \times \cfrac{StdDev}{Max-Min}$ 灰度标准差比上极差。
+    \item[Skew] 灰度直方图的偏度，衡量灰度分布的不对称性。偏度为负就意味着在概率密度函数左侧的尾部比右侧的长，绝大多数的值位于平均值的右侧。偏度为正就意味着在概率密度函数右侧的尾部比左侧的长，绝大多数的值位于平均值的左侧。偏度为零就表示数值相对均匀地分布在平均值的两侧，但不一定意味着其为对称分布。
+    \item[Kurt] 峰度，描述灰度直方图的陡缓程度。 
+    \item[Mean\_exc] 物体内部去掉空洞后的平均灰度值 ($Mean\_exc = IntDen / Area\_exc$)
+    \item[Median] 物体内像素的灰度值的中值
+    \item[StdDev] 物体内像素的灰度值的标准差
+    \item[Mode] Modal grey value within the object（可能表示灰度的众数）
+\end{description}
 
 \subsection{还没有查找到的特征}
 \begin{description}
