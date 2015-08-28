@@ -79,7 +79,6 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 这类特征描述的是浮游动物的灰度特征，根据的是不同种类浮游动物的形状不同。存在的问题是有不同种类的浮游动物形状相似，例如Appendicularia和Chaetognatha，Bubble和Egg；也有同种浮游动物形状不同，例如Decapoda、Gelatinous。
 
 \subsection{还没有查找到的特征}
-
 \begin{description}
     \item[MeanPos] $\cfrac{Mean-Max}{Max-Min}$
     \item[PerimAreaexc] $\cfrac{Perim}{\sqrt{Area\_exc}}$ 
@@ -88,6 +87,17 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
     \item[PerimMaj] $\cfrac{Perim}{Major}$
     \item[CDexc] $\cfrac{\sqrt{(XM-X)^{2}+(YM-Y)^{2}}}{{\sqrt{Area\_exc}}}$ 
 \end{description}
+
+\subsection{其他特征}
+这些特征并没有在PkID中使用，而是在作者的一个幻灯片中提到的新特征。
+\begin{description}
+\item[Texture Contrast] 
+\item[Cumulation Histogram]
+\item[Convex Area]
+\item[Symmetry]
+\item[Thickness Ratio]
+\end{description}
+
 
 \subsection{实验}
 
