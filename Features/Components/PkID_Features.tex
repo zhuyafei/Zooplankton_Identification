@@ -91,6 +91,15 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
     \item[PerimFeret] $\cfrac{Perim}{Feret}$
     \item[PerimMaj] $\cfrac{Perim}{Major}$
     \item[CDexc] $\cfrac{\sqrt{(XM-X)^{2}+(YM-Y)^{2}}}{{\sqrt{Area\_exc}}}$ 
+    \item[Nb1]
+    \item[Nb2]
+    \item[Nb3]
+    \item[Symetriehc]
+    \item[Symetrievc]
+    \item[Convperim]
+    \item[Convarea]
+    \item[Fcons]
+    \item[ThickR]
 \end{description}
 
 \subsection{其他特征}
@@ -105,7 +114,63 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 
 
 \subsection{实验}
-\subsubsection{54个特征（不包括位置特征）+SVM Linear}
+
+\subsubsection{形状特征+SVM Linear}
+在PkID软件中，从67个特征中选取形状特征（8个），并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-Shape}，其分类准确率为37\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-Shape}
+\caption{采用形状特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-Shape}
+\end{figure}
+
+\subsubsection{形状特征+RandomForest}
+在PkID软件中，从67个特征中选取形状特征（8个），并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-Shape}，其分类准确率为63.1\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-Shape}
+\caption{采用形状特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-Shape}
+\end{figure}
+
+\subsubsection{灰度特征+SVM Linear}
+在PkID软件中，从67个特征中选取灰度特征（18个，包括生物统计特征），并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-Gray}，其分类准确率为37.6\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-Gray}
+\caption{采用灰度特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-Gray}
+\end{figure}
+
+\subsubsection{灰度特征+RandomForest}
+在PkID软件中，从67个特征中选取灰度特征（18个，包括生物统计特征），并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-Gray}，其分类准确率为61.3\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-Gray}
+\caption{采用灰度特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-Gray}
+\end{figure}
+
+\subsubsection{生物统计特征+SVM Linear}
+在PkID软件中，从67个特征中选取生物统计特征（16个，包括没有查找到的特征），并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-Bio}，其分类准确率为52.4\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-Bio}
+\caption{采用生物统计特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-Bio}
+\end{figure}
+
+\subsubsection{生物统计特征+RandomForest}
+在PkID软件中，从67个特征中选取生物统计特征（16个，包括没有查找到的特征），并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-Bio}，其分类准确率为69.9\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-Bio}
+\caption{采用生物统计特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-Bio}
+\end{figure}
+
+\subsubsection{不包括位置特征+SVM Linear}
 在PkID软件中，从67个特征中去掉13个位置特征，并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-No-Position}，其分类准确率为70.8\%。
 
 \begin{figure}[!ht]
@@ -115,7 +180,7 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 \label{fig:PkID-SVM-Linear-No-Position}
 \end{figure}
 
-\subsubsection{54个特征（不包括位置特征）+RandomForest}
+\subsubsection{不包括位置特征+RandomForest}
 在PkID软件中，从67个特征中去掉13个位置特征，并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-No-Position}，其分类准确率为76.1\%。
 
 \begin{figure}[!ht]
@@ -125,23 +190,64 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 \label{fig:PkID-RandomForest-No-Position}
 \end{figure}
 
-\subsubsection{形状特征+SVM Linear}
-在PkID软件中，从67个特征中选取形状特征（8个），并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-Shape}，其分类准确率为76.1\%。
+\subsubsection{不包括位置特征和尺度特征+SVM Linear}
+在PkID软件中，从67个特征中去掉位置特征和尺度特征，并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-No-PositionSize}，其分类准确率为70.3\%。
+
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-Shape}
-\caption{采用形状特征SVM Linear进行分类的结果}
-\label{fig:PkID-SVM-Linear-Shape}
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-No-PositionSize}
+\caption{不采用位置特征和尺度特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-No-PositionSize}
 \end{figure}
 
-\subsubsection{形状特征+RandomForest}
-在PkID软件中，从67个特征中选取形状特征（8个），并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-Shape}，其分类准确率为76.1\%。
+\subsubsection{不包括位置特征和尺度特征+RandomForest}
+在PkID软件中，从67个特征中去掉位置特征和尺度特征，并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-No-PositionSize}，其分类准确率为76.4\%。
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{PkID-RandomForest-Shape}
-\caption{采用形状特征随机森林进行分类的结果}
-\label{fig:PkID-RandomForest-Shape}
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-No-PositionSize}
+\caption{不采用位置特征和尺度特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-No-PositionSize}
+\end{figure}
+
+\subsubsection{不包括位置特征、尺度特征和灰度特征+SVM Linear}
+在PkID软件中，从67个特征中去掉位置特征、尺度特征和灰度特征，并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-No-PositionSizeGray}，其分类准确率为69.2\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-No-PositionSizeGray}
+\caption{不采用位置特征、尺度特征和灰度特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-No-PositionSizeGray}
+\end{figure}
+
+\subsubsection{不包括位置特征、尺度特征和灰度特征+RandomForest}
+在PkID软件中，从67个特征中去掉位置特征、尺度特征和灰度特征，并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-No-PositionSizeGray}，其分类准确率为77.2\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-No-PositionSizeGray}
+\caption{不采用位置特征、尺度特征和灰度特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-No-PositionSizeGray}
+\end{figure}
+
+\subsubsection{选取部分特征+SVM Linear}
+在PkID软件中，从67个特征中根据自己的判断选取部分特征进行（选取16个特征：Fractal、Skelarea、Circ、ESD、Elongation、Circexc、CV、SR、Skew、Kurt、MeanPos、PerimAreaexc、FeretAreaexc、PerimFeret、PerimMaj、CDexc），并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-16Features}，其分类准确率为60.9\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-16Features}
+\caption{选取16个特征采用SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-16Features}
+\end{figure}
+
+\subsubsection{选取部分特征+RandomForest}
+在PkID软件中，从67个特征中根据自己的判断选取部分特征进行（选取16个特征：Fractal、Skelarea、Circ、ESD、Elongation、Circexc、CV、SR、Skew、Kurt、MeanPos、PerimAreaexc、FeretAreaexc、PerimFeret、PerimMaj、CDexc），并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-16Features}，其分类准确率为78.4\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-16Features}
+\caption{选取16个特征采用随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-16Features}
 \end{figure}
 
 \subsubsection{PkID+SVM Linear}
