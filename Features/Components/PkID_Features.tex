@@ -105,26 +105,46 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 
 
 \subsection{实验}
-\subsubsection{PkID+RandomForest}
-采用以上67个特征，并用随机森林分类器进行训练和分类得到的混淆矩阵如图~\ref{fig: PkID-RF-2-folds-5-repetitions}。
+\subsubsection{54个特征（不包括位置特征）+SVM Linear}
+在PkID软件中，从67个特征中去掉13个位置特征，并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-No-Position}，其分类准确率为70.8\%。
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{PkID-RF-2-folds-5-repetitions}
-\caption{PkID-RF交叉验证，folds取2，repetitions取5}
-\label{fig: PkID-RF-2-folds-5-repetitions}
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-No-Position}
+\caption{不采用位置特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-No-Position}
 \end{figure}
 
-PkID软件中用67个特征和随机森林分类器进行训练和分类得到的结果如图~\ref{fig:PkID-RF}，其分类准确率为75.4\%。
+\subsubsection{54个特征（不包括位置特征）+RandomForest}
+在PkID软件中，从67个特征中去掉13个位置特征，并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-No-Position}，其分类准确率为76.1\%。
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=1.0\linewidth]{PkID-RF}
-\caption{PkID软件中随机森林分类器分类结果}
-\label{fig:PkID-RF}
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-No-Position}
+\caption{不采用位置特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-No-Position}
 \end{figure}
 
-\subsubsection{PkID+SVM}
+\subsubsection{形状特征+SVM Linear}
+在PkID软件中，从67个特征中选取形状特征（8个），并采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVM-Linear-Shape}，其分类准确率为76.1\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVM-Linear-Shape}
+\caption{采用形状特征SVM Linear进行分类的结果}
+\label{fig:PkID-SVM-Linear-Shape}
+\end{figure}
+
+\subsubsection{形状特征+RandomForest}
+在PkID软件中，从67个特征中选取形状特征（8个），并采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-Shape}，其分类准确率为76.1\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RandomForest-Shape}
+\caption{采用形状特征随机森林进行分类的结果}
+\label{fig:PkID-RandomForest-Shape}
+\end{figure}
+
+\subsubsection{PkID+SVM Linear}
 PkID系统中SVM Linear的参数如图~\ref{fig:SVM-Linear-Parameters}。
 \begin{figure}[!ht]
 \centering
@@ -148,6 +168,27 @@ PkID软件中用67个特征和SVM Linear分类器进行训练和分类得到的�
 \caption{PkID软件中SVM Linear分类器分类结果}
 \label{fig:PkID-SVM-Linear}
 \end{figure}
+
+\subsubsection{PkID+RandomForest}
+采用以上67个特征，并用随机森林分类器进行训练和分类得到的混淆矩阵如图~\ref{fig: PkID-RF-2-folds-5-repetitions}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RF-2-folds-5-repetitions}
+\caption{PkID-RF交叉验证，folds取2，repetitions取5}
+\label{fig: PkID-RF-2-folds-5-repetitions}
+\end{figure}
+
+PkID软件中用67个特征和随机森林分类器进行训练和分类得到的结果如图~\ref{fig:PkID-RF}，其分类准确率为75.4\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-RF}
+\caption{PkID软件中随机森林分类器分类结果}
+\label{fig:PkID-RF}
+\end{figure}
+
+
 
 
 
