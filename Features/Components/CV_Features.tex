@@ -1,26 +1,17 @@
-\section{计算机视觉领域形态学常用特征}
+\section{计算机视觉特征提取}
 
-\subsection{形状表示}
+\subsection{几何参数}
 
-\subsubsection{多边形近似}
+\subsubsection{边界的周长}
+轮廓边界的周长。对轮廓边缘上的像素点的统计。
 
-\subsubsection{傅里叶描述子}
+\subsubsection{边界的曲率}
 
-\subsubsection{统计矩}
+\subsubsection{面积}
+描述区域大小的特征。对区域内总像素点的统计。
 
-\subsubsection{骨架}
-
-\subsubsection{形状数}
-
-\subsubsection{拓扑描述}
-
-\subsubsection{关系描述}
-
-\subsubsection{主分量描述}
-
-\subsubsection{不变矩}
-
-\subsection{形状参数}
+\subsubsection{宽度和高度}
+最小外接矩形的宽度和高度
 
 \subsubsection{矩形度}
 反映被检测目标的最小外接矩形的充满程度，当目标的形状越接近矩形时，矩形度的值越接近1。
@@ -43,7 +34,7 @@
     $\mu_{R}$为区域重心到边界点的平均距离，$\sigma_{R}$为从区域重心到边界点的距离的平均方差。
 
 \subsubsection{偏心率}
-定义为目标区域长短主轴的平方根的比值。
+在一定程度上反映了区域的紧凑程度。定义为目标区域长短主轴的平方根的比值。
     \begin{displaymath}
     E=\frac{p}{q}
     \end{displaymath}
@@ -86,29 +77,52 @@
     \begin{displaymath}
     B=\frac{R_{1}}{W_{max}}
     \end{displaymath}
+    
+\subsection{几种典型的特征描述方法}
 
-\subsection{简单描述子}
+\subsubsection{多边形近似}
 
-\subsubsection{边界的周长}
-轮廓边界的周长。对轮廓边缘上的像素点的统计。
+\subsubsection{骨架}
 
-\subsubsection{面积}
-描述区域大小的特征。对区域内总像素点的统计。
+\subsubsection{形状数（边界）}
 
-\subsubsection{宽度和高度}
-最小外接矩形的宽度和高度
+\subsubsection{统计矩（边界）}
 
-\subsubsection{边界的曲率}
+\subsubsection{傅里叶描述子}
 
-\subsection{纹理表示}
+\subsubsection{小波描述子}
 
-\subsubsection{统计方法}
+\subsubsection{拓扑描述（区域）}
 
-\subsubsection{结构性方法}
+\subsubsection{不变矩（区域）}
 
-\subsubsection{频谱方法}
+\subsubsection{统计方法（纹理）}
+
+\subsubsection{结构性方法（纹理）}
+
+\subsubsection{频谱方法（纹理）}
+
+\subsubsection{曲率尺度空间}
+
+\subsubsection{主分量描述}
+
+\subsubsection{关系描述}
+
+\subsection{经典特征描述方法}
+
+\subsubsection{SIFT特征}
+
+\subsubsection{HOG特征}
+
+\subsubsection{LBP特征}
+
+\subsubsection{Shape Context}
+
+\subsubsection{Fisher Vector}
 
 
+
+\begin{comment}
 \begin{itemize}
 \item 基于灰度共生矩阵的方法
 \item 灰度-梯度共生矩阵分析法
@@ -116,3 +130,4 @@
 \item 小波分析法
 \item 基于Gabor小波变换的纹理分析法
 \end{itemize}
+\end{comment}
