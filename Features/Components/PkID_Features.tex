@@ -433,6 +433,24 @@ PkID系统中SVM Linear的参数如图~\ref{fig:SVM-Linear-Parameters}。根据�
 \end{itemize}
 根据以上实验，判断可以从PkID的67个特征中选取一下特征：Mean，StdDev，Fractal，Skelarea，Circ，Kurt，Skew，Symetrieh，Symetriev，Elongation，MeanPos，CV，SR，PermAreaexc，FeretAreaexc，PerimFeret，Circexc，CDexc，{\color{blue}Symetriehc，Symetrievc，Convperim，Convarea}，（PerimMaj，ESD，{\color{blue}ThickR，Fcons，Nb1，Nb2，Nb3}）。
 
+前22个特征，在PkID软件采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-SVMLinear-22Features}，其分类准确率为66.07\%。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-SVMLinear-22Features}
+\caption{选取22个特征采用SVM Linear进行分类的结果}
+\label{fig:PkID-SVMLinear-22Features}
+\end{figure}
+
+前22个特征，用自己设计的SVM Linear进行训练和分类得到的结果如图~\ref{fig:PkID-ourSVMLinear-22Features}。
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{PkID-ourSVMLinear-22Features}
+\caption{选取22个特征采用SVM Linear进行分类的结果}
+\label{fig:PkID-ourSVMLinear-22Features}
+\end{figure}
+
 前22个特征，在PkID软件采用随机森林进行训练和分类得到的结果如图~\ref{fig:PkID-RandomForest-22Features}，其分类准确率为76.66\%。
 
 \begin{figure}[!ht]
