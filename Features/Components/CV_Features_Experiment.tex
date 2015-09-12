@@ -11,7 +11,7 @@
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{19-Features-MATLAB-our-RF}
-\caption{Matlab-19个特征采用随机森林进行分类的结果}
+\caption{去掉小于50的噪声Matlab-19个特征采用随机森林进行分类的结果}
 \label{fig:19-Features-MATLAB-our-RF}
 \end{figure}
 
@@ -20,4 +20,24 @@
 \includegraphics[width=1.0\linewidth]{19-Features-MATLAB-our-SVM-Linear}
 \caption{Matlab-19个特征采用SVM Linear进行分类的结果}
 \label{fig:19-Features-MATLAB-our-SVM-Linear}
+\end{figure}
+
+\subsubsection{实验二}
+\begin{description}
+\item[去噪方法：] 去掉连通区域小于20的噪声。
+\item[选用特征：] 特征与实验一相同。
+\item[分类器：] 采用随机森林进行训练和分类得到的结果如图~\ref{fig:19-Features-MATLAB-our20-RF}，其分类准确率为72.9\%。采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:19-Features-MATLAB-our20-SVM-Linear}，其分类准确率为58.9\%
+\end{description}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{19-Features-MATLAB-our20-RF}
+\caption{Matlab-19个特征采用随机森林进行分类的结果}
+\label{fig:19-Features-MATLAB-our20-RF}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{19-Features-MATLAB-our20-SVM-Linear}
+\caption{Matlab-19个特征采用SVM Linear进行分类的结果}
+\label{fig:19-Features-MATLAB-our20-SVM-Linear}
 \end{figure}
