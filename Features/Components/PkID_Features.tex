@@ -58,8 +58,8 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
 \begin{description}
     \item[Fractal] 物体边界的分形维数 (Berube and Jebrak, 1999)，表明物体边界的不规则程度
     \item[Skelarea] 骨架像素的表面积（在二值图像中，不断地从物体边缘处减去像素点直到仅剩一个像素的宽度，最后所得图形的像素点数）
-    \item[Symetrieh] 水平对称
-    \item[Symetriev] 垂直对称
+    \item[Symetrieh] 关于水平轴的对称性
+    \item[Symetriev] 关于竖直轴的对称性
     \item[Circ] $Circularity = (4 * Pi * Area) / Perim^2$ 圆形度，表征物体接近圆的程度，值等于1时，说明物体为正圆形，值越接近0，物体体形越长。
     \item[ESD] $2 \times \sqrt{\cfrac{Area}{\pi}}$ 相应球形直径（也称为等效球直径），是指一不规则外形物体，其体积相同球体的直径。
     \item[Elongation] $\cfrac{Major}{Minor}$ 延伸率，最佳拟合椭圆的长轴和短轴之比。
