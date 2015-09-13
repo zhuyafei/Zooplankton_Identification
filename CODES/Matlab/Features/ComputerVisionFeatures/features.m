@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 
-addpath('skeleton/','fractal/','inscribedCircle/','FeretDiameter/');
+addpath(genpath('featuresFunction/'));
 
 TrainingBinarySetInfo = importdata('Training_Set_binary.txt');
 TrainingSetInfo = importdata('Training_Set.txt');
