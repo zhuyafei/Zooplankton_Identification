@@ -91,15 +91,15 @@ PkID中用到的特征一共有67个：Area, Mean, StdDev, Mode, Min, Max, X, Y,
     \item[PerimFeret] $\cfrac{Perim}{Feret}$
     \item[PerimMaj] $\cfrac{Perim}{Major}$
     \item[CDexc] $\cfrac{\sqrt{(XM-X)^{2}+(YM-Y)^{2}}}{{\sqrt{Area\_exc}}}$ 
-    \item[Nb1]
-    \item[Nb2]
-    \item[Nb3]
-    \item[Symetriehc]
-    \item[Symetrievc]
-    \item[Convperim]
-    \item[Convarea]
-    \item[Fcons]
-    \item[ThickR]
+    \item[Nb1] 在图像在用阈值Histcum1二值化后剩余对象的数量
+    \item[Nb2] 在图像在用阈值Histcum2二值化后剩余对象的数量
+    \item[Nb3] 在图像在用阈值Histcum3二值化后剩余对象的数量
+    \item[Symetriehc] 在图像在用阈值Histcum1二值化后物体的水平对称性
+    \item[Symetrievc] 在图像在用阈值Histcum1二值化后物体的垂直对称性
+    \item[Convperim] 包围物体凸包的周长
+    \item[Convarea] 包围物体凸包的面积
+    \item[Fcons] 灰度对比度
+    \item[ThickR] 物体最大厚度和平均厚度（不包括最大厚度）的比值
 \end{description}
 
 \subsection{其他特征}
