@@ -80,33 +80,30 @@
     
 \subsection{几种典型的特征描述方法}
 
-\subsubsection{多边形近似}
+\subsubsection{边界描述子}
+\begin{itemize}
+\item 链码
+\item 多边形近似
+\item 骨架
+\item 形状数
+\item 统计矩：边界线段的形状可以通过简单的统计矩进行定量的描述，如均值、方差和高阶矩。
+\item 傅里叶描述子
+\item 曲率尺度空间
+\item 形状上下文（KNN）
+\end{itemize}
 
-\subsubsection{骨架}
-
-\subsubsection{形状数（边界）}
-
-\subsubsection{统计矩（边界）}
-
-\subsubsection{傅里叶描述子}
-
-\subsubsection{小波描述子}
-
-\subsubsection{拓扑描述（区域）}
-
-\subsubsection{不变矩（区域）}
-
-\subsubsection{统计方法（纹理）}
-
-\subsubsection{结构性方法（纹理）}
-
-\subsubsection{频谱方法（纹理）}
-
-\subsubsection{曲率尺度空间}
-
-\subsubsection{主分量描述}
-
-\subsubsection{关系描述}
+\subsubsection{区域描述子}
+\begin{itemize}
+\item 拓扑描述：欧拉数
+\item 不变矩
+\item 角半径变换（Angular RadialTransformation, ART）：通过使用一组半径变换系数，描述单个连通区域或者不连通区域，对旋转和噪声具有鲁棒性。
+\item 纹理
+    \begin{itemize}
+    \item 统计方法：灰度共生矩阵
+    \item 模型法：马尔科夫随机场
+    \item 频谱方法：Gabor滤波、小波变换
+    \end{itemize}
+\end{itemize}
 
 \begin{comment}
 \subsection{经典特征描述方法}
