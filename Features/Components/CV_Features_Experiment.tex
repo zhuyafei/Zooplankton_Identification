@@ -141,6 +141,7 @@ MATLAB：采用随机森林进行训练和分类得到的结果如图~\ref{fig:2
 \end{figure}
 
 \subsection{融合不同特征实验}
+该部分采用的分类器为SVM和随机森林。
 \subsubsection{实验一}
 \begin{description}
 \item[选用特征：] 在\ref{ronghe1}所用特征的基础上融合Gabor特征（采用特征融合方法一）。
@@ -164,6 +165,22 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+Fourier-Features
 \caption{Matlab-20个特征、LBP和Fourier描述子融合方法一}
 \label{fig:20+LBP+Fourier-Features-MATLAB}
 \end{figure}
+
+\subsection{ELM作为分类器的实验}
+该部分使用极限学习机（ELM）作为分类器。
+
+\subsubsection{实验一}
+\begin{description}
+\item[选用特征：] 采用\label{shiyan3}中的20个特征进行实验。
+\end{description}
+MATLAB：在该实验中ELM隐藏神经元设置为700个，实验得到的分类结果如图\ref{fig:20-Features-ELM-MATLAB}，其分类准确率为78.7\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{20-Features-ELM-MATLAB}
+\caption{Matlab-20个特征采用ELM进行分类}
+\label{fig:20-Features-ELM-MATLAB}
+\end{figure}
+
 
 \section{实验总结}
 实验总结：
