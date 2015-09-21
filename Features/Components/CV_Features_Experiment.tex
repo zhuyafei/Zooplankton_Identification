@@ -24,8 +24,9 @@
 %\end{comment}
 \subsection{参数特征选取实验}
 \subsubsection{实验一}
+\label{shiyan1-features}
 \begin{description}
-\item[选用特征：] Mean、StdDev、CV、SR、MeanPos、Elongation、Circ、Feret、PerimAreaexc、CDexc、Skelarea、FeretAreaexc、PerimFeret。（这些特征是从PkID67个特征中选取的）
+\item[选用特征：] Mean、StdDev、CV、SR、MeanPos、Elongation、Circ、Feret、PerimAreaexc、CDexc、Skelarea、FeretAreaexc、PerimFeret。（这些特征是从PkID的67个特征中选取的）
 \item[分类器：] 随机森林、SVM
 \end{description}
 \begin{itemize}
@@ -63,8 +64,9 @@
 %根据实验一、二的分析：去掉小连通区域的噪声可以提高分类准确率，但是去掉的小连通区域面积阈值设置相差不大时不会对实验结果产生很大影响。
 
 \subsubsection{实验二}
+\label{shiyan2-features}
 \begin{description}
-\item[选用特征：] Mean、StdDev、CV、SR、MeanPos、Elongation、Circ、Feret、PerimAreaexc、CDexc、Skelarea、FeretAreaexc、PerimFeret、矩形度、体态比、凸率、伸长度、灰度共生矩阵（对比度）、对称性（左右）。（前13个特征为PkID系统中的部分特征）
+\item[选用特征：] Mean、StdDev、CV、SR、MeanPos、Elongation、Circ、Feret、PerimAreaexc、CDexc、Skelarea、FeretAreaexc、PerimFeret、矩形度、体态比、凸率、伸长度、灰度共生矩阵（对比度）、对称性（左右），共19个特征。（前13个特征为\ref{shiyan1-features}实验一所使用的特征）
 \item[分类器：] 随机森林、SVM
 
 MATLAB：采用随机森林进行训练和分类得到的结果如图~\ref{fig:19-Features-MATLAB-our-RF}，其分类准确率为72.9\%。采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:19-Features-MATLAB-our-SVM-Linear}，其分类准确率为58.9\%
@@ -84,10 +86,10 @@ MATLAB：采用随机森林进行训练和分类得到的结果如图~\ref{fig:1
 \end{figure}
 %根据实验一、二的分析：去掉小连通区域的噪声可以提高分类准确率，但是去掉的小连通区域面积阈值设置相差不大时不会对实验结果产生很大影响。
 
-\subsubsection{实验三}\label{shiyan-3}
-
+\subsubsection{实验三}
+\label{shiyan3-features}
 \begin{description}
-\item[选用特征：] 在实验二所用特征的基础上增加的了不变矩特征。
+\item[选用特征：] 在\ref{shiyan2-features}实验二所用特征的基础上增加的了不变矩特征，共20个特征。
 \item[分类器：] 随机森林、SVM
 
 MATLAB：采用随机森林进行训练和分类得到的结果如图~\ref{fig:20-Features-MATLAB-our-RF}，其分类准确率为73.7\%。采用SVM Linear进行训练和分类得到的结果如图~\ref{fig:20-Features-MATLAB-our-SVM-Linear}，其分类准确率为61.0\%
@@ -112,17 +114,17 @@ MATLAB：采用随机森林进行训练和分类得到的结果如图~\ref{fig:2
 \item[选用特征：] 采用内距离形状上下文提取图像特征：
     \begin{enumerate}
     \item 先从图像中挑选39张图像作为模板（每种浮游动物中选取3张）。
-    \item 采用内距离形状上下文分别计算训练集和测试集中所有图像和1中39张图像间的距离。
-    \item 将2中计算得到的距离矩阵作为训练集和测试集的特征，输入到ELM中进行学习和分类。
+    \item 采用内距离形状上下文分别计算训练集和测试集中所有图像和上一步中39张图像间的距离。
+    \item 将上面计算得到的距离矩阵作为训练集和测试集的特征，输入到ELM中进行学习和分类。
     \end{enumerate}
-\item[分类器：] ELM
+\item[分类器：] ELM（经过实验发现ELM的分类效果要比SVM和随机森林的好）
 
 MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-39-Features-MATLAB-ELM}，其分类准确率为63.4\%。
 \end{description}
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{IDSC-39-Features-MATLAB-ELM}
-\caption{Matlab-IDSC特征采用ELM进行分类的结果}
+\caption{Matlab-IDSC特征采用ELM进行分类的结果（39张图像作为模板）}
 \label{fig:IDSC-39-Features-MATLAB-ELM}
 \end{figure}
 
@@ -150,13 +152,15 @@ MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Fe
 \end{comment}
 
 \subsection{特征融合方法实验}
+该部分进行的是特征融合实验，确定哪种特征融合方式可以得到更高的分类准确率。
+
 \subsubsection{实验一（特征融合方法一）}
 \label{ronghe1}
-该实验进行的是特征融合。由于在实验一——三中使用的特征都是特征值，而HOG、LBP以及一些形状特征都是特征向量的形式。如果要将这些特征一起使用就需要进行特征融合。在该实验中，将\ref{shiyan-3}中的20个特征和LBP特征融合，具体的融合方法：
+该实验进行的是特征融合。由于在实验一——三中使用的特征都是特征值，而实验四中使用的特征以及HOG、LBP和其他的一些特征都是特征向量的形式。如果要将这些特征一起使用就需要进行特征融合。在该实验中，将\ref{shiyan3-features}中的20个特征和LBP特征融合，具体的融合方法：
 \begin{enumerate}
-\item 用训练集不同种的特征（这里的将特征分为两种：实验三种的20个特征和LBP特征）分别进行训练得到分类器（20个特征采用随机森林进行训练，LBP采用SVM进行训练）。然后将训练集对应的这两种特征分别输入到其对应的分类器中进行预测，这两种特征会分别得到属于每个类别的分类概率（$m \times n$维，m为训练集样本数，n为类别数）。
+\item 用训练集不同种的特征（这里的将特征分为两种：实验三中20个特征作为一种，LBP特征作为一种）分别进行训练得到分类器（20个特征采用随机森林进行训练，LBP采用SVM进行训练）。然后将训练集对应的这两种特征分别输入到其对应的分类器中进行预测，这两种特征会分别得到训练集中每个样本属于每个类别的分类概率（$m \times n$维，m为训练集样本数，n为类别数）。
 \item 将每种特征得到的概率进行拼接（$m \times 2n$维），再输入到分类器（这里的分类器使用的是SVM）进行训练。
-\item 然后将测试集的分类概率（用和1中的方法可以得到测试集的分类概率）输入到训练好的分类器中，得到最终的分类结果。
+\item 然后将测试集的分类概率（用和步骤1中同样的方法可以得到测试集的分类概率）输入到步骤2中训练好的分类器，得到最终的分类结果。
 \end{enumerate}
 
 在该实验得到的分类结果如图\ref{fig:20+LBP-fusion1-matlab}，其分类准确率为76.1\%。
@@ -168,11 +172,11 @@ MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Fe
 \end{figure}
 
 \subsubsection{实验二（特征融合方法二）}
-该实验也是将\ref{shiyan-3}中的20个特征和LBP特征融合，采用的融合方法：
+该实验也是将\ref{shiyan3-features}中的20个特征和LBP特征融合，采用的融合方法：
 \begin{enumerate}
-\item 用训练集不同种的特征（这里的将特征分为两种：实验三种的20个特征和LBP特征）分别进行训练得到分类器（20个特征采用随机森林进行训练，LBP采用SVM进行训练）。
+\item 用训练集不同种的特征（这里的将特征分为两种：实验三中的20个特征作为一种，LBP特征作为一种）分别进行训练得到分类器（20个特征采用随机森林进行训练，LBP采用SVM进行训练）。
 \item 计算每个分类器的权重：对于训练样本集中的每一个样本，分别将其每种特征输入到对应的特征分类器中进行识别，如果能够识别正确，则其对应的特征分类器的权重加一，最终得到每种特征的权重。
-\item 预测概率：每幅的不同种类特征通过分类器可以得到其属于每个类别的分类概率（与实验四中步骤1相同）。根据权重和分类概率，计算出最终属于各个类别的概率。
+\item 预测概率：每幅的不同种类特征通过分类器可以得到其属于每个类别的分类概率（与特征融合方法一中步骤1相同）。根据权重和分类概率，计算出最终属于各个类别的概率。
 \end{enumerate}
 
 在该实验得到的分类结果如图\ref{fig:20+LBP-fusion2-matlab}，其分类准确率为73.7\%。
@@ -184,10 +188,15 @@ MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Fe
 \end{figure}
 
 \subsection{融合不同特征实验}
-该部分采用的分类器为SVM和随机森林。
+该部分实验采用特征融合方法一。在实验过程中，采用的针对不同特征采用的分类器：
+\begin{itemize}
+\item \ref{shiyan3-features}实验三中的20个特征：随机森林
+\item LBP特征、Gabor特征、Fourier描述子、SIFT特征：SVM
+\item IDSC：ELM
+\end{itemize}
 \subsubsection{实验一}
 \begin{description}
-\item[选用特征：] 在\ref{ronghe1}所用特征的基础上融合Gabor特征（采用特征融合方法一）。
+\item[选用特征：] 在\ref{ronghe1}特征融合方法一的基础上，将\ref{shiyan3-features}中的20个特征、LBP特征融和Gabor特征融合。
 \end{description}
 MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+Gabor-Features-MATLAB}，其分类准确率为73.6\%。
 \begin{figure}[!ht]
@@ -199,7 +208,7 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+Gabor-Features-M
 
 \subsubsection{实验二}
 \begin{description}
-\item[选用特征：] 在\ref{ronghe1}所用特征的基础上融合Fourier描述子（采用特征融合方法一）。
+\item[选用特征：] 在\ref{ronghe1}特征融合方法一的基础上，将\ref{shiyan3-features}中的20个特征、LBP特征融Fourier描述子融合。
 \end{description}
 MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+Fourier-Features-MATLAB}，其分类准确率为76.2\%。
 \begin{figure}[!ht]
@@ -211,7 +220,7 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+Fourier-Features
 
 \subsubsection{实验三}
 \begin{description}
-\item[选用特征：] 在\ref{ronghe1}所用特征的基础上融合SIFT特征（采用特征融合方法一）。
+\item[选用特征：] 在\ref{ronghe1}特征融合方法一的基础上，将\ref{shiyan3-features}中的20个特征、LBP特征和SIFT特征融合。
 \end{description}
 MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+SIFT-Features-MATLAB}，其分类准确率为76.1\%。
 \begin{figure}[!ht]
@@ -223,7 +232,7 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+LBP+SIFT-Features-MA
 
 \subsubsection{实验四}
 \begin{description}
-\item[选用特征：] 在\ref{shiyan-3}所用特征（SVM）的基础上融合\ref{shiyan4}中的IDSC特征（ELM）。（采用特征融合方法一）
+\item[选用特征：] 在\ref{ronghe1}特征融合方法一的基础上，将\ref{shiyan3-features}中的20个特征和\ref{shiyan4}中的IDSC特征融合。
 \end{description}
 MATLAB：在该实验得到的分类结果如图\ref{fig:20+IDSC-Features-MATLAB}，其分类准确率为76.3\%。
 \begin{figure}[!ht]
@@ -235,7 +244,7 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+IDSC-Features-MATLAB
 
 \subsubsection{实验五}
 \begin{description}
-\item[选用特征：] 在\ref{shiyan-3}所用特征（SVM）的基础上融合LBP和\ref{shiyan4}中的IDSC特征（ELM）。（采用特征融合方法一）
+\item[选用特征：] 在\ref{ronghe1}特征融合方法一的基础上，将\ref{shiyan3-features}中的20个特征、LBP特征和\ref{shiyan4}中的IDSC特征融合。（采用特征融合方法一）
 \end{description}
 MATLAB：在该实验得到的分类结果如图\ref{fig:20+IDSC+LBP-Features-MATLAB}，其分类准确率为77.1\%。
 \begin{figure}[!ht]
@@ -251,7 +260,7 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+IDSC+LBP-Features-MA
 
 \subsubsection{实验一}
 \begin{description}
-\item[选用特征：] 采用\ref{shiyan-3}中的20个特征进行实验。
+\item[选用特征：] 采用\ref{shiyan3-features}中的20个特征进行实验。
 \end{description}
 MATLAB：在该实验中ELM隐藏神经元设置为650个，实验得到的分类结果如图\ref{fig:20-Features-ELM-MATLAB}，其分类准确率为72.4\%。
 \begin{figure}[!ht]
@@ -264,6 +273,9 @@ MATLAB：在该实验中ELM隐藏神经元设置为650个，实验得到的分�
 
 \section{实验总结}
 实验总结：
+
+\begin{comment}
+2015.9.15
 \begin{itemize}
 \item MATLAB进行实验的结果要比C的好，因此实验以MATLAB为主。
 \item 在进行实验过程中，PKID中的特征只使用了13个（原来计划选用22个）。原因是由于图像质量原因，特征提取效果不是特别好，以至于一些特征对分类准确率的提升没有太大贡献。另外，还有两个特征我没有找到计算方法，但我感觉对实验结果提高不会有太大影响。
@@ -272,3 +284,4 @@ MATLAB：在该实验中ELM隐藏神经元设置为650个，实验得到的分�
 \end{itemize}
 
 接下来的工作：在特征融合的基础上继续进行实验，实验将不同形式的特征结合来得到更高的分类准确率。
+\end{comment}
