@@ -128,18 +128,17 @@ MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-39-Fe
 \label{fig:IDSC-39-Features-MATLAB-ELM}
 \end{figure}
 
-\begin{comment}
 \subsubsection{实验五}
 \begin{description}
 \item[选用特征：] 采用内距离形状上下文提取图像特征。该实验在\ref{shiyan4}实验四的基础上，将39张图像模板增加到65张。
 \item[分类器：] ELM
 
-MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Features-MATLAB-ELM}，其分类准确率为63.4\%。
+MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Features-MATLAB-ELM}，其分类准确率为64.8\%。
 \end{description}
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{IDSC-65-Features-MATLAB-ELM}
-\caption{Matlab-IDSC特征采用ELM进行分类的结果}
+\caption{Matlab-IDSC特征采用ELM进行分类的结果（65张图像作为模板）}
 \label{fig:IDSC-65-Features-MATLAB-ELM}
 \end{figure}
 
@@ -149,7 +148,7 @@ MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Fe
 \caption{Matlab-20个特征采用SVM Linear进行分类的结果}
 \label{fig:20-Features-MATLAB-our-SVM-Linear}
 \end{figure}
-\end{comment}
+
 
 \subsection{特征融合方法实验}
 该部分进行的是特征融合实验，确定哪种特征融合方式可以得到更高的分类准确率。
@@ -277,10 +276,11 @@ MATLAB：在该实验中ELM隐藏神经元设置为650个，实验得到的分�
 \item 实验发现，\ref{shiyan3-features}中20个特征、LBP特征和IDSC特征对分类准确率提高有较大作用，其中最好的是\ref{shiyan3-features}中20个特征。
 \item 不同特征适合的分类器不同。
 \item IDSC通常采用K-NN进行分类，但是计算时间较长，因此在实验中没有采用K-NN进行分类。
+\item 采用IDSC提取图像特征时，先选用了39张图像作为模板，后来又选用65张图像作为模板。模板图像数量越多，分类的准确率越高，但同时需要的时间越多。
 \end{itemize}
 接下来的工作：
 \begin{itemize}
-\item 采用IDSC提取图像特征时，选用了39张图像作为模板。试一下增加模板数量（即提高特征维数）能否提高分类准确率。
+\item 尝试在采用IDSC提取图像特征时，继续增加模板图像的数量。
 \item 目前采用20个特征、LBP特征和IDSC特征融合进行分类，准确率可达到77.1\%。在融合过程中，这三种特征所占的权重是一样的。下一步像根据这三种特征对提高分类准确率的贡献，相应的增加它们的权重，进行分类。
 \item 不同的特征适用的分类器不同，分类器也会影响分类准确率的提高。目前使用的分类器有SVM、随机森林和ELM，想要寻找更加合适的分类器。
 \end{itemize}
