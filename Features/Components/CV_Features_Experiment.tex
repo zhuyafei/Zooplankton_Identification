@@ -149,6 +149,27 @@ MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-65-Fe
 \label{fig:20-Features-MATLAB-our-SVM-Linear}
 \end{figure}
 
+\subsubsection{实验六}
+\begin{description}
+\item[选用特征：] 采用内距离形状上下文提取图像特征。该实验在\ref{shiyan4}实验四的基础上，将39张图像模板增加到104张。
+\item[分类器：] ELM
+
+MATLAB：采用ELM进行训练和分类得到的结果如图~\ref{fig:IDSC-104-Features-MATLAB-ELM}，其分类准确率为65.9\%。
+\end{description}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{IDSC-104-Features-MATLAB-ELM}
+\caption{Matlab-IDSC特征采用ELM进行分类的结果（104张图像作为模板）}
+\label{fig:IDSC-104-Features-MATLAB-ELM}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{20-Features-MATLAB-our-SVM-Linear}
+\caption{Matlab-20个特征采用SVM Linear进行分类的结果}
+\label{fig:20-Features-MATLAB-our-SVM-Linear}
+\end{figure}
+
 
 \subsection{特征融合方法实验}
 该部分进行的是特征融合实验，确定哪种特征融合方式可以得到更高的分类准确率。
@@ -245,6 +266,7 @@ MATLAB：在该实验得到的分类结果如图\ref{fig:20+IDSC-Features-MATLAB
 \begin{description}
 \item[选用特征：] 在\ref{ronghe1}特征融合方法一的基础上，将\ref{shiyan3-features}中的20个特征、LBP特征和\ref{shiyan4}中的IDSC特征融合。（采用特征融合方法一）
 \end{description}
+
 MATLAB：在该实验中，IDSC采用39个模板得到的分类结果如图\ref{fig:20+IDSC39+LBP-Features-MATLAB}，其分类准确率为77.1\%。
 \begin{figure}[!ht]
 \centering
@@ -259,6 +281,14 @@ MATLAB：在该实验中，IDSC采用65个模板得到的分类结果如图\ref{
 \includegraphics[width=1.0\linewidth]{20+IDSC65+LBP-Features-MATLAB}
 \caption{Matlab-20个特征、LBP和IDSC特征融合方法一}
 \label{fig:20+IDSC65+LBP-Features-MATLAB}
+\end{figure}
+
+MATLAB：在该实验中，IDSC采用104个模板得到的分类结果如图\ref{fig:20+IDSC104+LBP-Features-MATLAB}，其分类准确率为77.7\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{20+IDSC104+LBP-Features-MATLAB}
+\caption{Matlab-20个特征、LBP和IDSC特征融合方法一}
+\label{fig:20+IDSC104+LBP-Features-MATLAB}
 \end{figure}
 
 \subsection{ELM作为分类器的实验}
@@ -282,8 +312,9 @@ MATLAB：在该实验中ELM隐藏神经元设置为650个，实验得到的分�
 \begin{itemize}
 \item 实验发现，\ref{shiyan3-features}中20个特征、LBP特征和IDSC特征对分类准确率提高有较大作用，其中最好的是\ref{shiyan3-features}中20个特征。
 \item IDSC通常采用K-NN进行分类，但是计算时间较长，因此在实验中没有采用K-NN进行分类。而是通过选取模板，计算所有图像和模板之间的距离，作为图像的特征。
-\item 采用IDSC提取图像特征时，先选用了39张图像作为模板，后来又选用65张图像作为模板。模板图像数量越多，分类的准确率越高，但同时需要的时间越多。
+\item 采用IDSC提取图像特征时，先选用了39张图像作为模板，后来又选用65张图像作为模板。模板图像数量越多，分类的准确率越高，但同时需要的时间越多。在将IDSC与另外两类特征融合后，随着模板数量的增长最终分类准确率的提高并不明显。
 \end{itemize}
+
 接下来的工作：
 \begin{itemize}
 \item 尝试在采用IDSC提取图像特征时，继续增加模板图像的数量。
