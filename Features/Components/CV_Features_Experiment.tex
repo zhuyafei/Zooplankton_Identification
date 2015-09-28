@@ -308,20 +308,35 @@ MATLAB：在该实验中ELM隐藏神经元设置为650个，实验得到的分�
 
 
 \section{实验总结}
-\begin{description}
-\item[使用的特征：] 
 
-20个统计特征
-\end{description}
+\textbf{使用的特征：}
+    \begin{itemize}
+    \item 20个统计特征：Mean、StdDev、CV、SR、MeanPos、Elongation、Circ、Feret、PerimAreaexc、CDexc、 Skelarea、FeretAreaexc、PerimFeret、矩形度、体态比、凸率、伸长度、灰度共生矩阵(对比度)、 对称性(左右)、不变矩。
+    \item LBP特征
+    \item 内距离形状上下文
+    \end{itemize}
+    
+\textbf{分类器：} SVM，随机森林，ELM
 
-实验分析：
+（不同特征适合不同的分类器：20个统计特征适合采用随机森林，LBP适合采用SVM，内距离形状上下文采用的是ELM）。
+
+\textbf{实验结果：}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.4\linewidth]{experiment-result-analysis}
+\caption{采用不同特征与分类的实验结果统计}
+\label{fig:experiment-result-analysis}
+\end{figure}
+
+\textbf{实验分析：}
 \begin{itemize}
 \item 实验发现，\ref{shiyan3-features}中20个特征、LBP特征和IDSC特征对分类准确率提高有较大作用，其中最好的是\ref{shiyan3-features}中20个特征。
-\item IDSC通常采用K-NN进行分类，但是计算时间较长，因此在实验中没有采用K-NN进行分类。而是通过选取模板，计算所有图像和模板之间的距离，作为图像的特征。
 \item 采用IDSC提取图像特征时，先选用了39张图像作为模板，后来又选用65张图像作为模板。模板图像数量越多，分类的准确率越高，但同时需要的时间越多。在将IDSC与另外两类特征融合后，随着模板数量的增长最终分类准确率的提高并不明显。
+\item IDSC通常采用K-NN进行分类，但是计算时间较长，因此在实验中没有采用K-NN进行分类。而是通过选取模板，计算所有图像和模板之间的距离，作为图像的特征。
+
 \end{itemize}
 
-接下来的工作：
+\textbf{接下来的工作：}
 \begin{itemize}
 %\item 尝试在采用IDSC提取图像特征时，继续增加模板图像的数量。
 \item 目前采用的融合方法在融合过程中，这三种特征所占的权重是一样的。下一步想更改特征融合方法，根据这三种特征对提高分类准确率的贡献，在融合过程中设置不同的权重。但是目前对融合方法还是不太了解，我想接下来先大致学习一下特征融合的方法。
