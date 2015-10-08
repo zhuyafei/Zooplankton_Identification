@@ -136,6 +136,54 @@
 \subsubsection{贝叶斯融合（Bayes Fusion）}
 当在进行图像分类过程中，可能需要用到不止一种特征。贝叶斯融合可以通过结合不同分类器的结果实现特征融合。
 
+\textbf{贝叶斯融合规则：}
+
+如果要将一幅图像分类到$n$个可能的种类中（$\omega_{1},\dots,\omega_{n}$），$x_{i}$表示第$i$个分类器产生的待识的属性，它属于$n$个模式类之一。记$P(\omega_{k})$为先验概率，$P(x_{i}|\omega_{k})$为每类的概率密度函数，$P(x_{1},\dots,x_{R}|\omega_{k})$联合概率分布函数，$R$为用来分类的分类器数目。
+
+根据贝叶斯最小错误率理论，如果
+\begin{equation}
+P(\omega_{j}|x_{1},\dots,x_{R})=\max_{k}P(\omega_{k}|x_{1},\dots,x_{R})
+\end{equation}
+则$Z\in\omega_{j}$。
+
+且有：
+\begin{equation}
+P(\omega_{j}|x_{1},\dots,x_{R})=\frac{P(x_{1},\dots,x_{R}|\omega_{k})P(\omega_{k})}{P(x_{1},\dots,x_{R})}
+\end{equation}
+其中
+\begin{equation}
+P(x_{1},\dots,x_{R})=\sum^{n}_{j=1}P(x_{1},\dots,x_{R}|\omega_{k})P(\omega_{j})
+\end{equation}
+假定分类器度量之间是相互独立的，有：
+\begin{equation}
+P(x_{1},\dots,x_{R}|\omega_{k})=\prod^{R}_{i=1}P(x_{i}|\omega_{k})
+\end{equation}
+将式(3)(4)带入式(2)有：
+\begin{equation}
+P(\omega_{j}|x_{1},\dots,x_{R})=\frac{P(\omega_{k})\prod^{R}_{i=1}P(x_{i}|\omega_{k})}{\sum^{n}_{j=1}P(\omega_{j})\prod^{R}_{i=1}P(x_{i}|\omega_{k})}
+\end{equation}
+将式(5)带入式(1)，得到：
+\begin{enumerate}
+\item 融合规则1：乘法规则
+    \begin{equation}
+    P(\omega_{j})\prod^{R}_{i=1}P(x_{i}|\omega_{j})=\max^{n}_{k=1}P(\omega_{k})\prod^{R}_{i=1}P(x_{i}|\omega_{k})
+    \end{equation}
+    转化为后验概率，得到：
+    \begin{equation}
+    P^{-(R-1)}(\omega_{j})\prod^{R}_{i=1}P(\omega_{j}|x_{i})=\max^{n}_{k=1}P^{-(R-1)}(\omega_{k})\prod^{R}_{i=1}P(\omega_{k}|x_{i})
+    \end{equation}
+    这样就可以将该图片归类为$\omega_{j}$。
+\item 融合规则2：加法规则
+
+    在乘法规则中，如果假定由分类器输出的后验概率与相应的先验概率之间只有微小的偏差：
+    \begin{equation}
+    P(\omega_{k}|x_{i})=P(\omega_{k})(1+\delta_{ki}), \delta_{ki}\ll1
+    \end{equation}
+    由此得到：
+    \begin{equation}
+    P^{-(R-1)}(\omega_{k})\prod^{R}_{i=1}P(\omega_{k}|x_{i})=P(\omega_{k})\prod^{R}_{i=1}(1+\delta_{ki})
+    \end{equation}
+\end{enumerate}
 
 
 \begin{comment}
