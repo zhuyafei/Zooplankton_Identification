@@ -183,6 +183,19 @@ P(\omega_{j}|x_{1},\dots,x_{R})=\frac{P(\omega_{k})\prod^{R}_{i=1}P(x_{i}|\omega
     \begin{equation}
     P^{-(R-1)}(\omega_{k})\prod^{R}_{i=1}P(\omega_{k}|x_{i})=P(\omega_{k})\prod^{R}_{i=1}(1+\delta_{ki})
     \end{equation}
+    如果将上式右边的乘积展开忽略二次以上的项，即：
+    \begin{equation}
+    P(\omega_{k})\prod^{R}_{i=1}(1+\delta_{ki})=P(\omega_{k})+P(\omega_{k})\sum^{R}_{i=1}\delta_{ki}
+    \end{equation}
+    再将式(8)(10)带入(7)可以得到加法规则如下：
+    \begin{equation}
+    (1-R)P(\omega_{j})+\sum^{n}_{i=1}P(\omega_{j}|x_{i})=\max^{n}_{k=1}[(1-R)P(\omega_{k})+\sum^{R}_{i=1}P(\omega_{k}|x_{i})]
+    \end{equation}
+    通常我们假定各类的先验概率是相等的，则上式等价于：
+    \begin{equation}
+    \sum^{R}_{i=1}P(\omega_{j}|x_{i})=\max^{n}_{k=1}\sum^{R}_{i=1}P(\omega_{k}|x_{i})
+    \end{equation}
+    由于加法规则对估计误差不敏感，因而具有比其他规则更好的性能。
 \end{enumerate}
 
 
