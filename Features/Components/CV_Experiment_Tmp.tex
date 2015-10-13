@@ -11,8 +11,18 @@ AdaBoost具体算法步骤：\footnote{\url{http://blog.csdn.net/v_july_v/articl
 \end{enumerate}
 
 \subsection{采用AdaBoost进行浮游动物分类}
-想要采用级联的SVM将浮游动物分为13类，遇到的问题：
-\begin{enumerate}
+\subsubsection{尝试一}
+想要采用20个统计特征用AdaBoost级联的SVM将浮游动物分为13类，遇到的问题：
+\begin{itemize}
 \item AdaBoost常用于二分类问题，需要进行修改。
 \item 级联SVM产生的弱分类器，没有办法设置样本的权重。
-\end{enumerate}
+\end{itemize}
+
+\subsubsection{尝试二}
+采用AdaBoost在特征融合方法一的基础上，将最终的分类方法SVM改为AdaBoost。由于大多的AdaBoost都是处理二分类问题，因此该实验中将分为13类转换为13个二分类问题。实验中遇到问题：
+\begin{itemize}
+\item 实验中部分样本不能被识别（识别的结果13类都不是）。在实验中，我将这些不能识别的样本再用SVM进行分类。
+\end{itemize}
+
+\subsubsection{尝试三}
+采用神经网络的方法进行特征融合。（神经网络可以设置权重）
