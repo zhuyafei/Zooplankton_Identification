@@ -19,10 +19,21 @@ AdaBoost具体算法步骤：\footnote{\url{http://blog.csdn.net/v_july_v/articl
 \end{itemize}
 
 \subsubsection{尝试二}
-采用AdaBoost在特征融合方法一的基础上，将最终的分类方法SVM改为AdaBoost。由于大多的AdaBoost都是处理二分类问题，因此该实验中将分为13类转换为13个二分类问题。实验中遇到问题：
+采用AdaBoost在特征融合方法一的基础上，将最终的分类方法SVM改为AdaBoost。由于大多的AdaBoost都是处理二分类问题，因此该实验中将分为13类转换为13个二分类问题，实验结果如图\ref{fig:Adaboost+SVM-FeatureFusion}，分类结果并没有提高。实验中遇到问题：
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{Adaboost+SVM-FeatureFusion}
+\caption{采用Adaboost+SVM进行特征融合}
+\label{fig:Adaboost+SVM-FeatureFusion}
+\end{figure}
 \begin{itemize}
 \item 实验中部分样本不能被识别（识别的结果13类都不是）。在实验中，我将这些不能识别的样本再用SVM进行分类。
 \end{itemize}
 
 \subsubsection{尝试三}
-采用神经网络的方法进行特征融合。（神经网络可以设置权重）
+\textbf{模糊神经网络：}模糊神经网络就是模糊理论同神经网络相结合的产物，它汇集了神经网络与模糊理论的优点，集学习、联想、识别、信息处理于一体。模糊神经网络有如下三种形式：
+\begin{enumerate}
+\item 逻辑模糊神经网络
+\item 算术模糊神经网络
+\item 混合模糊神经网络
+\end{enumerate}
