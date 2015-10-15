@@ -1,39 +1,51 @@
 \section{实验尝试}
+%\subsection{AdaBoost}
+%AdaBoost(Adaptive Boosting, 自适应增强)是在Boosting基础上进行改进的一种集成学习算法。AdaBoost的核心思想是针对同一个训练集训练不同的分类器，即弱分类器，然后将这些弱分类器级联，得到一个强分类器。生成弱分类器时，前一个弱分类器分错的样本会得到加强，加权后的样本再被用来训练下一个弱分类器。同时将新生成的弱分类器加入到集成强分类器中，直到达到某个预定的足够小的错误率或达到预想指定的最大迭代次数。
+%
+%AdaBoost具体算法步骤：\footnote{\url{http://blog.csdn.net/v_july_v/article/details/40718799}}
+%\begin{enumerate}
+%\item 初始化训练数据的权值分布。如果有$N$个样本，则每一个训练样本最开始时都被赋予相同的权值：$\frac{1}{N}$。
+%\item 训练弱分类器。具体训练过程中，如果某个样本点已经被准确地分类，那么在构造下一个训练集中，它的权值就被降低；相反，如果某个样本点没有被准确地分类，那么它的权值就得到提高。然后，权值更新过的样本集被用于训练下一个分类器，整个训练过程如此迭代地进行下去。
+%\item 将各个训练得到的弱分类器组合成强分类器。各个弱分类器的训练过程结束后，加大分类误差率小的弱分类器的权重，使其在最终的分类函数中起着较大的决定作用，而降低分类误差率大的弱分类器的权重，使其在最终的分类函数中起着较小的决定作用。换言之，误差率低的弱分类器在最终分类器中占的权重较大，否则较小。
+%\end{enumerate}
+\subsection{Ensemble Learning}
 
-\subsection{AdaBoost}
-AdaBoost(Adaptive Boosting, 自适应增强)是在Boosting基础上进行改进的一种集成学习算法。AdaBoost的核心思想是针对同一个训练集训练不同的分类器，即弱分类器，然后将这些弱分类器级联，得到一个强分类器。生成弱分类器时，前一个弱分类器分错的样本会得到加强，加权后的样本再被用来训练下一个弱分类器。同时将新生成的弱分类器加入到集成强分类器中，直到达到某个预定的足够小的错误率或达到预想指定的最大迭代次数。
-
-AdaBoost具体算法步骤：\footnote{\url{http://blog.csdn.net/v_july_v/article/details/40718799}}
+\subsection{Multi-view Learning}
 \begin{enumerate}
-\item 初始化训练数据的权值分布。如果有$N$个样本，则每一个训练样本最开始时都被赋予相同的权值：$\frac{1}{N}$。
-\item 训练弱分类器。具体训练过程中，如果某个样本点已经被准确地分类，那么在构造下一个训练集中，它的权值就被降低；相反，如果某个样本点没有被准确地分类，那么它的权值就得到提高。然后，权值更新过的样本集被用于训练下一个分类器，整个训练过程如此迭代地进行下去。
-\item 将各个训练得到的弱分类器组合成强分类器。各个弱分类器的训练过程结束后，加大分类误差率小的弱分类器的权重，使其在最终的分类函数中起着较大的决定作用，而降低分类误差率大的弱分类器的权重，使其在最终的分类函数中起着较小的决定作用。换言之，误差率低的弱分类器在最终分类器中占的权重较大，否则较小。
+\item co-training（协同训练） ：是一种半指导或者无指导的学习方法，主要用于二元分类。
+\item multiple kernel learning（多核学习）：
+\item subspace learning（子空间学习）：
 \end{enumerate}
 
-\subsection{采用AdaBoost进行浮游动物分类}
-\subsubsection{尝试一}
-想要采用20个统计特征用AdaBoost级联的SVM将浮游动物分为13类，遇到的问题：
-\begin{itemize}
-\item AdaBoost常用于二分类问题，需要进行修改。
-\item 级联SVM产生的弱分类器，没有办法设置样本的权重。
-\end{itemize}
+\subsection{Bayes Fusion}
 
-\subsubsection{尝试二}
-采用AdaBoost在特征融合方法一的基础上，将最终的分类方法SVM改为AdaBoost。由于大多的AdaBoost都是处理二分类问题，因此该实验中将分为13类转换为13个二分类问题，实验结果如图\ref{fig:Adaboost+SVM-FeatureFusion}，分类结果并没有提高。实验中遇到问题：
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{Adaboost+SVM-FeatureFusion}
-\caption{采用Adaboost+SVM进行特征融合}
-\label{fig:Adaboost+SVM-FeatureFusion}
-\end{figure}
-\begin{itemize}
-\item 实验中部分样本不能被识别（识别的结果13类都不是）。在实验中，我将这些不能识别的样本再用SVM进行分类。
-\end{itemize}
+\subsection{Fuzzy Neural network}
 
-\subsubsection{尝试三}
-\textbf{模糊神经网络：}模糊神经网络就是模糊理论同神经网络相结合的产物，它汇集了神经网络与模糊理论的优点，集学习、联想、识别、信息处理于一体。模糊神经网络有如下三种形式：
-\begin{enumerate}
-\item 逻辑模糊神经网络
-\item 算术模糊神经网络
-\item 混合模糊神经网络
-\end{enumerate}
+
+%\subsection{采用AdaBoost进行浮游动物分类}
+%\subsubsection{尝试一}
+%想要采用20个统计特征用AdaBoost级联的SVM将浮游动物分为13类，遇到的问题：
+%\begin{itemize}
+%\item AdaBoost常用于二分类问题，需要进行修改。
+%\item 级联SVM产生的弱分类器，没有办法设置样本的权重。
+%\end{itemize}
+%
+%\subsubsection{尝试二}
+%采用AdaBoost在特征融合方法一的基础上，将最终的分类方法SVM改为AdaBoost。由于大多的AdaBoost都是处理二分类问题，因此该实验中将分为13类转换为13个二分类问题，实验结果如图\ref{fig:Adaboost+SVM-FeatureFusion}，分类结果并没有提高。实验中遇到问题：
+%\begin{figure}[!ht]
+%\centering
+%\includegraphics[width=1.0\linewidth]{Adaboost+SVM-FeatureFusion}
+%\caption{采用Adaboost+SVM进行特征融合}
+%\label{fig:Adaboost+SVM-FeatureFusion}
+%\end{figure}
+%\begin{itemize}
+%\item 实验中部分样本不能被识别（识别的结果13类都不是）。在实验中，我将这些不能识别的样本再用SVM进行分类。
+%\end{itemize}
+%
+%\subsubsection{尝试三}
+%\textbf{模糊神经网络：}模糊神经网络就是模糊理论同神经网络相结合的产物，它汇集了神经网络与模糊理论的优点，集学习、联想、识别、信息处理于一体。模糊神经网络有如下三种形式：
+%\begin{enumerate}
+%\item 逻辑模糊神经网络
+%\item 算术模糊神经网络
+%\item 混合模糊神经网络
+%\end{enumerate}
