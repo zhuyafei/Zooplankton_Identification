@@ -25,19 +25,11 @@ AdaBoost常用的弱分类器有：CART (classification and regression tree), de
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{19+7+LBP+IDSC-Adaboost-FeatureFusion}
-\caption{采用Adaboost+SVM进行特征融合}
+\caption{采用Adaboost进行特征融合}
 \label{fig:19+7+LBP+IDSC-Adaboost-FeatureFusion}
 \end{figure}
 
-
-\subsubsection{尝试三（将SVM作为弱分类器进行级联）}
-该实验没有完成，在实现过程中发现两个问题：
-\begin{itemize}
-\item SVM作为弱分类器，在迭代的过程中不知道怎样输入样本权重。
-\item 采用SVM根据已有的特征进行分类得到的分类结果已经超过50\%，这应该不是弱分类器，对它采用AdaBoost进行级联是不是会产生过拟合。
-\end{itemize}
-
-\subsubsection{尝试四（将二分类改为多分类问题）}
+\subsubsection{尝试三（将二分类改为多分类问题）}
 将解决二分类问题的算法改为解决多分类问题，采用拆分的方法。将多分类问题改成多个二分类问题，二分类为一对其余。实验结果如图\ref{fig:Adaboost+SVM-FeatureFusion}，分类准确率为76.6\%。实验中遇到问题：
 \begin{figure}[!ht]
 \centering
@@ -49,13 +41,22 @@ AdaBoost常用的弱分类器有：CART (classification and regression tree), de
 \item 实验中部分样本不能被识别（识别的结果13类都不是）。在实验中，我将这些不能识别的样本再用SVM进行分类。
 \end{itemize}
 
+\subsubsection{尝试四（将SVM作为弱分类器进行级联）}
+该实验没有完成，在实现过程中发现两个问题：
+\begin{itemize}
+\item SVM作为弱分类器，在迭代的过程中不知道怎样输入样本权重。
+\item 采用SVM根据已有的特征进行分类得到的分类结果已经超过50\%，这应该不是弱分类器，对它采用AdaBoost进行级联是不是会产生过拟合。
+\end{itemize}
+
+
+
 \subsubsection{AdaBoost应用}
 AdaBoost可以用于：
 \begin{enumerate}
 \item 用于检测、识别和分类问题：AdaBoost应用最多的就是分类，通过级联弱分类器而得到强分类器，提高分类准确率。
 \item 用于特征选择：在原始特征集合中，挑选出一些最具有代表性、可分性最好的特征子集。基于AdaBoost的特征选择过程：1、初始化训练样本权重 2、设计每个特征的分类器 3、根据加权训练样本最小错误率准则，选择分类器，也就是选择了特征 4、调整样本权重 5、通过循环，最后得到分类器的线性组合
 \end{enumerate}
-近年来提出了对集成学习方法进行优化、剪枝。
+%近年来提出了对集成学习方法进行优化、剪枝。
 
 
 \subsection{Multi-view Learning（多视角学习）}
@@ -73,8 +74,15 @@ AdaBoost可以用于：
 \end{enumerate}
 
 \subsection{Bayes Fusion}
+在特征融合方法一的基础上，采用朴素贝叶斯分类器进行分类，实验结果如图\ref{fig:19+7+LBP+IDSC-BF-FeatureFusion}，分类准确率为79.1\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{19+7+LBP+IDSC-BF-FeatureFusion}
+\caption{采用朴素贝叶斯分类器进行特征融合}
+\label{fig:19+7+LBP+IDSC-BF-FeatureFusion}
+\end{figure}
 
-\subsection{Fuzzy Neural network}
+\subsection{Fuzzy Neural Network}
 模糊神经网络是模糊理论和神经网络结合的产物，是具有模糊权系数或者输入信号是模糊量的神经网络。在特征融合方法一的基础上,将最终的分类方法 SVM 改为FNN，实验结果如图\ref{fig:19+7+LBP+IDSC-FNN-FeatureFusion}，分类准确率为75.8\%。
 \begin{figure}[!ht]
 \centering
