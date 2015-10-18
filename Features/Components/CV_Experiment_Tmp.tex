@@ -1,4 +1,4 @@
-\section{实验尝试}
+\section{分类器实验}
 %\subsection{AdaBoost}
 %AdaBoost(Adaptive Boosting, 自适应增强)是在Boosting基础上进行改进的一种集成学习算法。AdaBoost的核心思想是针对同一个训练集训练不同的分类器，即弱分类器，然后将这些弱分类器级联，得到一个强分类器。生成弱分类器时，前一个弱分类器分错的样本会得到加强，加权后的样本再被用来训练下一个弱分类器。同时将新生成的弱分类器加入到集成强分类器中，直到达到某个预定的足够小的错误率或达到预想指定的最大迭代次数。
 %
@@ -10,7 +10,7 @@
 %\end{enumerate}
 
 \subsection{Bayes Fusion}
-在特征融合方法一的基础上，采用朴素贝叶斯分类器进行分类，实验结果如图\ref{fig:19+7+LBP+IDSC-BF-FeatureFusion}，分类准确率为79.1\%。
+在特征融合方法一的基础上，采用朴素贝叶斯分类器进行分类，实验结果如图\ref{fig:19+7+LBP+IDSC-BF-FeatureFusion}，分类准确率为79.4\%。
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1.0\linewidth]{19+7+LBP+IDSC-BF-FeatureFusion}
@@ -135,5 +135,3 @@ Fuzzy neural networks: A survey, 1994
 \bibliographystyle{plain}
 
 \bibliography{Features} %参考文献
-
-\end{document}
