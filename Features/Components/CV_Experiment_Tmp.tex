@@ -8,8 +8,23 @@
 %\item 训练弱分类器。具体训练过程中，如果某个样本点已经被准确地分类，那么在构造下一个训练集中，它的权值就被降低；相反，如果某个样本点没有被准确地分类，那么它的权值就得到提高。然后，权值更新过的样本集被用于训练下一个分类器，整个训练过程如此迭代地进行下去。
 %\item 将各个训练得到的弱分类器组合成强分类器。各个弱分类器的训练过程结束后，加大分类误差率小的弱分类器的权重，使其在最终的分类函数中起着较大的决定作用，而降低分类误差率大的弱分类器的权重，使其在最终的分类函数中起着较小的决定作用。换言之，误差率低的弱分类器在最终分类器中占的权重较大，否则较小。
 %\end{enumerate}
+
+\subsection{Bayes Fusion}
+在特征融合方法一的基础上，采用朴素贝叶斯分类器进行分类，实验结果如图\ref{fig:19+7+LBP+IDSC-BF-FeatureFusion}，分类准确率为79.1\%。
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1.0\linewidth]{19+7+LBP+IDSC-BF-FeatureFusion}
+\caption{采用朴素贝叶斯分类器进行特征融合}
+\label{fig:19+7+LBP+IDSC-BF-FeatureFusion}
+\end{figure}
+
+Bayesian Fusion of Color and Texture Segmentations, ICCV, 1999
+
+A Study on Bayes Feature Fusion for Image Classification, CVPRW, 2003
+
+
 \subsection{AdaBoost}
-AdaBoost常用的弱分类器有：CART (classification and regression tree), decision stump, SVM, logistic regress等。AdaBoost最初设计用于解决二分类，对二分类问题，弱分类器条件要求对任意样本分布，分类器的分类准确率只需略高于 0.5，如果分类器过强容易产生过拟合。实际问题以多分类居多，AdaBoost在处理多分类问题时，对分类数目为$K$的多分类，要求弱分类器比随机猜测准确率$\frac{1}{K}$略高。
+AdaBoost常用的弱分类器有：CART (classification and regression tree), decision stump, logistic regress等。AdaBoost最初设计用于解决二分类，对二分类问题，弱分类器条件要求对任意样本分布，分类器的分类准确率只需略高于 0.5，如果分类器过强容易产生过拟合。实际问题以多分类居多，AdaBoost在处理多分类问题时，对分类数目为$K$的多分类，要求弱分类器比随机猜测准确率$\frac{1}{K}$略高。
 
 \subsubsection{尝试一（MATLAB中的AdaBoost）}
 20个统计特征用AdaBoost算法进行分类，实验采用的MATLAB自带函数fitensemble，最大迭代次数设为50次，实现AdaBoost算法。实验结果如图\ref{fig:19+7-matlab-adaboost-50}，分类准确率为63.1\%，低于随机森林得到的分类准确率73.7\%。
@@ -60,6 +75,10 @@ AdaBoost可以用于：
 
 
 \subsection{Multi-view Learning（多视角学习）}
+周志华个人主页关于多视角学习：\url{http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/publication_toc.htm#Ensemble\%20Learning}。
+
+多视角学习算法是Blum等\cite{blum1998combining}在用于半监督数据分类的联合学历算法中提出的。
+多视角是指多个来源或多个特征子集。多视角学习算法有：
 \begin{enumerate}
 \item co-training（协同训练） ：在未标记数据的两个不同视角下, 轮流的训练, 使相互一致性最大化。标准协同训练算法的步骤为：
     \begin{enumerate}
@@ -73,15 +92,6 @@ AdaBoost可以用于：
 \item subspace learning（子空间学习）：是指通过投影，实现高维特征向低维空间的映射，是一种经典的降维思想。
 \end{enumerate}
 
-\subsection{Bayes Fusion}
-在特征融合方法一的基础上，采用朴素贝叶斯分类器进行分类，实验结果如图\ref{fig:19+7+LBP+IDSC-BF-FeatureFusion}，分类准确率为79.1\%。
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=1.0\linewidth]{19+7+LBP+IDSC-BF-FeatureFusion}
-\caption{采用朴素贝叶斯分类器进行特征融合}
-\label{fig:19+7+LBP+IDSC-BF-FeatureFusion}
-\end{figure}
-
 \subsection{Fuzzy Neural Network}
 模糊神经网络是模糊理论和神经网络结合的产物，是具有模糊权系数或者输入信号是模糊量的神经网络。在特征融合方法一的基础上,将最终的分类方法 SVM 改为FNN，实验结果如图\ref{fig:19+7+LBP+IDSC-FNN-FeatureFusion}，分类准确率为75.8\%。
 \begin{figure}[!ht]
@@ -90,6 +100,8 @@ AdaBoost可以用于：
 \caption{采用FNN+SVM进行特征融合}
 \label{fig:19+7+LBP+IDSC-FNN-FeatureFusion}
 \end{figure}
+
+Fuzzy neural networks: A survey, 1994
 
 
 %\subsection{采用AdaBoost进行浮游动物分类}
@@ -119,3 +131,9 @@ AdaBoost可以用于：
 %\item 算术模糊神经网络
 %\item 混合模糊神经网络
 %\end{enumerate}
+
+\bibliographystyle{plain}
+
+\bibliography{Features} %参考文献
+
+\end{document}
