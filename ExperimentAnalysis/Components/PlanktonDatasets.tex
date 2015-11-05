@@ -1,91 +1,100 @@
 \section{浮游生物数据集}
-\url{https://www.nodc.noaa.gov/General/plankton.html}
-
-Imaging FlowCytobot (IFCB)
-
-Video Plankton Recorder (VPR)最初由WHOI设计。
 
 
-\subsection{浮游植物}
+
+
+In the past three decades various optical technologies capable of imaging zooplankton have been developed, including bench-top type imaging systems such as ZooScan and FlowCAM as well as in situ systems such as the Video Plankton Recorder (VPR) , Underwater Vision Profiler (UVP), ZOOplankton VISualization system (ZOOVIS), the Lightframe On-sight Keyspecies Investigate System (LOKI), Shadow Image Particle Profiling Evaluation Recorder (SIPPER), and the In Situ Ichthyoplankton Imaging System (ISIIS)\cite{bi2014semi} and Imaging FlowCytobot (IFCB)
+
+
+\subsection{浮游生物}
 
 \subsubsection{已经分类}
-1. 论文Automated taxonomic classification of phytoplankton sampled with imaging-in-flow cytometry中用到的数据集：\url{http://aslo.org/lomethods/free/2007/0204a1.html}（采用的是Imaging FlowCytobot（IFCB））。2004和2005春天在Woods Hole Harbor采集的。（已经下载）
+\begin{enumerate}
+\item 论文Automated taxonomic classification of phytoplankton sampled with imaging-in-flow cytometry中用到的数据集：\url{http://aslo.org/lomethods/free/2007/0204a1.html}（IFCB）. The images were collected with IFCB from Woods Hole Harbor water. （已经下载）
 
-2. 伍兹霍尔海洋研究所（Woods Hole Oceanographic Institution, WHOI）采用IFCB收集的Martha's Vineyard Coastal Observatory (MVCO)从2006到2014年的图像数据：\url{https://darchive.mblwhoilibrary.org/handle/1912/7341}。（正在下载）
+\item 伍兹霍尔海洋研究所（Woods Hole Oceanographic Institution, WHOI）: \url{https://darchive.mblwhoilibrary.org/handle/1912/7341}。The images described here are part of a much larger data set collected by IFCB at the Martha's Vineyard Coastal Observatory (MVCO) starting in 2006 and continuing to the present.（这应该就是MVCO：\url{http://ifcb-data.whoi.edu/mvco}中的数据，这里已经将2006到2014年采集的图像分类整理好，没有2015年的。图片多，正在下载）
 
-3. plankton net (Taxonomic database of images of plankton species，维基百科上找到的): \url{http://planktonnet.awi.de}（还没有下载，需要抓图下来）。
+\item plankton net: \url{http://planktonnet.awi.de}. Taxonomic database of images of plankton species.（种类已经分好了，还没找到打包下载的地方，需要抓图）。
 
-4. \url{http://www.cedareden.com/phyto.html}（已经分好类了，需要抓图）
+\item Michael R. Martin's Phytoplankton Image Library: \url{http://www.cedareden.com/phyto.html}（图片不多，分类也不太准确，需要抓图）\newline
 
+\item Scientific Committee on Oceanic Research(SCOR) created an international working group to evaluate the state of Automatic Visual Plankton Identification (\url{http://www.scor-wg130.net})\cite{gorsky2010digital}。数据集在Archive-ImageDataSet中。（已经下载）
 
+\item ZOOSCAN: \url{http://www.zooscan.obs-vlfr.fr//} Training Sets中有几个数据集，除了之前我们实验使用的数据集，论文中的数据集（就是我们之前想和作者要的数据集）也在其中。（已经下载）
 
-\subsubsection{没有进行分类}
-1. Martha’s Vineyard Coastal Observatory (MVCO)（采用的是Imaging FlowCytobot（IFCB））：\url{http://ifcb-data.whoi.edu/mvco}。（未下载）
+\item kaggle plankton: \url{https://www.kaggle.com/c/datasciencebowl}，训练集已经分类，测试集没有分类。（已经下载）
 
+\item ZooImage: \url{http://www.sciviews.org/zooimage/index.html}（已经下载）
+\end{enumerate}
 
+\subsubsection{没有分类}
+\begin{enumerate}
+\item MVCO：\url{http://ifcb-data.whoi.edu/mvco}。（2015年，需要抓图）
 
-\subsubsection{没有找到数据集}
-1. Scripps Plankton Camera (SPC)：\url{http://spc.ucsd.edu/imagedata/spcview-plankton-camera-image-browser/}。
+NASA Healy Arctic cruise ：\url{http://ifcb-data.whoi.edu/Healy1101}
 
-2. JODC Plankton Dataset：\url{http://ecologicaldata.org/wiki/jodc-plankton-dataset}
+Salt Pond：\url{http://ifcb-data.whoi.edu/saltpond}。
 
-3. \url{http://life.bio.sunysb.edu/marinebio/plankton.html}（有例图，但是没有找到数据集）
+\item SPC: \url{http://spc.ucsd.edu/imagedata/spcview-plankton-camera-image-browser/}。
 
-4. SAHFOS (Sir Alister Hardy Foundation for Ocean Science)\url{http://www.sahfos.ac.uk/pil/plankton_image_database_homepage.htm}（每一类的图片只有几张，不知道联系能不能要到更多图片）
+\item \url{http://gallery.obs-vlfr.fr/gallery2/main.php}（有少量图像，少部分已经分类，大部分没有分类）
+\end{enumerate}
 
-5. \url{http://www.imagequest3d.com/pictures/phytoplankton/}（只有很少的样图）
+\subsubsection{联系要数据集}
+\begin{enumerate}
+\item SAHFOS (Sir Alister Hardy Foundation for Ocean Science)\url{http://www.sahfos.ac.uk/pil/plankton_image_database_homepage.htm}（每一类的图片只有几张，不知道联系能不能要到更多图片）
 
-6. \url{http://www.fluidimaging.com/applications/aquatic-research/marine-science}（没有找到数据集下载的地方，应该是有数据集的，可以去要）
+\item \url{http://cfb.unh.edu/cfbkey/html/}（只有例图，应该有数据集）
 
-7. \url{http://cs231n.stanford.edu/reports/sagarc14_final_report.pdf}和\url{http://hmsc.oregonstate.edu/research-labs/planktonlab/outreach}、\url{http://hmsc.oregonstate.edu/image-album/plankton-imagery}（没有找到数据集，可以去要）
+\item plankton imaging ISIIS: \url{http://www.planktonimaging.com}（仪器）
 
-1. NASA Healy Arctic cruise ：\url{http://ifcb-data.whoi.edu/Healy1101}
+\item Zooniverse: \url{https://www.zooniverse.org}，它有一个project是Plankton Portal：\url{http://www.planktonportal.org}（仪器）
 
-2. Salt Pond：\url{http://ifcb-data.whoi.edu/saltpond}。
+\item FlowCam: \url{http://www.fluidimaging.com/applications/aquatic-research/marine-science}（仪器）
 
-
-
-
-\subsection{浮游动物}
-In the past three decades various optical technologies capable of imaging zooplankton have been developed, including bench-top type imaging systems such as ZooScan and FlowCAM as well as in situ systems such as the Video Plankton Recorder (VPR) , Underwater Vision Profiler (UVP), ZOOplankton VISualization system (ZOOVIS), the Lightframe On-sight Keyspecies Investigate System (LOKI), Shadow Image Particle Profiling Evaluation Recorder (SIPPER), and the In Situ Ichthyoplankton Imaging System (ISIIS).
-
-\subsubsection{已经分类好}
-1. Scientific Committee on Oceanic Research(SCOR)是由International Council for Science(ICSU)组织的来处理各个学科之间的海洋科学问题。Scientific Committee on Oceanic Research (SCOR) created an international working group to evaluate the state of Automatic Visual Plankton Identification (\url{http://www.scor-wg130.net})\cite{gorsky2010digital}。
-
-数据集在SCOR的Archive-ImageDataSet中\url{http://www.scor-wg130.net/index.cfm?err=&CFID=21726107&CFTOKEN=fdcee774fe9206e5-C4B4A0EB-155D-0102-8481F9D3D8D047CF}。（已经下载）
-
-2. ZOOSCAN: \url{http://www.zooscan.obs-vlfr.fr//} Training Sets中有training set、test set和learning set等等。（已经下载）
-
-
-3. kaggle plankton: \url{https://www.kaggle.com/c/datasciencebowl}，训练集已经分类，测试集没有分类。（已经下载）
-
-4. ZooImage: \url{http://www.sciviews.org/zooimage/index.html}（需要下载）
-
-\subsubsection{没有进行分类}
+%9. Atlantic Meridional Transect (AMT): \url{http://www.amt-uk.org/About-AMT}（应该有数据集，可以要一下）
+\end{enumerate}
 
 \subsubsection{没有找到数据集}
-1. \url{https://www.nodc.noaa.gov/General/plankton.html}. Customized plankton datasets can also be obtained by contacting NODC User Services. \url{https://www.nodc.noaa.gov/about/contact.html}（是不是需要从这里联系去要数据）
+\begin{enumerate}
+\item \url{http://life.bio.sunysb.edu/marinebio/plankton.html}（有例图，但是没有找到数据集）
 
-2.The data described in this paper will shortly be made available through the CalCOFI DataZoo Website: \url{http://oceaninformatics.ucsd.edu/datazoo/}
+\item Image Quest Marine: \url{http://www.imagequest3d.com/pictures/phytoplankton/}、\url{http://www.imagequestmarine.com/en/set/show_content_page.html?category=6&set=8&qw=}、\url{http://www.imagequest3d.com/photos/zooplankton/}（只有少量图像）
 
+\item \url{http://australianmuseum.net.au/zooplankton}（只有例图）
 
-\subsubsection{似乎是只是介绍不同种类的浮游生物}
-1. MARINEBIO（似乎只是简单地介绍）: \url{http://marinebio.org/oceans/zooplankton/}
+\item Census of Marine Zooplankton: \url{http://www.cmarz.org/galleries.html#}（只有少量图像）
 
-2. Coastal \& Oceanic Plankton Ecology, Production \& Observation Database (COPEPOD) is an online database of plankton abundance, biomass, and composition data compiled from a global assortment of cruises, projects, and institutional holdings.（好像没有图像数据）
+\item \url{http://habsos.noaa.gov}（网页左下角有图片，但是没有找到数据集）
 
-3. SCRIPPS INSTITUTION OF OCEANOGRAPHY——Zooplankton of the San Diego Region: \url{https://scripps.ucsd.edu/zooplanktonguide/}。浮游动物的种类分的很细，分别进行了介绍，有的种类下面都有一段小视频，可以从视频里截图（但是视频中的目标个数也不太多）。
+\item The data described in this paper will shortly be made available through the CalCOFI DataZoo Website: \url{http://oceaninformatics.ucsd.edu/datazoo/}（这是OCEANS那篇论文提到的数据集，我还没有找到怎样下载）
 
-{\color{red}1. Zooplankton of the San Diego Region 圣迭戈（美国加利福尼亚州的一个太平洋沿岸城市）的浮游动物：\url{https://scripps.ucsd.edu/zooplanktonguide/}。
+\item Plankton Web：\url{http://www.sfrc.ufl.edu/planktonweb/index.htm}。（只有少量图例）
 
-2. Coastal \& Oceanic Plankton Ecology, Production \& Observation Database (COPEPOD)：\url{http://www.st.nmfs.noaa.gov/copepod/}。
-
-3. Plankton Web：\url{http://www.sfrc.ufl.edu/planktonweb/index.htm}。
-}
-
+\item NOAA: \url{https://www.nodc.noaa.gov/access/cdrom.html#woa09}（DVD）（从\url{https://www.nodc.noaa.gov/General/plankton.html}找到的）
+\end{enumerate}
 
 
 
+
+
+\subsubsection{介绍浮游生物}
+\begin{enumerate}
+\item MARINEBIO: \url{http://marinebio.org/oceans/zooplankton/}
+
+\item SCRIPPS INSTITUTION OF OCEANOGRAPHY——Zooplankton of the San Diego Region: \url{https://scripps.ucsd.edu/zooplanktonguide/}。浮游动物的种类分的很细，分别进行了介绍，有的种类下面都有一段小视频。
+
+\item Zooplankton of the San Diego Region 圣迭戈（美国加利福尼亚州的一个太平洋沿岸城市）的浮游动物：\url{https://scripps.ucsd.edu/zooplanktonguide/}。
+
+\item \url{http://www.imas.utas.edu.au/zooplankton/home}
+\end{enumerate}
+
+
+
+%2. Coastal \& Oceanic Plankton Ecology, Production \& Observation Database (COPEPOD): \url{http://www.st.nmfs.noaa.gov/copepod/}, is an online database of plankton abundance, biomass, and composition data compiled from a global assortment of cruises, projects, and institutional holdings.
+
+%2. JODC Plankton Dataset：\url{http://ecologicaldata.org/wiki/jodc-plankton-dataset}
+%7. \url{http://cs231n.stanford.edu/reports/sagarc14_final_report.pdf}和\url{http://hmsc.oregonstate.edu/research-labs/planktonlab/outreach}、\url{http://hmsc.oregonstate.edu/image-album/plankton-imagery}（没有找到数据集，可以去要）
 
 
 
