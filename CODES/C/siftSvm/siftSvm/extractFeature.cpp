@@ -11,7 +11,7 @@
 
 Mat extractFeature(vector<string> imgName)
 {
-    Ptr<Feature2D> featureDetector = SIFT:: create();
+    Ptr<Feature2D> featureDetector = SURF:: create();
     Ptr<DescriptorExtractor> descExtractor = featureDetector;
     Ptr<DescriptorMatcher> descMatcher = DescriptorMatcher::create("BruteForce");
     Ptr<BOWImgDescriptorExtractor> bowExtractor = makePtr<BOWImgDescriptorExtractor>( descExtractor, descMatcher );
